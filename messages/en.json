@@ -1,0 +1,28 @@
+{
+  "Header": {
+    "live": "LIVE",
+    "trending": "Trending",
+    "switchToEnglish": "View in English",
+    "switchToBengali": "View in Bengali"
+  },
+  "TopHeader": {
+    "latest": "Latest",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "subscribe": "Subscribe",
+    "now": "Now",
+    "morning": "Morning",
+    "noon": "Noon",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "night": "Night",
+    "home": "Home"
+  },
+  "Common": {
+    "home": "Home",
+    "news": "News",
+    "sports": "Sports",
+    "close": "Close"
+  }
+}

@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Make all default text darker for better readability */
+p, span, div, li, td, th, label {
+  color: #1a1a1a;
+}
+
+/* Light text - make it darker */
+.text-gray-300, .text-gray-400, .text-gray-500, .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+/* Post content styling - make it fully readable */
+.prose {
+  color: #1a1a1a !important;
+  max-width: none;
+}
+
+.prose p {
+  color: #1a1a1a !important;
+  line-height: 1.9;
+  font-size: 1.1rem;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: #1a1a1a !important;
+}
+
+.prose a {
+  color: #A41E22 !important;
+  text-decoration: underline;
+}
+
+.prose strong {
+  color: #1a1a1a !important;
+}
+
+.prose ul, .prose ol {
+  color: #1a1a1a !important;
+}
+
+.prose li {
+  color: #1a1a1a !important;
+}
+
+.prose blockquote {
+  color: #374151 !important;
+  border-left-color: #A41E22;
+}
+
+.prose code {
+  color: #A41E22 !important;
+  background-color: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.prose pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+/* Make links more visible */
+a {
+  color: #A41E22;
+}
+
+a:hover {
+  color: #8B1510;
+}
+
+/* Pagination styling - darker text */
+.pagination-btn, .page-numbers {
+  color: #1a1a1a !important;
+}
+
+.pagination-btn:hover, .page-numbers:hover {
+  background-color: #f3f4f6;
+}
+
+/* Post meta text - darker */
+.text-sm.text-gray-500, .text-xs.text-gray-500, .text-gray-400, .text-gray-500 {
+  color: #4b5563 !important;
+}
+
+/* Card text - ensure readability */
+.card-title, .post-title, .entry-title {
+  color: #1a1a1a !important;
+}
+
+/* Excerpt text */
+.excerpt, .post-excerpt {
+  color: #374151 !important;
+}
+
+/* Date and meta info */
+.date, .post-date, .meta {
+  color: #6b7280 !important;
+}
+
+/* Search results */
+.search-result-title {
+  color: #1a1a1a;
+}
+
+.search-result-excerpt {
+  color: #4b5563;
+}
+
+/* Wider container for all pages */
+.container {
+  max-width: 1400px !important;
+}

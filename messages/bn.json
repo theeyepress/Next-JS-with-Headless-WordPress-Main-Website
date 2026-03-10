@@ -1,0 +1,28 @@
+{
+  "Header": {
+    "live": "লাইভ",
+    "trending": "আলোচিত",
+    "switchToEnglish": "ইংরেজিতে দেখুন",
+    "switchToBengali": "বাংলায় দেখুন"
+  },
+  "TopHeader": {
+    "latest": "সর্বশেষ",
+    "login": "লগইন",
+    "register": "নিবন্ধন",
+    "logout": "লগআউট",
+    "subscribe": "সাবস্ক্রাইব",
+    "now": "এখন",
+    "morning": "সকাল",
+    "noon": "দুপুর",
+    "afternoon": "বিকেল",
+    "evening": "সন্ধ্যা",
+    "night": "রাত",
+    "home": "হোম"
+  },
+  "Common": {
+    "home": "হোম",
+    "news": "খবর",
+    "sports": "খেলা",
+    "close": "বন্ধ"
+  }
+}
