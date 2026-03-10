@@ -1,16 +1,15 @@
 // src/app/[locale]/404/page.tsx
-"use client";
 
 import React from "react";
 import Link from "next/link";
 import SubscribeForm from "@/components/SubscribeForm";
 
 type PageProps = {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
-export default function NotFoundPage({ params }: PageProps) {
-  const locale = params.locale;
+export default async function NotFoundPage({ params }: PageProps) {
+  const { locale } = await params;
 
   const labels = {
     title: locale === "bn" ? "পৃষ্ঠা পাওয়া যায়নি" : "Page Not Found",
