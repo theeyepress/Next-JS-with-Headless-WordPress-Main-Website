@@ -3,6 +3,8 @@ import { routing } from "@/i18n/routing";
 import CategoryPageClient from "./CategoryPageClient";
 import { notFound } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
   searchParams: Promise<{ page?: string }>;
@@ -176,8 +178,4 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       currentPage={currentPage}
     />
   );
-}
-
-export async function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
 }

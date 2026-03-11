@@ -3,6 +3,8 @@ import { routing } from "@/i18n/routing";
 import SinglePostClient from "./SinglePostClient";
 import { notFound } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
@@ -136,8 +138,4 @@ export default async function SinglePostPage({ params }: PageProps) {
       initialVideos={videos}
     />
   );
-}
-
-export async function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
 }
