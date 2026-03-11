@@ -221,38 +221,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
       )}
     </div>
   );
-        })}
-      </Slider>
-
-      {/* Video Player Modal for Self-hosted videos */}
-      {currentVideo && (
-        <div 
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setCurrentVideo(null)}
-        >
-          <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setCurrentVideo(null)}
-              className="absolute -top-10 right-0 text-white text-xl hover:text-red-500"
-            >
-              ✕ Close
-            </button>
-            <video
-              src={currentVideo.url}
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            >
-              Your browser does not support the video tag.
-            </video>
-            {currentVideo.title && (
-              <h3 className="text-white text-lg mt-2">{currentVideo.title}</h3>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
 };
 
 export default VideoSlider;
