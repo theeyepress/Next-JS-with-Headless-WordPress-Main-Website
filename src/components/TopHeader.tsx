@@ -262,15 +262,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 
         {/* Right: Date/Time + Links - Show on all devices */}
         <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
-          {/* Date/Time - Show on all devices - original sliding structure */}
+          {/* Date/Time - Show on all devices including mobile */}
           {(dateTimeHTML || staticDate) && (
             <div 
-              className="date-time text-xs md:text-sm whitespace-nowrap hidden md:block"
-              style={{ minWidth: "180px", textAlign: "center", height: "1.5em", overflow: "hidden", color: '#ffffff' }}
+              className="date-time text-xs md:text-sm whitespace-nowrap"
+              style={{ textAlign: "center", color: '#ffffff' }}
             >
-              <div className="datetime-slider h-[1.5em]">
-                <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
-                <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{staticDate || "..."}</div>
+              <div className="datetime-slider">
+                <div style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
+                <div style={{ color: '#ffffff' }}>{staticDate || "..."}</div>
               </div>
             </div>
           )}
