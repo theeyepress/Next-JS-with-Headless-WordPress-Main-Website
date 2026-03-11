@@ -10,7 +10,6 @@ interface PageProps {
 
 async function getCategoryBySlug(slug: string, locale: string) {
   const decodedSlug = decodeURIComponent(slug);
-  const encodedSlug = encodeURIComponent(decodedSlug);
   
   try {
     // First get categories to find the category ID
@@ -23,18 +22,16 @@ async function getCategoryBySlug(slug: string, locale: string) {
     
     const categories = await response.json();
     
-    // Find matching category - be flexible with encoding
+    // Find matching category - normalize both for comparison
+    const normalizedInputSlug = decodedSlug.toLowerCase();
+    
     const category = categories.find((c: any) => {
-      const catSlug = c.slug;
-      const catSlugDecoded = decodeURIComponent(catSlug);
-      const catSlugEncoded = encodeURIComponent(catSlug);
+      const catSlugDecoded = decodeURIComponent(c.slug).toLowerCase();
+      const catNameLower = (c.name || '').toLowerCase();
       
-      return slug === catSlug || 
-             slug === catSlugDecoded ||
-             slug === catSlugEncoded ||
-             decodedSlug === catSlug ||
-             decodedSlug === catSlugDecoded ||
-             encodedSlug === catSlug;
+      return normalizedInputSlug === catSlugDecoded || 
+             normalizedInputSlug === catNameLower ||
+             decodedSlug === decodeURIComponent(c.slug);
     });
     
     return category || null;
