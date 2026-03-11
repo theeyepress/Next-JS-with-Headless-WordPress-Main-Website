@@ -28,7 +28,7 @@ export async function fetchMenusViaRest(locale: string): Promise<any[]> {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/menus?locale=${locale}`;
   
   try {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { next: { revalidate: 600 } });
     if (!res.ok) {
       throw new Error("Failed to fetch menus");
     }
@@ -44,7 +44,7 @@ export async function fetchFooterMenuViaRest(locale: string): Promise<any[]> {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/menus/footer?locale=${locale}`;
   
   try {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { next: { revalidate: 600 } });
     if (!res.ok) {
       throw new Error("Failed to fetch footer menu");
     }

@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/site-options?locale=bn`,
-      { cache: "no-store" }
+      { next: { revalidate: 600 } }
     );
     
     if (response.ok) {
@@ -151,7 +151,7 @@ export default async function LocaleLayout({
   try {
     const siteRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/site-options?locale=${validLocale}`,
-      { cache: "no-store" }
+      { next: { revalidate: 600 } }
     );
     if (siteRes.ok) {
       const siteData = await siteRes.json();

@@ -67,7 +67,7 @@ export default async function SinglePostPage({ params }: PageProps) {
   try {
     const adsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ads`,
-      { cache: "no-store" }
+      { next: { revalidate: 600 } }
     );
     if (adsRes.ok) {
       ads = await adsRes.json();
@@ -80,8 +80,8 @@ export default async function SinglePostPage({ params }: PageProps) {
   let siteLogo = "";
   try {
     const logoRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/site-options`,
-      { cache: "no-store" }
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/site-options?locale=${validLocale}`,
+      { next: { revalidate: 600 } }
     );
     if (logoRes.ok) {
       const logoData = await logoRes.json();

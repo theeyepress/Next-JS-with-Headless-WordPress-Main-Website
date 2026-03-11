@@ -132,7 +132,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   try {
     const adsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ads`,
-      { cache: "no-store" }
+      { next: { revalidate: 600 } }
     );
     if (adsRes.ok) {
       ads = await adsRes.json();
@@ -146,7 +146,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   try {
     const popularRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/posts?locale=${currentLocale}&per_page=5`,
-      { cache: "no-store" }
+      { next: { revalidate: 300 } }
     );
     if (popularRes.ok) {
       popularPosts = await popularRes.json();
@@ -160,7 +160,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   try {
     const catsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/categories?locale=${currentLocale}`,
-      { cache: "no-store" }
+      { next: { revalidate: 1800 } }
     );
     if (catsRes.ok) {
       allCategories = await catsRes.json();
