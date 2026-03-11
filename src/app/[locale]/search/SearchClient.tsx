@@ -46,7 +46,7 @@ function SearchContent({ locale }: SearchClientProps) {
       
       const wpUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.theeyepress.com';
       
-      fetch(`${wpUrl}/wp-json/eyepress/v1/search-all?q=${encodeURIComponent(query)}`, { cache: "no-store" })
+      fetch(`${wpUrl}/wp-json/eyepress/v1/search-all?q=${encodeURIComponent(query)}&locale=${locale}`)
         .then((res) => res.json())
         .then((data) => {
           setPosts(data.results || []);

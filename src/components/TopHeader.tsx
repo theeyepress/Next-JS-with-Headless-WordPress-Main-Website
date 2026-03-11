@@ -28,14 +28,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const [currentTime, setCurrentTime] = useState("");
   const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
 
-  // Fetch ticker from REST API with caching
+  // Fetch ticker from REST API
   useEffect(() => {
     async function fetchTicker() {
       try {
-        // Use ISR with 5-minute cache for better performance
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${locale}&count=10`, { 
-          next: { revalidate: 300 } // 5 minutes cache
-        });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${locale}&count=10`);
         if (res.ok) {
           const data = await res.json();
           console.log(`Ticker fetched for ${locale}:`, data.length, 'posts');
