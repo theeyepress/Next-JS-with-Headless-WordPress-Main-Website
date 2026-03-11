@@ -7,6 +7,31 @@
   --foreground: #1a1a1a;
 }
 
+/* Prevent horizontal scrolling on all devices */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure all containers don't overflow */
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Fix for any element that might cause horizontal scroll */
+img, video, iframe, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Table scroll fix */
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

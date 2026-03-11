@@ -42,6 +42,11 @@ type CategorySlugMap = {
   en_name: string;
 };
 
+type TickerItem = {
+  title: string;
+  href: string;
+};
+
 type HeaderProps = {
   siteOptions: SiteOptions;
   menuItems: MenuItem[];
@@ -58,9 +63,26 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [categorySlugs, setCategorySlugs] = useState<CategorySlugMap[]>([]);
+  const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Fetch ticker for mobile
+  useEffect(() => {
+    async function fetchTicker() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${currentLang}&count=10`);
+        if (res.ok) {
+          const data = await res.json();
+          setTickerItems(data);
+        }
+      } catch (e) {
+        console.log("REST ticker failed:", e);
+      }
+    }
+    fetchTicker();
+  }, [currentLang]);
 
   // Check if a menu item is active
   const isActive = (url: string) => {
@@ -385,6 +407,20 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
   return (
     <>
       <style jsx global>{`
+        @keyframes ticker-scroll {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        .ticker-animate {
+          animation: ticker-scroll 60s linear infinite;
+        }
+        .ticker-animate:hover {
+          animation-play-state: paused;
+        }
         @keyframes urgent-blink {
           0%, 90% { opacity: 1; }
           95% { opacity: 0; }
@@ -855,8 +891,32 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           </div>
         )}
 
-        {/* Mobile Urgent Notice */}
-        {siteOptions?.urgentNotice && (
+        {/* Mobile Ticker - Under Logo */}
+        {tickerItems.length > 0 && (
+          <div className="lg:hidden px-2 py-2 bg-[#6c1312]" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+            <div className="flex items-center gap-2 overflow-hidden">
+              <span className="text-cyan-400 font-extrabold uppercase text-xs flex-shrink-0 whitespace-nowrap">
+                {currentLang === "bn" ? "সর্বশেষ:" : "LATEST:"}
+              </span>
+              <div className="flex overflow-hidden whitespace-nowrap">
+                <div className="ticker-animate flex" style={{ width: 'max-content' }}>
+                  {[...tickerItems, ...tickerItems].map((item, index) => (
+                    <Link 
+                      key={index} 
+                      href={item.href.replace(/\\\/bn\\\//gi, '/bn/').replace(/\\\/en\\\//gi, '/en/')}
+                      className="text-white hover:text-cyan-200 text-xs mx-2 transition-colors"
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Urgent Notice - Only show if no ticker */}
+        {!tickerItems.length && siteOptions?.urgentNotice && (
           <div className="lg:hidden px-2 py-1.5" style={{ backgroundColor: "#f5f5f5", borderTop: "1px solid #e0e0e0" }}>
             <div className="flex items-center justify-center gap-1.5 text-[#A41E22] text-xs font-medium">
               <span style={{ fontWeight: 800, textTransform: "uppercase" }}>
