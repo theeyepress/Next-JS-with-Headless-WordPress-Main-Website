@@ -590,7 +590,6 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           {/* Mobile Menu Button - Left */}
           <div className="flex items-center gap-2">
             <button
-              ref={mobileMenuRef}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
@@ -803,7 +802,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-100 bg-white">
+          <div ref={mobileMenuRef} className="lg:hidden border-t border-gray-100 bg-white">
             <nav className="flex flex-col py-2 px-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
               {menuItems.map((item, index) => {
                 const isItemActive = isActive(item.url);

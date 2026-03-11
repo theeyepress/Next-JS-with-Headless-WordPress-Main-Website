@@ -251,7 +251,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           <div className="hidden xs:block">{(dateTimeHTML || staticDate) && (
             <div 
               className="date-time text-xs md:text-sm whitespace-nowrap"
-              style={{ minWidth: "120px", md: { minWidth: "200px" }, textAlign: "center", height: "1.5em", overflow: "hidden", color: '#ffffff' }}
+              style={{ minWidth: "140px", textAlign: "center", height: "1.5em", overflow: "hidden", color: '#ffffff' }}
             >
               <div className="datetime-slider h-[1.5em]">
                 <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
