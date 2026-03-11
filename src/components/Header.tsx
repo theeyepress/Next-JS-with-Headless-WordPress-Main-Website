@@ -676,7 +676,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.siteIcon} 
                         alt="Site Icon" 
-                        className="h-10 w-10 md:h-12 md:w-12 object-contain"
+                        className="h-8 w-8 md:h-10 md:w-10 object-contain"
                       />
                     </Link>
                   ) : siteOptions?.logo ? (
@@ -684,11 +684,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className="h-10 w-auto md:h-12 object-contain"
+                        className="h-8 w-auto md:h-10 object-contain"
                       />
                     </Link>
                   ) : (
-                    <Link href="/" className="text-[#A41E22] text-lg md:text-xl font-bold">
+                    <Link href="/" className="text-[#A41E22] text-base md:text-lg font-bold">
                       The EyePress
                     </Link>
                   )
@@ -698,11 +698,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className="h-12 w-auto md:h-16 lg:h-20 object-contain"
+                        className="h-10 w-auto md:h-14 lg:h-16 object-contain"
                       />
                     </Link>
                   ) : (
-                    <Link href="/" className="text-[#A41E22] text-xl md:text-2xl font-bold">
+                    <Link href="/" className="text-[#A41E22] text-lg md:text-xl font-bold">
                       The EyePress
                     </Link>
                   )
@@ -782,7 +782,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                   <>
                     <button
                       onClick={() => toggleDropdown(item.label)}
-                      className={`menu-item-wrapper flex items-center gap-1 px-3 py-2 font-bold text-xs rounded-md transition-all cursor-pointer uppercase tracking-wide ${
+                      className={`menu-item-wrapper flex items-center gap-1 px-3 py-2 font-bold text-sm rounded-md transition-all cursor-pointer uppercase tracking-wide ${
                         isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
                       }`}
                       style={{ 
@@ -792,7 +792,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       }}
                     >
                       <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
-                      <svg className="w-3 h-3 transition-transform duration-200" fill="none" stroke={isItemActive ? '#ffffff' : 'currentColor'} viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 transition-transform duration-200" fill="none" stroke={isItemActive ? '#ffffff' : 'currentColor'} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
@@ -803,12 +803,12 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                         {item.childItems?.nodes.map((child, childIndex) => {
                           const isChildActive = isActive(child.url);
                           return (
-                          <a
-                            key={childIndex}
-                            href={child.url}
-                            className={`menu-item-wrapper block px-4 py-2 font-bold text-xs transition-all no-underline uppercase tracking-wide ${
-                              isChildActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
-                            }`}
+                            <a
+                              key={childIndex}
+                              href={child.url}
+                              className={`menu-item-wrapper block px-4 py-2.5 font-bold text-sm transition-all no-underline uppercase tracking-wide ${
+                                isChildActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
+                              }`}
                             style={{ 
                               fontWeight: 600,
                               color: isChildActive ? '#ffffff !important' : '#1a1a1a',
@@ -824,7 +824,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                 ) : (
                   <a
                     href={item.url}
-                    className={`menu-item-wrapper px-3 py-2 font-bold text-xs rounded-md transition-all no-underline uppercase tracking-wide ${
+                    className={`menu-item-wrapper px-3 py-2 font-bold text-sm rounded-md transition-all no-underline uppercase tracking-wide ${
                       isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
                     }`}
                     style={{ 
