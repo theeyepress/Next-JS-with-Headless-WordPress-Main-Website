@@ -266,11 +266,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {(dateTimeHTML || staticDate) && (
             <div 
               className="date-time text-xs md:text-sm whitespace-nowrap"
-              style={{ textAlign: "center", color: '#ffffff' }}
+              style={{ textAlign: "center", color: '#ffffff', fontSize: '10px', lineHeight: '1.2' }}
             >
-              <div className="datetime-slider">
-                <div style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
-                <div style={{ color: '#ffffff' }}>{staticDate || "..."}</div>
+              <div className="datetime-slider" style={{ height: '18px', overflow: 'hidden' }}>
+                <div style={{ color: '#ffffff', height: '18px', lineHeight: '18px' }}>{currentTime || "..."}</div>
+                <div style={{ color: '#ffffff', height: '18px', lineHeight: '18px' }}>{staticDate || "..."}</div>
               </div>
             </div>
           )}
