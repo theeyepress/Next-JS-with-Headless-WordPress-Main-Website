@@ -234,7 +234,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
     <main ref={sectionsRef} className="bg-gray-50 min-h-screen">
       {/* Ad Slot 12 - Above Hero */}
       {getAdBySlot(12) && (
-        <section className="container mx-auto px-4 py-2">
+        <section className="container mx-auto px-2 md:px-4 py-2">
           <AdBanner 
             slotId={12} 
             adImage={getAdBySlot(12)?.image} 
@@ -253,7 +253,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
 
       {/* Ad Slot 1 - Below Hero */}
       {getAdBySlot(1) && (
-        <section className="container mx-auto px-4 py-4">
+        <section className="container mx-auto px-2 md:px-4 py-3 md:py-4">
           <AdBanner 
             slotId={1} 
             adImage={getAdBySlot(1)?.image} 
@@ -264,11 +264,11 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       )}
 
       {/* Video Section - Show message if no videos */}
-      <section className="container mx-auto px-4 py-6 gsap-section">
+      <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
         {videos && videos.length > 0 ? (
           <VideoSlider videos={videos} locale={locale} />
         ) : (
-          <div className="bg-gray-100 rounded-lg p-8 text-center">
+          <div className="bg-gray-100 rounded-lg p-6 md:p-8 text-center">
             <p className="text-gray-700">
               {locale === "bn" ? "কোনো ভিডিও পাওয়া যায়নি" : "No videos available"}
             </p>
@@ -281,13 +281,13 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       ======================================== */}
 
       {/* SECTION 1: Trending Now - 1 Large + 2 Small Layout */}
-      <section className="container mx-auto px-4 py-6 gsap-section">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-8 bg-[#A41E22]" />
-          <h2 className="text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "আলোচিত" : "Trending Now"}</h2>
+      <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <div className="w-1 h-6 md:h-8 bg-[#A41E22]" />
+          <h2 className="text-xl md:text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "আলোচিত" : "Trending Now"}</h2>
         </div>
         {displayTrendingPosts.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 items-stretch">
             {/* Large Featured Post */}
             <div className="lg:col-span-2 h-full">
               <Link href={`/${locale}/${displayTrendingPosts[0]?.slug}`} className="group block">
@@ -304,15 +304,15 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <span className="inline-block px-2 py-1 bg-[#A41E22] text-white text-xs font-bold rounded mb-2">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                    <span className="inline-block px-2 py-0.5 md:py-1 bg-[#A41E22] text-white text-xs font-bold rounded mb-1 md:mb-2">
                       {locale === "bn" ? "আলোচিত" : "TRENDING"}
                     </span>
-                    <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-[#A41E22] transition-colors line-clamp-2">
+                    <h3 className="text-lg md:text-2xl font-bold text-white group-hover:text-[#A41E22] transition-colors line-clamp-2">
                       {displayTrendingPosts[0]?.title}
                     </h3>
                     {displayTrendingPosts[0]?.excerpt && (
-                      <p className="text-gray-300 text-sm mt-2 line-clamp-2" 
+                      <p className="text-gray-300 text-xs md:text-sm mt-1 md:mt-2 line-clamp-2" 
                          dangerouslySetInnerHTML={{ __html: displayTrendingPosts[0].excerpt }} 
                       />
                     )}
@@ -321,10 +321,10 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
               </Link>
             </div>
             {/* Two Small Posts - Equal height to left column */}
-            <div className="flex flex-col gap-4 h-full">
+            <div className="flex flex-col gap-2 md:gap-4 h-full">
               {displayTrendingPosts.slice(1, 5).map((post) => (
-                <Link key={post.id} href={`/${locale}/${post.slug}`} className="group flex gap-3 items-center flex-1">
-                  <div className="w-24 h-20 flex-shrink-0 rounded overflow-hidden">
+                <Link key={post.id} href={`/${locale}/${post.slug}`} className="group flex gap-2 md:gap-3 items-center flex-1">
+                  <div className="w-16 md:w-24 h-14 md:h-20 flex-shrink-0 rounded overflow-hidden">
                     {post?.featuredImage?.node?.sourceUrl ? (
                       <img 
                         src={post.featuredImage.node.sourceUrl} 
@@ -336,10 +336,10 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-bold text-gray-800 group-hover:text-[#A41E22] transition-colors line-clamp-2">
+                    <h4 className="text-xs md:text-sm font-bold text-gray-800 group-hover:text-[#A41E22] transition-colors line-clamp-2">
                       {post.title}
                     </h4>
-                      <span className="text-gray-600">
+                      <span className="text-gray-600 text-xs">
                         {new Date(post.date).toLocaleDateString(locale === 'bn' ? 'bn-BD' : 'en-US')}
                       </span>
                   </div>
@@ -355,10 +355,10 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       </section>
 
       {/* SECTION 2: Most Popular - Thumbnail Left List Layout */}
-      <section className="container mx-auto px-4 py-6 gsap-section">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-8 bg-[#A41E22]" />
-          <h2 className="text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সবচেয়ে জনপ্রিয়" : "Most Popular"}</h2>
+      <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <div className="w-1 h-6 md:h-8 bg-[#A41E22]" />
+          <h2 className="text-xl md:text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সবচেয়ে জনপ্রিয়" : "Most Popular"}</h2>
         </div>
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {displayPopularPosts.length > 0 ? (
@@ -366,9 +366,9 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
               <Link 
                 key={post.id} 
                 href={`/${locale}/${post.slug}`} 
-                className="group flex items-center gap-4 p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
+                className="group flex items-center gap-2 md:gap-4 p-2 md:p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
               >
-                <div className="w-20 h-16 flex-shrink-0 rounded overflow-hidden">
+                <div className="w-14 md:w-20 h-12 md:h-16 flex-shrink-0 rounded overflow-hidden">
                   {post?.featuredImage?.node?.sourceUrl ? (
                     <img 
                       src={post.featuredImage.node.sourceUrl} 
@@ -380,10 +380,10 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-base font-semibold text-gray-800 group-hover:text-[#A41E22] transition-colors line-clamp-2">
+                  <h4 className="text-sm md:text-base font-semibold text-gray-800 group-hover:text-[#A41E22] transition-colors line-clamp-2">
                     {post.title}
                   </h4>
-                  <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-1 md:gap-2 mt-0.5 md:mt-1">
                     {post.categories?.nodes?.[0] && (
                       <span className="text-xs text-[#A41E22] font-medium">
                         {post.categories.nodes[0].name}
@@ -397,7 +397,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
               </Link>
             ))
           ) : (
-            <p className="text-gray-700 text-center py-8">
+            <p className="text-gray-700 text-center py-6 md:py-8">
               {locale === "bn" ? "কোনো খবর পাওয়া যায়নি" : "No posts available"}
             </p>
           )}
@@ -405,13 +405,13 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       </section>
 
       {/* SECTION 3: Editor's Choice - 3-Column Grid Layout */}
-      <section className="container mx-auto px-4 py-6 gsap-section">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-8 bg-[#A41E22]" />
-          <h2 className="text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সম্পাদকের পছন্দ" : "Editor's Choice"}</h2>
+      <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <div className="w-1 h-6 md:h-8 bg-[#A41E22]" />
+          <h2 className="text-xl md:text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সম্পাদকের পছন্দ" : "Editor's Choice"}</h2>
         </div>
         {displayEditorsChoice.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {displayEditorsChoice.slice(0, 6).map((post) => (
               <Link key={post.id} href={`/${locale}/${post.slug}`} className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-video overflow-hidden">
@@ -427,19 +427,19 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
                     </div>
                   )}
                 </div>
-                <div className="p-4">
+                <div className="p-3 md:p-4">
                   {post.categories?.nodes?.[0] && (
-                    <span className="inline-block px-2 py-1 bg-[#A41E22] text-white text-xs font-bold rounded mb-2">
+                    <span className="inline-block px-2 py-0.5 md:py-1 bg-[#A41E22] text-white text-xs font-bold rounded mb-1 md:mb-2">
                       {post.categories.nodes[0].name}
                     </span>
                   )}
-                  <h4 className="text-base font-bold text-gray-800 group-hover:text-[#A41E22] transition-colors line-clamp-2">
+                  <h4 className="text-sm md:text-base font-bold text-gray-800 group-hover:text-[#A41E22] transition-colors line-clamp-2">
                     {post.title}
                   </h4>
-                  <p className="text-sm text-gray-700 mt-2 line-clamp-2" 
+                  <p className="text-xs md:text-sm text-gray-700 mt-1 md:mt-2 line-clamp-2" 
                      dangerouslySetInnerHTML={{ __html: post.excerpt || '' }} 
                   />
-                  <span className="text-xs text-gray-700 mt-2 block">
+                  <span className="text-xs text-gray-700 mt-1 md:mt-2 block">
                     {new Date(post.date).toLocaleDateString(locale === 'bn' ? 'bn-BD' : 'en-US')}
                   </span>
                 </div>
@@ -454,19 +454,19 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       </section>
 
       {/* Categories Section - New Design */}
-      <section className="container mx-auto px-4 py-8 gsap-section">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-3 mb-3">
-            <div className="w-10 h-1 bg-[#A41E22]" />
-            <span className="text-[#A41E22] font-semibold text-sm uppercase tracking-wider">
+      <section className="container mx-auto px-2 md:px-4 py-6 md:py-8 gsap-section">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="inline-flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
+            <div className="w-6 md:w-10 h-1 bg-[#A41E22]" />
+            <span className="text-[#A41E22] font-semibold text-xs md:text-sm uppercase tracking-wider">
               {locale === "bn" ? "আবিষ্কার করুন" : "Discover"}
             </span>
-            <div className="w-10 h-1 bg-[#A41E22]" />
+            <div className="w-6 md:w-10 h-1 bg-[#A41E22]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#6C1312]">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#6C1312]">
             {locale === "bn" ? "বিভাগসমূহ" : "Categories"}
           </h2>
-          <p className="text-gray-600 mt-2 max-w-xl mx-auto">
+          <p className="text-gray-600 mt-2 max-w-xl mx-auto px-2 text-sm md:text-base">
             {locale === "bn" 
               ? "আপনার আগ্রহের যেকোনো বিষয়ে সর্বশেষ খবর এবং আপডেট পান"
               : "Stay updated with the latest news on topics that interest you"
@@ -474,7 +474,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
           </p>
         </div>
         {displayCategories && displayCategories.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
             {displayCategories.slice(0, 6).map((category) => (
               <CategoryCard key={category.id} category={category} locale={locale} variant="featured" />
             ))}
@@ -487,18 +487,18 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       </section>
 
       {/* Latest News Section */}
-      <section className="container mx-auto px-4 py-6 gsap-section">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-1 h-8 bg-[#A41E22]" />
-            <h2 className="text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সর্বশেষ খবর" : "Latest News"}</h2>
+      <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+        <div className="flex items-center justify-between mb-4 md:mb-6 gap-2">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="w-1 h-6 md:h-8 bg-[#A41E22]" />
+            <h2 className="text-xl md:text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সর্বশেষ খবর" : "Latest News"}</h2>
           </div>
-          <Link href={`/${locale}/category/সব-পোস্ট`} className="text-[#A41E22] font-semibold hover:underline">
+          <Link href={`/${locale}/category/সব-পোস্ট`} className="text-[#A41E22] font-semibold hover:underline text-xs md:text-sm">
             {locale === "bn" ? "সব দেখুন" : "View All"} →
           </Link>
         </div>
         {latestPosts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 post-grid">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
             {displayLatestPosts.slice(0, 4).map((post) => (
               <div key={post.id} className="post-card-animate">
                 <PostCard post={post} variant="medium" locale={locale} />
@@ -514,7 +514,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
 
       {/* Ad Slot 13 - Between Latest News */}
       {getAdBySlot(13) && (
-        <section className="container mx-auto px-4 py-2">
+        <section className="container mx-auto px-2 md:px-4 py-2">
           <AdBanner 
             slotId={13} 
             adImage={getAdBySlot(13)?.image} 
@@ -525,13 +525,13 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       )}
 
       {/* Subscribe Section */}
-      <section className="container mx-auto px-4 py-8 gsap-section">
+      <section className="container mx-auto px-2 md:px-4 py-6 md:py-8 gsap-section">
         <SubscribeForm variant="hero" />
       </section>
 
       {/* Ad Slot 15 - Below Subscribe */}
       {getAdBySlot(15) && (
-        <section className="container mx-auto px-4 py-2">
+        <section className="container mx-auto px-2 md:px-4 py-2">
           <AdBanner 
             slotId={15} 
             adImage={getAdBySlot(15)?.image} 
@@ -543,8 +543,8 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
 
       {/* More Category Cards */}
       {displayCategories.length > 6 && (
-        <section className="container mx-auto px-4 py-6 gsap-section">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
             {displayCategories.slice(6, 9).map((category) => (
               <CategoryCard key={category.id} category={category} locale={locale} variant="featured" />
             ))}
@@ -554,7 +554,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
 
       {/* Ad Slot 14 - Below Categories */}
       {getAdBySlot(14) && (
-        <section className="container mx-auto px-4 py-2">
+        <section className="container mx-auto px-2 md:px-4 py-2">
           <AdBanner 
             slotId={14} 
             adImage={getAdBySlot(14)?.image} 
@@ -566,8 +566,8 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
 
       {/* More Latest Posts */}
       {latestPosts.length >= 4 && (
-        <section className="container mx-auto px-4 py-6 gsap-section">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 post-grid">
+        <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
             {displayLatestPosts.slice(4, 8).map((post) => (
               <div key={post.id} className="post-card-animate">
                 <PostCard post={post} variant="small" locale={locale} />
@@ -579,7 +579,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
 
       {/* Ad Slot 2 - Above Footer */}
       {getAdBySlot(2) && (
-        <section className="container mx-auto px-4 py-4 pb-8">
+        <section className="container mx-auto px-2 md:px-4 py-3 md:py-4 pb-6 md:pb-8">
           <AdBanner 
             slotId={2} 
             adImage={getAdBySlot(2)?.image} 

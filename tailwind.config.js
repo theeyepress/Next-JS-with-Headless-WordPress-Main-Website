@@ -17,6 +17,9 @@ module.exports = {
         sans: ["Geist", "sans-serif"],
         mono: ["Geist Mono", "monospace"],
       },
+      screens: {
+        'xs': '400px',
+      },
     },
   },
   plugins: [],

@@ -55,10 +55,12 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
   const [currentLang, setCurrentLang] = useState<string>("bn");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [categorySlugs, setCategorySlugs] = useState<CategorySlugMap[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Check if a menu item is active
   const isActive = (url: string) => {
@@ -366,10 +368,13 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setActiveDropdown(null);
       }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const toggleDropdown = (label: string) => {
     setActiveDropdown(activeDropdown === label ? null : label);
@@ -579,21 +584,33 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
       <header 
         className="w-full bg-white shadow-md sticky top-0 z-50"
-        ref={dropdownRef}
       >
-        <div className="mx-auto flex items-center justify-between px-4 py-3" style={{ minHeight: isScrolled ? "70px" : "80px" }}>
+        <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
           
-          {/* LEFT COLUMN - Urgent Notice (10%) */}
-          <div className="w-[10%] flex items-center justify-start">
+          {/* Mobile Menu Button - Left */}
+          <div className="flex items-center gap-2">
+            <button
+              ref={mobileMenuRef}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <svg className="w-6 h-6 text-[#A41E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+            
+            {/* Urgent Notice - Hidden on mobile, shown on md+ */}
             {siteOptions?.urgentNotice ? (
               <div 
-                className="flex items-center gap-1 px-3 py-2 rounded-md text-[#A41E22] text-sm font-medium cursor-default transition-all"
+                className="hidden md:flex items-center gap-1 px-3 py-1.5 rounded-md text-[#A41E22] text-xs font-medium cursor-default"
                 style={{ 
                   backgroundColor: "#f5f5f5",
                   border: "1px solid #e0e0e0",
-                  fontWeight: 500
                 }}
-                title={siteOptions.urgentNotice}
               >
                 <span style={{ fontWeight: 800, color: "#A41E22", textTransform: "uppercase" }}>
                   {currentLang === "en" ? "Notice:" : "নোটিশ:"}
@@ -606,24 +623,20 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                   {siteOptions.urgentNotice}
                 </span>
               </div>
-            ) : (
-              <div />
-            )}
+            ) : null}
           </div>
 
-          {/* MIDDLE COLUMN - Logo + Menu (80%) */}
-          <div className="w-[80%] flex flex-col items-center gap-3">
-            {/* Logo - Full logo when not scrolled, Site icon when scrolled */}
+          {/* Center - Logo - Responsive */}
+          <div className="flex-1 flex justify-center px-2">
             <div className="logo-star-orbit logo-container">
               <div className="logo">
                 {isScrolled ? (
-                  // Site icon when sticky/scrolled (50x50)
                   siteOptions?.siteIcon ? (
                     <Link href="/">
                       <img 
                         src={siteOptions.siteIcon} 
                         alt="Site Icon" 
-                        className="logo-image h-[50px] w-[50px] object-contain"
+                        className="h-10 w-10 md:h-12 md:w-12 object-contain"
                       />
                     </Link>
                   ) : siteOptions?.logo ? (
@@ -631,107 +644,105 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className="logo-image h-[50px] w-auto object-contain"
+                        className="h-10 w-auto md:h-12 object-contain"
                       />
                     </Link>
                   ) : (
-                    <Link href="/" className="text-[#A41E22] text-xl font-bold">
+                    <Link href="/" className="text-[#A41E22] text-lg md:text-xl font-bold">
                       The EyePress
                     </Link>
                   )
                 ) : (
-                  // Full logo when not scrolled
                   siteOptions?.logo ? (
                     <Link href="/">
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className="logo-image h-20 w-auto object-contain"
-                        style={{ maxHeight: "80px" }}
+                        className="h-12 w-auto md:h-16 lg:h-20 object-contain"
                       />
                     </Link>
                   ) : (
-                    <Link href="/" className="text-[#A41E22] text-2xl font-bold">
+                    <Link href="/" className="text-[#A41E22] text-xl md:text-2xl font-bold">
                       The EyePress
                     </Link>
                   )
                 )}
               </div>
             </div>
+          </div>
 
-            {/* Menu with আলোচিত/TRENDING label */}
-            <nav className="flex items-center gap-1 relative" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
-              {/* আলোচিত or TRENDING label with spinning stars */}
-              <div 
-                className="trending-star relative px-3 py-1.5 rounded-md text-white font-semibold text-base mr-2 flex items-center"
-                style={{ 
-                  backgroundColor: "#6C1312"
-                }}
-              >
-                <span style={{ color: "#ffffff" }}>
-                  {currentLang === "en" ? "TRENDING" : "আলোচিত"}
-                </span>
-              </div>
+          {/* Right - Search + Live + Language - Compact on mobile */}
+          <div className="flex items-center gap-1 md:gap-2">
+            {/* Search Button */}
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer hover:bg-gray-100"
+              title={currentLang === "bn" ? "অনুসন্ধান" : "Search"}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+            
+            {/* Live Button - Compact text on mobile */}
+            <a
+              href="https://www.youtube.com/@TheEyePress"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded-md text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer"
+              style={{ 
+                backgroundColor: "#f5f5f5",
+                border: "1px solid #e0e0e0"
+              }}
+            >
+              <span className="red-dot-pulse w-2 h-2 rounded-full" style={{ backgroundColor: "#A41E22" }}></span>
+              <span style={{ fontWeight: 700, color: "#A41E22" }}>
+                {currentLang === "en" ? "LIVE" : "লাইভ"}
+              </span>
+            </a>
+            
+            {/* Language Switcher - Compact on mobile */}
+            <button
+              onClick={handleLanguageSwitch}
+              className="lang-btn-glow flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer"
+              style={{ 
+                backgroundColor: "#fff",
+                border: "2px solid #A41E22"
+              }}
+            >
+              <span className="font-bold hidden xs:inline" style={{ fontSize: '10px' }}>
+                {currentLang === "bn" ? "EN" : "বা"}
+              </span>
+              <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+            </button>
+          </div>
+        </div>
 
-              {/* Menu Items - HIGH VISIBILITY */}
-              {menuItems.map((item, index) => {
-                const isItemActive = isActive(item.url);
-                return (
-                <div key={index} className="relative">
-                  {hasChildren(item) ? (
-                    <>
-                      <button
-                        onClick={() => toggleDropdown(item.label)}
-                        className={`menu-item-wrapper flex items-center gap-1 px-4 py-2 font-bold text-sm rounded-md transition-all cursor-pointer uppercase tracking-wide ${
-                          isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
-                        }`}
-                        style={{ 
-                          fontWeight: 600,
-                          color: isItemActive ? '#ffffff !important' : '#1a1a1a',
-                          backgroundColor: isItemActive ? '#6C1312' : 'transparent'
-                        }}
-                      >
-                        <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
-                        <svg 
-                          className="menu-icon w-4 h-4 transition-transform duration-200"
-                          fill="none" 
-                          stroke={isItemActive ? '#ffffff' : 'currentColor'} 
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      
-                      {/* Dropdown */}
-                      {activeDropdown === item.label && (
-                        <div 
-                          className="absolute top-full left-0 mt-1 py-2 min-w-[200px] rounded-md shadow-xl z-50 bg-white border border-gray-200"
-                        >
-                          {item.childItems?.nodes.map((child, childIndex) => {
-                            const isChildActive = isActive(child.url);
-                            return (
-                            <a
-                              key={childIndex}
-                              href={child.url}
-                              className={`menu-item-wrapper block px-4 py-2.5 font-bold text-sm transition-all no-underline uppercase tracking-wide ${
-                                isChildActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
-                              }`}
-                              style={{ 
-                                fontWeight: 600,
-                                color: isChildActive ? '#ffffff !important' : '#1a1a1a',
-                                backgroundColor: isChildActive ? '#6C1312' : 'transparent'
-                              }}
-                            >
-                              <span className="menu-item-text" style={{ color: isChildActive ? '#ffffff !important' : '#1a1a1a' }}>{child.label}</span>
-                            </a>
-                          );})}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <a
-                      href={item.url}
-                      className={`menu-item-wrapper px-4 py-2 font-bold text-sm rounded-md transition-all no-underline uppercase tracking-wide ${
+        {/* Desktop Navigation - Hidden on mobile */}
+        <div className="hidden lg:block border-t border-gray-100">
+          <nav className="flex items-center justify-center gap-1 px-4 py-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+            {/* TRENDING label */}
+            <div 
+              className="trending-star relative px-3 py-1.5 rounded-md text-white font-semibold text-sm mr-2 flex items-center"
+              style={{ backgroundColor: "#6C1312" }}
+            >
+              <span style={{ color: "#ffffff" }}>
+                {currentLang === "en" ? "TRENDING" : "আলোচিত"}
+              </span>
+            </div>
+
+            {/* Menu Items */}
+            {menuItems.map((item, index) => {
+              const isItemActive = isActive(item.url);
+              return (
+              <div key={index} className="relative">
+                {hasChildren(item) ? (
+                  <>
+                    <button
+                      onClick={() => toggleDropdown(item.label)}
+                      className={`menu-item-wrapper flex items-center gap-1 px-3 py-2 font-bold text-xs rounded-md transition-all cursor-pointer uppercase tracking-wide ${
                         isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
                       }`}
                       style={{ 
@@ -741,77 +752,139 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       }}
                     >
                       <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
+                      <svg className="w-3 h-3 transition-transform duration-200" fill="none" stroke={isItemActive ? '#ffffff' : 'currentColor'} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {/* Dropdown */}
+                    {activeDropdown === item.label && (
+                      <div className="absolute top-full left-0 mt-1 py-2 min-w-[180px] rounded-md shadow-xl z-50 bg-white border border-gray-200">
+                        {item.childItems?.nodes.map((child, childIndex) => {
+                          const isChildActive = isActive(child.url);
+                          return (
+                          <a
+                            key={childIndex}
+                            href={child.url}
+                            className={`menu-item-wrapper block px-4 py-2 font-bold text-xs transition-all no-underline uppercase tracking-wide ${
+                              isChildActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
+                            }`}
+                            style={{ 
+                              fontWeight: 600,
+                              color: isChildActive ? '#ffffff !important' : '#1a1a1a',
+                              backgroundColor: isChildActive ? '#6C1312' : 'transparent'
+                            }}
+                          >
+                            <span className="menu-item-text" style={{ color: isChildActive ? '#ffffff !important' : '#1a1a1a' }}>{child.label}</span>
+                          </a>
+                        );})}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <a
+                    href={item.url}
+                    className={`menu-item-wrapper px-3 py-2 font-bold text-xs rounded-md transition-all no-underline uppercase tracking-wide ${
+                      isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
+                    }`}
+                    style={{ 
+                      fontWeight: 600,
+                      color: isItemActive ? '#ffffff !important' : '#1a1a1a',
+                      backgroundColor: isItemActive ? '#6C1312' : 'transparent'
+                    }}
+                  >
+                    <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
+                  </a>
+                )}
+              </div>
+            );})}
+          </nav>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden border-t border-gray-100 bg-white">
+            <nav className="flex flex-col py-2 px-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+              {menuItems.map((item, index) => {
+                const isItemActive = isActive(item.url);
+                return (
+                <div key={index} className="border-b border-gray-100 last:border-0">
+                  {hasChildren(item) ? (
+                    <>
+                      <button
+                        onClick={() => toggleDropdown(item.label)}
+                        className={`flex items-center justify-between w-full px-3 py-2.5 font-bold text-sm transition-all cursor-pointer ${
+                          isItemActive ? 'text-[#A41E22]' : 'text-gray-800'
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        <svg className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === item.label ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      {activeDropdown === item.label && (
+                        <div className="pl-4 pb-2">
+                          {item.childItems?.nodes.map((child, childIndex) => {
+                            const isChildActive = isActive(child.url);
+                            return (
+                            <a
+                              key={childIndex}
+                              href={child.url}
+                              className={`block px-3 py-2 text-sm font-medium transition-colors ${
+                                isChildActive ? 'text-[#A41E22] bg-gray-50' : 'text-gray-600 hover:text-[#A41E22]'
+                              }`}
+                            >
+                              {child.label}
+                            </a>
+                          );})}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <a
+                      href={item.url}
+                      className={`block px-3 py-2.5 font-bold text-sm transition-colors ${
+                        isItemActive ? 'text-[#A41E22] bg-red-50' : 'text-gray-800 hover:text-[#A41E22]'
+                      }`}
+                    >
+                      {item.label}
                     </a>
                   )}
                 </div>
               );})}
             </nav>
           </div>
+        )}
 
-          {/* RIGHT COLUMN - Search + Live Button + Language Switcher (10%) */}
-          <div className="w-[10%] flex items-center justify-end gap-2">
-            {/* Search Button */}
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="flex items-center justify-center w-10 h-10 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer hover:bg-gray-100"
-              style={{ backgroundColor: 'transparent' }}
-              title={currentLang === "bn" ? "অনুসন্ধান" : "Search"}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-            <a
-              href="https://www.youtube.com/@TheEyePress"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-md text-[#A41E22] font-semibold text-sm transition-all cursor-pointer"
-              style={{ 
-                backgroundColor: "#f5f5f5",
-                border: "1px solid #e0e0e0"
-              }}
-              title={siteOptions?.urgentNotice || "Live"}
-            >
-              <span className="red-dot-pulse w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#A41E22" }}></span>
-              <span style={{ fontWeight: 700, color: "#A41E22" }}>
-                {currentLang === "en" ? "LIVE" : "লাইভ"}
+        {/* Mobile Urgent Notice */}
+        {siteOptions?.urgentNotice && (
+          <div className="lg:hidden px-2 py-1.5" style={{ backgroundColor: "#f5f5f5", borderTop: "1px solid #e0e0e0" }}>
+            <div className="flex items-center justify-center gap-1.5 text-[#A41E22] text-xs font-medium">
+              <span style={{ fontWeight: 800, textTransform: "uppercase" }}>
+                {currentLang === "en" ? "Notice:" : "নোটিশ:"}
               </span>
-            </a>
-            <button
-              onClick={handleLanguageSwitch}
-              className="lang-btn-glow flex items-center gap-2 px-4 py-2 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer"
-              style={{ 
-                backgroundColor: "#fff",
-                border: "2px solid #A41E22"
-              }}
-              title={currentLang === "bn" ? t('switchToEnglish') : t('switchToBengali')}
-            >
-              <span className="font-bold" style={{ fontSize: '12px' }}>
-                {currentLang === "bn" ? "English" : "বাংলা"}
+              <span className="whitespace-nowrap urgent-blink" style={{ animationDuration: '4s', fontWeight: 600 }}>
+                {siteOptions.urgentNotice}
               </span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-              </svg>
-            </button>
+            </div>
           </div>
-
-        </div>
+        )}
       </header>
 
-      {/* Search Modal */}
+      {/* Search Modal - Responsive */}
       {isSearchOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-start justify-center pt-20"
+          className="fixed inset-0 z-50 flex items-start justify-center pt-4 md:pt-20 px-2 md:px-4"
           style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
           onClick={() => setIsSearchOpen(false)}
         >
           <div 
-            className="w-full max-w-2xl mx-4 rounded-xl shadow-2xl overflow-hidden"
+            className="w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden"
             style={{ backgroundColor: "white" }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Search Header */}
-            <div className="p-6 border-b" style={{ borderColor: "#e0e0e0" }}>
+            <div className="p-3 md:p-6 border-b" style={{ borderColor: "#e0e0e0" }}>
               <form onSubmit={handleSearch} className="relative">
                 <input
                   ref={searchInputRef}
@@ -819,11 +892,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={currentLang === "bn" ? "এখানে খুঁজুন..." : "Search here..."}
-                  className="w-full px-5 py-4 pl-14 text-lg rounded-xl outline-none text-gray-900 placeholder-gray-400"
+                  className="w-full px-4 py-3 pl-10 md:pl-14 text-base md:text-lg rounded-lg outline-none text-gray-900 placeholder-gray-400"
                   style={{ border: "2px solid #A41E22", backgroundColor: "#fff" }}
                 />
                 <svg 
-                  className="absolute left-5 top-1/2 transform -translate-y-1/2 w-6 h-6 text-[#A41E22]" 
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-[#A41E22]" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -832,7 +905,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                 </svg>
                 <button 
                   type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2.5 rounded-lg text-white font-bold text-sm cursor-pointer hover:opacity-90 transition-opacity"
+                  className="absolute right-1.5 top-1/2 transform -translate-y-1/2 px-4 md:px-6 py-2 rounded-lg text-white font-bold text-sm cursor-pointer hover:opacity-90 transition-opacity"
                   style={{ backgroundColor: "#A41E22" }}
                 >
                   {currentLang === "bn" ? "খুঁজুন" : "Search"}
@@ -841,11 +914,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             </div>
             
             {/* Search Suggestions */}
-            <div className="p-6">
-              <p className="text-sm font-semibold text-gray-700 mb-3">
+            <div className="p-3 md:p-6">
+              <p className="text-sm font-semibold text-gray-700 mb-2 md:mb-3">
                 {currentLang === "bn" ? "জনপ্রিয় অনুসন্ধান:" : "Popular searches:"}
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 {["Breaking News", "Politics", "Sports", "Technology"].map((term, i) => (
                   <button
                     key={i}
@@ -855,7 +928,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                          term === "Politics" ? "রাজনীতি" :
                          term === "Sports" ? "খেলা" : "প্রযুক্তি") : term);
                     }}
-                    className="px-4 py-2 text-sm rounded-full cursor-pointer transition-colors hover:opacity-80"
+                    className="px-3 py-1.5 text-xs md:text-sm rounded-full cursor-pointer transition-colors hover:opacity-80"
                     style={{ backgroundColor: "#f5f5f5", color: "#333" }}
                   >
                     {currentLang === "bn" ? 
@@ -870,7 +943,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Close Button */}
             <button
               onClick={() => setIsSearchOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-700"
+              className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-700"
               style={{ backgroundColor: "#f5f5f5" }}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

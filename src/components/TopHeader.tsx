@@ -114,6 +114,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 
   const items = tickerItems.length > 0 ? tickerItems : parsedTickerItems;
 
+  // Fix escaped slashes in href (e.g., "\/bn\/post" -> "/bn/post")
+  const fixHref = (href: string) => {
+    if (!href) return "#";
+    return href.replace(/\\\/bn\\\//gi, '/bn/').replace(/\\\/en\\\//gi, '/en/');
+  };
+
   return (
     <>
       <style jsx global>{`
@@ -189,15 +195,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         }
       `}</style>
       
-      <div className="w-full bg-[#6c1312] text-white px-2.5 py-2 flex items-center justify-between" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
-        {/* Left */}
-        <div className="flex items-center gap-6">
+      <div className="w-full bg-[#6c1312] text-white px-2 py-1.5 md:py-2 flex items-center justify-between" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
+        {/* Left - Menu Button + Site Icon */}
+        <div className="flex items-center gap-2 md:gap-4">
           <button
-            className="text-white focus:outline-none cursor-pointer"
+            className="text-white focus:outline-none cursor-pointer p-1"
             onClick={() => setIsSideNavOpen(true)}
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5 md:w-6 md:h-6"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -209,15 +215,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           </button>
 
           <a href="/" className="icon-star-orbit">
-            <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-12 h-12 object-contain" />
+            <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" />
           </a>
         </div>
 
-        {/* Middle: Ticker */}
-        <div className="flex-1 mx-8 overflow-hidden flex items-center">
+        {/* Middle: Ticker - Hidden on small mobile, visible on md+ */}
+        <div className="hidden md:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
           {items.length > 0 && (
             <div className="flex items-center gap-2 w-full overflow-hidden">
-              <span className="ticker-label whitespace-nowrap text-cyan-400 font-extrabold tracking-widest uppercase text-base flex-shrink-0">
+              <span className="ticker-label whitespace-nowrap text-cyan-400 font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0">
                 {t('latest')}
               </span>
                 <div className="ticker-track overflow-hidden flex-1" style={{ width: '100%' }}>
@@ -225,12 +231,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   {[...items, ...items, ...items].map((item, index) => (
                     <span key={index} className="ticker-item mx-0.5">
                       <a
-                        href={item.href}
-                        className="text-white hover:text-cyan-200 transition-colors text-sm font-normal no-underline cursor-pointer"
+                        href={fixHref(item.href)}
+                        className="text-white hover:text-cyan-200 transition-colors text-xs lg:text-sm font-normal no-underline cursor-pointer"
                       >
                         {item.title}
                       </a>
-                      <span className="text-cyan-300 mx-2">|</span>
+                      <span className="text-cyan-300 mx-1 lg:mx-2">|</span>
                     </span>
                   ))}
                 </div>
@@ -239,32 +245,125 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           )}
         </div>
 
-        {/* Right: Date/Time + Links */}
-        <div className="flex items-center gap-4">
-          {(dateTimeHTML || staticDate) && (
+        {/* Right: Date/Time + Links - Compact on mobile */}
+        <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
+          {/* Date/Time - Hidden on very small screens, compact on md */}
+          <div className="hidden xs:block">{(dateTimeHTML || staticDate) && (
             <div 
-              className="date-time text-sm whitespace-nowrap ml-6"
-              style={{ minWidth: "200px", textAlign: "center", height: "1.5em", overflow: "hidden", color: '#ffffff' }}
+              className="date-time text-xs md:text-sm whitespace-nowrap"
+              style={{ minWidth: "120px", md: { minWidth: "200px" }, textAlign: "center", height: "1.5em", overflow: "hidden", color: '#ffffff' }}
             >
               <div className="datetime-slider h-[1.5em]">
                 <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
                 <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{staticDate || "..."}</div>
               </div>
             </div>
-          )}
+          )}</div>
           <AuthButtons locale={locale} />
         </div>
       </div>
 
-      {/* Side Navigation */}
+      {/* Side Navigation - Full Screen Mobile Menu */}
       {isSideNavOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
-          <div className="fixed left-0 top-0 w-64 h-full bg-white shadow-lg p-4">
-            <button className="mb-4" onClick={() => setIsSideNavOpen(false)}>{t('close')}</button>
-            <nav className="flex flex-col gap-2">
-              <Link href="/" className="hover:underline">{t('home')}</Link>
-              <a href="/category/news" className="hover:underline">{t('news')}</a>
-              <a href="/category/sports" className="hover:underline">{t('sports')}</a>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={() => setIsSideNavOpen(false)}>
+          <div className="fixed left-0 top-0 w-[280px] sm:w-[320px] h-full bg-white shadow-lg overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <Image src={siteIconUrl} alt="Site Icon" width={40} height={40} className="w-10 h-10 object-contain" />
+                <span className="text-lg font-bold text-[#A41E22]">The EyePress</span>
+              </div>
+              <button 
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors" 
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <nav className="flex flex-col p-4">
+              <Link 
+                href={`/${locale}`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                {t('home')}
+              </Link>
+              <Link 
+                href={`/${locale}/category/news`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+                {t('news')}
+              </Link>
+              <Link 
+                href={`/${locale}/category/sports`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {t('sports')}
+              </Link>
+              <Link 
+                href={`/${locale}/category/politics`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                </svg>
+                {locale === 'bn' ? 'রাজনীতি' : 'Politics'}
+              </Link>
+              <Link 
+                href={`/${locale}/category/entertainment`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {locale === 'bn' ? 'বিনোদন' : 'Entertainment'}
+              </Link>
+              <Link 
+                href={`/${locale}/category/technology`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {locale === 'bn' ? 'প্রযুক্তি' : 'Technology'}
+              </Link>
+              <div className="border-t border-gray-200 my-2"></div>
+              <Link 
+                href={`/${locale}/contact`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {locale === 'bn' ? 'যোগাযোগ' : 'Contact'}
+              </Link>
+              <Link 
+                href={`/${locale}/subscribe`} 
+                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                onClick={() => setIsSideNavOpen(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                {locale === 'bn' ? 'সাবস্ক্রাইব' : 'Subscribe'}
+              </Link>
             </nav>
           </div>
         </div>
@@ -318,18 +417,18 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
 
   if (isLoading || !hasChecked) {
     return (
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+      <div className="flex items-center gap-1 sm:gap-2">
+        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded-full animate-pulse"></div>
       </div>
     );
   }
 
   if (user) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1 sm:gap-3">
         <Link
           href={`/${locale}/profile`}
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity"
         >
           {user.avatar ? (
             <Image
@@ -337,20 +436,21 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
               alt={user.name}
               width={32}
               height={32}
-              className="rounded-full"
+              className="w-6 h-6 sm:w-8 sm:h-8 rounded-full"
             />
           ) : (
-            <div className="w-8 h-8 bg-[#A41E22] rounded-full flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#A41E22] rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm">
               {user.name.charAt(0).toUpperCase()}
             </div>
           )}
-          <span className="text-white text-sm font-medium hidden md:inline">{user.name}</span>
+          <span className="text-white text-xs sm:text-sm font-medium hidden md:inline">{user.name}</span>
         </Link>
         <button
           onClick={handleLogout}
-          className="bg-white text-[#a41e22] px-3 py-1.5 text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#a41e22] hover:text-white border border-[#a41e22]"
+          className="bg-white text-[#a41e22] px-2 sm:px-3 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#a41e22] hover:text-white border border-[#a41e22]"
         >
-          {locale === 'bn' ? "লগআউট" : "Logout"}
+          <span className="hidden sm:inline">{locale === 'bn' ? "লগআউট" : "Logout"}</span>
+          <span className="sm:hidden">↪</span>
         </button>
       </div>
     );
@@ -360,13 +460,14 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
     <>
       <Link
         href={`/${locale}/login`}
-        className="bg-white text-[#a41e22] px-4 py-1.5 text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#a41e22] hover:text-white border border-[#a41e22]"
+        className="bg-white text-[#a41e22] px-2 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#a41e22] hover:text-white border border-[#a41e22]"
       >
-        {locale === 'bn' ? "লগইন" : "Login"}
+        <span className="hidden xs:inline">{locale === 'bn' ? "লগইন" : "Login"}</span>
+        <span className="xs:hidden">👤</span>
       </Link>
       <Link
         href={`/${locale}/register`}
-        className="bg-[#a41e22] text-white px-4 py-1.5 text-sm font-bold rounded-md cursor-pointer ml-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#6c1312]"
+        className="hidden sm:inline-flex bg-[#a41e22] text-white px-3 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer ml-1 sm:ml-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#6c1312]"
       >
         {locale === 'bn' ? "নিবন্ধন" : "Register"}
       </Link>

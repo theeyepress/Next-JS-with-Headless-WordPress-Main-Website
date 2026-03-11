@@ -86,15 +86,16 @@ const PostCard: React.FC<PostCardProps> = ({
     return (
       <Link
         href={`/${locale}/${encodeURIComponent(post.slug)}`}
-        className={`group flex gap-4 p-3 bg-white hover:bg-gray-50 transition-all duration-300 ${className}`}
+        className={`group flex gap-2 md:gap-4 p-2 md:p-3 bg-white hover:bg-gray-50 transition-all duration-300 ${className}`}
       >
         {imageUrl && (
-          <div className="relative w-32 h-24 flex-shrink-0 overflow-hidden rounded-md">
+          <div className="relative w-20 h-16 md:w-32 md:h-24 flex-shrink-0 overflow-hidden rounded-md">
             <Image
               src={imageUrl}
               alt={imageAlt}
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-300"
+              sizes="(max-width: 768px) 80px, 128px"
             />
           </div>
         )}
@@ -104,10 +105,10 @@ const PostCard: React.FC<PostCardProps> = ({
               {category.name}
             </span>
           )}
-          <h3 className="text-sm font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors line-clamp-2 mt-1">
+          <h3 className="text-xs md:text-sm font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors line-clamp-2 mt-0.5 md:mt-1">
             {post.title}
           </h3>
-          <span className="text-xs text-gray-700 mt-2">{formatDate(post.date)}</span>
+          <span className="text-xs text-gray-700 mt-1 md:mt-2">{formatDate(post.date)}</span>
         </div>
       </Link>
     );
@@ -120,33 +121,34 @@ const PostCard: React.FC<PostCardProps> = ({
         className={`group block bg-white hover:shadow-lg transition-all duration-300 ${className}`}
       >
         {imageUrl && (
-          <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-t-lg">
+          <div className="relative w-full h-48 md:h-56 lg:h-64 xl:h-80 overflow-hidden rounded-t-lg">
             <Image
               src={imageUrl}
               alt={imageAlt}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             {showCategory && category && (
-              <div className="absolute top-3 left-3">
-                <span className="px-3 py-1 bg-[#A41E22] text-white text-xs font-bold uppercase tracking-wide rounded">
+              <div className="absolute top-2 md:top-3 left-2 md:left-3">
+                <span className="px-2 md:px-3 py-1 bg-[#A41E22] text-white text-xs font-bold uppercase tracking-wide rounded">
                   {category.name}
                 </span>
               </div>
             )}
           </div>
         )}
-        <div className="p-4">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors line-clamp-2">
+        <div className="p-3 md:p-4">
+          <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors line-clamp-2">
             {post.title}
           </h2>
-          <p className="text-gray-600 mt-2 line-clamp-3">{excerpt}</p>
-          <div className="flex items-center gap-3 mt-3 text-sm text-gray-700">
+          <p className="text-gray-600 mt-1 md:mt-2 line-clamp-2 md:line-clamp-3 text-sm">{excerpt}</p>
+          <div className="flex items-center gap-2 md:gap-3 mt-2 md:mt-3 text-xs md:text-sm text-gray-700">
             {showAuthor && post.author?.node && (
               <span className="font-medium text-gray-700">{post.author.node.name}</span>
             )}
-            <span>•</span>
+            {showAuthor && post.author?.node && <span>•</span>}
             <span>{formatDate(post.date)}</span>
           </div>
         </div>
@@ -160,27 +162,28 @@ const PostCard: React.FC<PostCardProps> = ({
       className={`group block bg-white hover:shadow-lg transition-all duration-300 ${className}`}
     >
       {imageUrl && (
-        <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+        <div className="relative w-full h-36 md:h-48 overflow-hidden rounded-t-lg">
           <Image
             src={imageUrl}
             alt={imageAlt}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {showCategory && category && (
-            <div className="absolute top-2 left-2">
-              <span className="px-2 py-1 bg-[#A41E22] text-white text-xs font-bold uppercase tracking-wide rounded">
+            <div className="absolute top-1.5 md:top-2 left-1.5 md:left-2">
+              <span className="px-2 py-0.5 md:py-1 bg-[#A41E22] text-white text-xs font-bold uppercase tracking-wide rounded">
                 {category.name}
               </span>
             </div>
           )}
         </div>
       )}
-      <div className="p-3">
-        <h3 className="text-base font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors line-clamp-2">
+      <div className="p-2 md:p-3">
+        <h3 className="text-sm md:text-base font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors line-clamp-2">
           {post.title}
         </h3>
-        <div className="flex items-center gap-2 mt-2 text-xs text-gray-700">
+        <div className="flex items-center gap-1 md:gap-2 mt-1 md:mt-2 text-xs text-gray-700">
           <span>{formatDate(post.date)}</span>
           {showAuthor && post.author?.node && (
             <>
