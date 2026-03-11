@@ -132,7 +132,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           }
         }
         .ticker-animate {
-          animation: ticker-scroll 90s linear infinite;
+          animation: ticker-scroll 60s linear infinite;
+        }
+        @media (max-width: 768px) {
+          .ticker-animate {
+            animation: ticker-scroll 30s linear infinite;
+          }
         }
         .ticker-animate:hover {
           animation-play-state: paused;
@@ -195,9 +200,25 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         }
       `}</style>
       
-      <div className="w-full bg-[#6c1312] text-white px-2 py-1.5 md:py-2 flex items-center justify-between" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
-        {/* Left - Site Icon - Hamburger moved to Header */}
+      <div className="w-full bg-[#6c1312] text-white px-2 py-1.5 md:py-2 flex items-center justify-between sticky top-0 z-40" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
+        {/* Left - Menu Button + Site Icon */}
         <div className="flex items-center gap-2 md:gap-4">
+          <button
+            className="text-white focus:outline-none cursor-pointer p-1"
+            onClick={() => setIsSideNavOpen(true)}
+          >
+            <svg
+              className="w-5 h-5 md:w-6 md:h-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+
           <a href="/" className="icon-star-orbit">
             <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" />
           </a>
@@ -249,8 +270,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 
       {/* Side Navigation - Full Screen Mobile Menu */}
       {isSideNavOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={() => setIsSideNavOpen(false)}>
-          <div className="fixed left-0 top-0 w-[280px] sm:w-[320px] h-full bg-white shadow-lg overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[100]" onClick={() => setIsSideNavOpen(false)}>
+          <div className="fixed left-0 top-0 w-[280px] sm:w-[320px] h-full bg-white shadow-xl overflow-y-auto z-[101]" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <div className="flex items-center gap-3">
                 <Image src={siteIconUrl} alt="Site Icon" width={40} height={40} className="w-10 h-10 object-contain" />
