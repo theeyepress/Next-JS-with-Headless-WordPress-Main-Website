@@ -120,10 +120,10 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
           const category = getCategory(video);
 
           return (
-            <div key={index} className="px-1 md:px-2">
+            <div key={index} className="px-1 md:px-2" style={{ height: '260px' }}>
               <div
                 onClick={() => handleVideoClick(video)}
-                className="group block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all h-64 md:h-80 flex flex-col cursor-pointer"
+                className="group block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all h-full flex flex-col cursor-pointer"
               >
                 <div className="relative h-28 md:h-40 flex-shrink-0 overflow-hidden">
                   {thumbnail ? (
