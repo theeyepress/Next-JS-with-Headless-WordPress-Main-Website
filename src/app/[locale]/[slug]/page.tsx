@@ -4,6 +4,7 @@ import SinglePostClient from "./SinglePostClient";
 import { notFound } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -13,10 +14,10 @@ async function getPostData(slug: string, locale: string) {
   const decodedSlug = decodeURIComponent(slug);
 
   try {
-    // Use REST API with locale parameter - cache for 10 minutes
+    // Use REST API with locale parameter
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/post/${decodedSlug}?locale=${locale}`,
-      { next: { revalidate: 600 } } // 10 minutes
+      { cache: 'no-store' }
     );
     
     if (!response.ok) {
@@ -36,7 +37,7 @@ async function getRelatedPosts(categorySlug: string, excludeId: string, locale: 
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category=${categorySlug}&per_page=5`,
-      { next: { revalidate: 300 } } // 5 minutes
+      { cache: 'no-store' }
     );
     
     if (!response.ok) {
@@ -64,12 +65,12 @@ export default async function SinglePostPage({ params }: PageProps) {
     notFound();
   }
 
-  // Fetch ads
+// Fetch ads
   let ads: any[] = [];
   try {
     const adsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ads`,
-      { next: { revalidate: 600 } }
+      { cache: 'no-store' }
     );
     if (adsRes.ok) {
       ads = await adsRes.json();
@@ -83,7 +84,7 @@ export default async function SinglePostPage({ params }: PageProps) {
   try {
     const logoRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/site-options?locale=${validLocale}`,
-      { next: { revalidate: 600 } }
+      { cache: 'no-store' }
     );
     if (logoRes.ok) {
       const logoData = await logoRes.json();
@@ -104,7 +105,7 @@ export default async function SinglePostPage({ params }: PageProps) {
   try {
     const catsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/categories?locale=${validLocale}`,
-      { next: { revalidate: 1800 } }
+      { cache: 'no-store' }
     );
     if (catsRes.ok) {
       allCategories = await catsRes.json();
@@ -113,12 +114,12 @@ export default async function SinglePostPage({ params }: PageProps) {
     console.log("Categories fetch error:", e);
   }
 
-  // Get videos
+// Get videos
   let videos: any[] = [];
   try {
     const videosRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/videos?locale=${validLocale}`,
-      { next: { revalidate: 900 } }
+      { cache: 'no-store' }
     );
     if (videosRes.ok) {
       videos = await videosRes.json();

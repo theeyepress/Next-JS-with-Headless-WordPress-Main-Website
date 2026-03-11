@@ -4,6 +4,7 @@ import CategoryPageClient from "./CategoryPageClient";
 import { notFound } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -17,7 +18,7 @@ async function getCategoryBySlug(slug: string, locale: string) {
     // First get categories to find the category ID
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/categories?locale=${locale}`,
-      { next: { revalidate: 300 } }
+      { cache: 'no-store' }
     );
     
     if (!response.ok) return null;
@@ -48,7 +49,7 @@ async function getCategoryPosts(categoryId: number, page: number = 1, perPage: n
     // Use new simple endpoint
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/category-posts?category_id=${categoryId}&page=${page}&per_page=${perPage}`,
-      { next: { revalidate: 300 } }
+      { cache: 'no-store' }
     );
     
     if (!response.ok) {
@@ -70,11 +71,11 @@ async function getCategoryData(slug: string, locale: string, page: number = 1, p
     // Get category info first
     const categoryInfo = await getCategoryBySlug(slug, locale);
     
-    if (!categoryInfo) {
+if (!categoryInfo) {
       // Try old endpoint as fallback
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/category/${slug}?locale=${locale}&page=${page}&per_page=${perPage}`,
-        { next: { revalidate: 300 } }
+        { cache: 'no-store' }
       );
       
       if (!response.ok) return null;
@@ -84,11 +85,11 @@ async function getCategoryData(slug: string, locale: string, page: number = 1, p
     // Get posts using new endpoint
     const postsData = await getCategoryPosts(categoryInfo.id, page, perPage);
     
-    if (!postsData) {
+if (!postsData) {
       // Fallback to old endpoint
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/category/${slug}?locale=${locale}&page=${page}&per_page=${perPage}`,
-        { next: { revalidate: 300 } }
+        { cache: 'no-store' }
       );
       
       if (!response.ok) return null;
@@ -126,12 +127,12 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
     notFound();
   }
 
-  // Fetch ads
+// Fetch ads
   let ads: any[] = [];
   try {
     const adsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ads`,
-      { next: { revalidate: 600 } }
+      { cache: 'no-store' }
     );
     if (adsRes.ok) {
       ads = await adsRes.json();
@@ -145,7 +146,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   try {
     const popularRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/posts?locale=${currentLocale}&per_page=5`,
-      { next: { revalidate: 300 } }
+      { cache: 'no-store' }
     );
     if (popularRes.ok) {
       popularPosts = await popularRes.json();
@@ -159,7 +160,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   try {
     const catsRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/categories?locale=${currentLocale}`,
-      { next: { revalidate: 1800 } }
+      { cache: 'no-store' }
     );
     if (catsRes.ok) {
       allCategories = await catsRes.json();
