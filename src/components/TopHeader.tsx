@@ -11,16 +11,26 @@ type TickerItem = {
   href: string;
 };
 
+type MenuItem = {
+  label: string;
+  url: string;
+  childItems?: {
+    nodes: MenuItem[];
+  };
+};
+
 type TopHeaderProps = {
   siteIconUrl: string;
   tickerHTML: string;
   dateTimeHTML: string;
+  menuItems?: MenuItem[];
 };
 
 const TopHeader: React.FC<TopHeaderProps> = ({
   siteIconUrl,
   tickerHTML,
   dateTimeHTML,
+  menuItems = [],
 }) => {
   const t = useTranslations("TopHeader");
   const locale = useLocale();
@@ -250,20 +260,20 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           )}
         </div>
 
-        {/* Right: Date/Time + Links - Compact on mobile */}
+        {/* Right: Date/Time + Links - Show on all devices */}
         <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
-          {/* Date/Time - Hidden on very small screens, compact on md */}
-          <div className="hidden xs:block">{(dateTimeHTML || staticDate) && (
+          {/* Date/Time - Show on all devices */}
+          {(dateTimeHTML || staticDate) && (
             <div 
               className="date-time text-xs md:text-sm whitespace-nowrap"
-              style={{ minWidth: "140px", textAlign: "center", height: "1.5em", overflow: "hidden", color: '#ffffff' }}
+              style={{ textAlign: "center", color: '#ffffff' }}
             >
-              <div className="datetime-slider h-[1.5em]">
-                <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
-                <div className="h-[1.5em]" style={{ color: '#ffffff' }}>{staticDate || "..."}</div>
+              <div className="datetime-slider">
+                <div style={{ color: '#ffffff' }}>{currentTime || "..."}</div>
+                <div style={{ color: '#ffffff' }}>{staticDate || "..."}</div>
               </div>
             </div>
-          )}</div>
+          )}
           <AuthButtons locale={locale} />
         </div>
       </div>
@@ -369,6 +379,29 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </svg>
                 {locale === 'bn' ? 'সাবস্ক্রাইব' : 'Subscribe'}
               </Link>
+              
+              {/* Dynamic Menu Categories */}
+              {menuItems.length > 0 && (
+                <>
+                  <div className="border-t border-gray-200 my-2"></div>
+                  <p className="px-4 py-2 text-xs font-bold text-gray-500 uppercase">
+                    {locale === 'bn' ? 'বিভাগসমূহ' : 'Categories'}
+                  </p>
+                  {menuItems.map((item, index) => (
+                    <Link 
+                      key={index}
+                      href={item.url}
+                      className="flex items-center gap-3 px-4 py-2.5 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                      onClick={() => setIsSideNavOpen(false)}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                      {item.label}
+                    </Link>
+                  ))}
+                </>
+              )}
             </nav>
           </div>
         </div>

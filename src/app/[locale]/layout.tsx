@@ -191,6 +191,7 @@ export default async function LocaleLayout({
               siteIconUrl={siteIconFromRest || logoFromRest || "/default-icon.png"}
               tickerHTML={tickerHTMLFromRest}
               dateTimeHTML={dateTimeHTMLFromRest}
+              menuItems={menuItems}
             />
 
             <Header 
