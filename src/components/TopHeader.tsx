@@ -196,31 +196,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       `}</style>
       
       <div className="w-full bg-[#6c1312] text-white px-2 py-1.5 md:py-2 flex items-center justify-between" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
-        {/* Left - Menu Button + Site Icon */}
+        {/* Left - Site Icon - Hamburger moved to Header */}
         <div className="flex items-center gap-2 md:gap-4">
-          <button
-            className="text-white focus:outline-none cursor-pointer p-1"
-            onClick={() => setIsSideNavOpen(true)}
-          >
-            <svg
-              className="w-5 h-5 md:w-6 md:h-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-
           <a href="/" className="icon-star-orbit">
             <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" />
           </a>
         </div>
 
-        {/* Middle: Ticker - Hidden on small mobile, visible on md+ */}
-        <div className="hidden md:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
+        {/* Middle: Ticker - Show only on xl where there's room in header */}
+        <div className="hidden xl:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
           {items.length > 0 && (
             <div className="flex items-center gap-2 w-full overflow-hidden">
               <span className="ticker-label whitespace-nowrap text-cyan-400 font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0">

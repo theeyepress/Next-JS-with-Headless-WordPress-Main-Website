@@ -836,10 +836,16 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           </nav>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu Dropdown with Overlay */}
         {isMobileMenuOpen && (
-          <div ref={mobileMenuRef} className="lg:hidden border-t border-gray-100 bg-white">
-            <nav className="flex flex-col py-2 px-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+          <>
+            {/* Overlay - click to close */}
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <div ref={mobileMenuRef} className="lg:hidden border-t border-gray-100 bg-white fixed top-auto left-0 right-0 z-50 shadow-lg">
+              <nav className="flex flex-col py-2 px-2 max-h-[70vh] overflow-y-auto" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
               {menuItems.map((item, index) => {
                 const isItemActive = isActive(item.url);
                 return (
@@ -889,9 +895,10 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
               );})}
             </nav>
           </div>
+          </>
         )}
 
-        {/* Mobile Ticker - Under Logo */}
+        {/* Mobile Ticker - Under Logo - Show on xs to lg (below xl where TopHeader has ticker) */}
         {tickerItems.length > 0 && (
           <div className="lg:hidden px-2 py-2 bg-[#6c1312]" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             <div className="flex items-center gap-2 overflow-hidden">
