@@ -190,12 +190,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         }
         .ticker-track {
           overflow: hidden;
+          width: 100%;
         }
         .ticker-animate {
           animation: ticker-scroll 60s linear infinite;
-          display: inline-flex;
-          flex-wrap: nowrap;
           white-space: nowrap;
+          width: max-content;
         }
         @media (max-width: 768px) {
           .ticker-animate {
@@ -209,13 +209,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           0% { 
             transform: translateY(0);
           }
-          45% { 
+          40% { 
             transform: translateY(0);
           }
           50% { 
             transform: translateY(-100%);
           }
-          95% { 
+          90% { 
             transform: translateY(-100%);
           }
           100% { 
@@ -223,11 +223,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           }
         }
         .datetime-slider {
-          display: flex;
-          flex-direction: column;
+          display: block;
           overflow: hidden;
-          height: 1.4em;
-          line-height: 1.4em;
+          height: 1.5em;
         }
         .datetime-slider.animating {
           animation: dateTimeSlideUp 8s ease-in-out infinite;
@@ -326,13 +324,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         <div className="hidden xl:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
           {items.length > 0 && (
             <div className="flex items-center gap-2 w-full overflow-hidden">
-              <span className="ticker-label whitespace-nowrap text-cyan-400 font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0">
+              <span className="ticker-label whitespace-nowrap text-cyan-400 font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0 z-10">
                 {t('latest')}
               </span>
-                <div className="ticker-track overflow-hidden flex-1" style={{ width: '100%' }}>
-                <div className="ticker-animate flex whitespace-nowrap" style={{ width: 'max-content' }}>
+              <div className="ticker-track overflow-hidden flex-1 min-w-0">
+                <div className="ticker-animate whitespace-nowrap">
                   {[...items, ...items, ...items].map((item, index) => (
-                    <span key={index} className="ticker-item mx-0.5">
+                    <span key={index} className="ticker-item mx-0.5 inline-flex">
                       <a
                         href={fixHref(item.href)}
                         className="text-white hover:text-cyan-200 transition-colors text-xs lg:text-sm font-normal no-underline cursor-pointer"
@@ -350,19 +348,18 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 
         {/* Right: Date/Time - Sliding between date and time */}
         <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
-          {(dateTimeHTML || dateSlides.length > 0 || currentTime) && (
+          {currentTime && (
             <div 
               className="date-time text-xs md:text-sm whitespace-nowrap flex items-center"
-              style={{ color: '#ffffff' }}
             >
               <div className="datetime-slider animating">
-                {/* Slide 1: Date only */}
-                <span className="whitespace-nowrap block" style={{ color: '#ffffff', height: '1.4em', lineHeight: '1.4em' }}>
+                {/* Slide 1: Date */}
+                <span className="whitespace-nowrap block" style={{ color: '#ffffff' }}>
                   {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
                 </span>
-                {/* Slide 2: Time only */}
-                <span className="whitespace-nowrap block" style={{ color: '#ffffff', height: '1.4em', lineHeight: '1.4em' }}>
-                  {currentTime || "..."}
+                {/* Slide 2: Time */}
+                <span className="whitespace-nowrap block" style={{ color: '#ffffff' }}>
+                  {currentTime}
                 </span>
               </div>
             </div>
