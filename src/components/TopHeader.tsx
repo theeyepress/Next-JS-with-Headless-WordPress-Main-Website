@@ -189,12 +189,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           }
         }
         .ticker-track {
-          overflow: visible;
+          overflow: hidden;
         }
         .ticker-animate {
           animation: ticker-scroll 60s linear infinite;
           display: inline-flex;
           flex-wrap: nowrap;
+          white-space: nowrap;
         }
         @media (max-width: 768px) {
           .ticker-animate {
@@ -204,18 +205,21 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         .ticker-animate:hover {
           animation-play-state: paused;
         }
-        @keyframes dateTimeSwap {
-          0%, 45% { 
+        @keyframes dateTimeSlideUp {
+          0% { 
             transform: translateY(0);
-            opacity: 1;
           }
-          50%, 95% { 
+          45% { 
+            transform: translateY(0);
+          }
+          50% { 
             transform: translateY(-100%);
-            opacity: 1;
+          }
+          95% { 
+            transform: translateY(-100%);
           }
           100% { 
             transform: translateY(0);
-            opacity: 1;
           }
         }
         .datetime-slider {
@@ -226,7 +230,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           line-height: 1.4em;
         }
         .datetime-slider.animating {
-          animation: dateTimeSwap 6s ease-in-out infinite;
+          animation: dateTimeSlideUp 8s ease-in-out infinite;
         }
         .datetime-slider:hover {
           animation-play-state: paused;
@@ -344,28 +348,21 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           )}
         </div>
 
-        {/* Right: Date/Time + Links - Show on all devices */}
+        {/* Right: Date/Time - Sliding between date and time */}
         <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
-          {/* Date/Time - Sliding between time and date */}
           {(dateTimeHTML || dateSlides.length > 0 || currentTime) && (
             <div 
-              className="date-time text-xs md:text-sm whitespace-nowrap flex gap-1 md:gap-2 items-center"
+              className="date-time text-xs md:text-sm whitespace-nowrap flex items-center"
               style={{ color: '#ffffff' }}
             >
               <div className="datetime-slider animating">
-                <span className="whitespace-nowrap flex items-center gap-1" style={{ color: '#ffffff' }}>
-                  <span style={{ color: '#ffffff' }}>{currentTime || "..."}</span>
-                  <span style={{ color: '#ffffff' }}>|</span>
-                  <span style={{ color: '#ffffff' }}>
-                    {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
-                  </span>
+                {/* Slide 1: Date only */}
+                <span className="whitespace-nowrap block" style={{ color: '#ffffff', height: '1.4em', lineHeight: '1.4em' }}>
+                  {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
                 </span>
-                <span className="whitespace-nowrap flex items-center gap-1" style={{ color: '#ffffff' }}>
-                  <span style={{ color: '#ffffff' }}>
-                    {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
-                  </span>
-                  <span style={{ color: '#ffffff' }}>|</span>
-                  <span style={{ color: '#ffffff' }}>{currentTime || "..."}</span>
+                {/* Slide 2: Time only */}
+                <span className="whitespace-nowrap block" style={{ color: '#ffffff', height: '1.4em', lineHeight: '1.4em' }}>
+                  {currentTime || "..."}
                 </span>
               </div>
             </div>
