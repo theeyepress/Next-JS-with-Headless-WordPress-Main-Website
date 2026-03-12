@@ -629,7 +629,8 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        className="w-full bg-white shadow-md sticky top-0 z-50"
+        className="w-full shadow-md sticky top-0 z-50"
+        style={{ backgroundColor: '#6C1312' }}
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
           
@@ -637,9 +638,9 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="lg:hidden p-2 hover:bg-white/20 rounded-lg transition-colors"
             >
-              <svg className="w-6 h-6 text-[#A41E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -693,7 +694,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       />
                     </Link>
                   ) : (
-                    <Link href="/" className="text-[#A41E22] text-base md:text-lg font-bold">
+                    <Link href="/" className="text-white text-base md:text-lg font-bold">
                       The EyePress
                     </Link>
                   )
@@ -707,7 +708,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       />
                     </Link>
                   ) : (
-                    <Link href="/" className="text-[#A41E22] text-lg md:text-xl font-bold">
+                    <Link href="/" className="text-white text-lg md:text-xl font-bold">
                       The EyePress
                     </Link>
                   )
@@ -721,7 +722,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer hover:bg-gray-100"
+              className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full text-white font-semibold text-sm transition-all cursor-pointer hover:bg-white/20"
               title={currentLang === "bn" ? "অনুসন্ধান" : "Search"}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -729,19 +730,18 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
               </svg>
             </button>
             
-            {/* Live Button - Compact text on mobile */}
+            {/* Live Button - Visible on dark background */}
             <a
               href="https://www.youtube.com/@TheEyePress"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded-md text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded-md text-white font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110"
               style={{ 
-                backgroundColor: "#f5f5f5",
-                border: "1px solid #e0e0e0"
+                backgroundColor: "#A41E22",
               }}
             >
-              <span className="red-dot-pulse w-2 h-2 rounded-full" style={{ backgroundColor: "#A41E22" }}></span>
-              <span style={{ fontWeight: 700, color: "#A41E22" }}>
+              <span className="red-dot-pulse w-2 h-2 rounded-full bg-white"></span>
+              <span style={{ fontWeight: 700 }}>
                 {currentLang === "en" ? "LIVE" : "লাইভ"}
               </span>
             </a>
@@ -749,7 +749,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Subscribe Button - Temporary replacement for language switcher */}
             <a
               href={`/${currentLang}/subscribe`}
-              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full text-white font-semibold text-xs md:text-sm transition-all cursor-pointer"
+              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full text-white font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105"
               style={{ 
                 backgroundColor: "#A41E22",
               }}
@@ -765,12 +765,12 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
         </div>
 
         {/* Desktop Navigation - Hidden on mobile */}
-        <div className="hidden lg:block border-t border-gray-100">
+        <div className="hidden lg:block border-t border-white/20">
           <nav className="flex items-center justify-center gap-1 px-4 py-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             {/* TRENDING label */}
             <div 
               className="trending-star relative px-3 py-1.5 rounded-md text-white font-semibold text-sm mr-2 flex items-center"
-              style={{ backgroundColor: "#6C1312" }}
+              style={{ backgroundColor: "#A41E22" }}
             >
               <span style={{ color: "#ffffff" }}>
                 {currentLang === "en" ? "TRENDING" : "আলোচিত"}
@@ -787,23 +787,23 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                     <button
                       onClick={() => toggleDropdown(item.label)}
                       className={`menu-item-wrapper flex items-center gap-1 px-3 py-2 font-bold text-sm rounded-md transition-all cursor-pointer uppercase tracking-wide ${
-                        isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
+                        isItemActive ? 'bg-[#A41E22]' : 'hover:bg-white/10'
                       }`}
                       style={{ 
                         fontWeight: 600,
-                        color: isItemActive ? '#ffffff !important' : '#1a1a1a',
-                        backgroundColor: isItemActive ? '#6C1312' : 'transparent'
+                        color: '#ffffff',
+                        backgroundColor: isItemActive ? '#A41E22' : 'transparent'
                       }}
                     >
-                      <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
-                      <svg className="w-4 h-4 transition-transform duration-200" fill="none" stroke={isItemActive ? '#ffffff' : 'currentColor'} viewBox="0 0 24 24">
+                      <span className="menu-item-text" style={{ color: '#ffffff' }}>{item.label}</span>
+                      <svg className="w-4 h-4 transition-transform duration-200" fill="none" stroke='#ffffff' viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
                     
                     {/* Dropdown */}
                     {activeDropdown === item.label && (
-                      <div className="absolute top-full left-0 mt-1 py-2 min-w-[180px] rounded-md shadow-xl z-50 bg-white border border-gray-200">
+                      <div className="absolute top-full left-0 mt-1 py-2 min-w-[180px] rounded-md shadow-xl z-50" style={{ backgroundColor: '#6C1312', border: '1px solid rgba(255,255,255,0.2)' }}>
                         {item.childItems?.nodes.map((child, childIndex) => {
                           const isChildActive = isActive(child.url);
                           return (
@@ -811,15 +811,14 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                               key={childIndex}
                               href={child.url}
                               className={`menu-item-wrapper block px-4 py-2.5 font-bold text-sm transition-all no-underline uppercase tracking-wide ${
-                                isChildActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
+                                isChildActive ? 'bg-[#A41E22]' : 'hover:bg-white/10'
                               }`}
                             style={{ 
                               fontWeight: 600,
-                              color: isChildActive ? '#ffffff !important' : '#1a1a1a',
-                              backgroundColor: isChildActive ? '#6C1312' : 'transparent'
+                              color: '#ffffff'
                             }}
                           >
-                            <span className="menu-item-text" style={{ color: isChildActive ? '#ffffff !important' : '#1a1a1a' }}>{child.label}</span>
+                            <span className="menu-item-text" style={{ color: '#ffffff' }}>{child.label}</span>
                           </a>
                         );})}
                       </div>
@@ -829,15 +828,14 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                   <a
                     href={item.url}
                     className={`menu-item-wrapper px-3 py-2 font-bold text-sm rounded-md transition-all no-underline uppercase tracking-wide ${
-                      isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
+                      isItemActive ? 'bg-[#A41E22]' : 'hover:bg-white/10'
                     }`}
                     style={{ 
                       fontWeight: 600,
-                      color: isItemActive ? '#ffffff !important' : '#1a1a1a',
-                      backgroundColor: isItemActive ? '#6C1312' : 'transparent'
+                      color: '#ffffff'
                     }}
                   >
-                    <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
+                    <span className="menu-item-text" style={{ color: '#ffffff' }}>{item.label}</span>
                   </a>
                 )}
               </div>
