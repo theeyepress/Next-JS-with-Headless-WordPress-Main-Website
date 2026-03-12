@@ -190,7 +190,6 @@ a:hover {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  transform: none !important;
 }
 
 .slick-track::before,
@@ -260,11 +259,6 @@ a:hover {
 
 /* Mobile specific fixes */
 @media (max-width: 768px) {
-  .slick-slider .slick-track,
-  .slick-slider .slick-list {
-    transform: none !important;
-  }
-  
   .slick-track {
     display: flex !important;
   }
