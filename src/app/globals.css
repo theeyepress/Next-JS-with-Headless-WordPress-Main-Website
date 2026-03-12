@@ -157,7 +157,7 @@ a:hover {
   max-width: 1400px !important;
 }
 
-/* Slick Slider Fixes for Mobile */
+/* Slick Slider Fixes */
 .slick-slider {
   position: relative;
   display: block;
@@ -169,6 +169,10 @@ a:hover {
   -webkit-touch-callout: none;
   -khtml-user-select: none;
   touch-action: pan-y;
+}
+
+.slick-slider * {
+  box-sizing: border-box;
 }
 
 .slick-list {
@@ -186,6 +190,12 @@ a:hover {
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  transform: none !important;
+}
+
+.slick-track::before,
+.slick-track::after {
+  display: none;
 }
 
 .slick-slide {
@@ -197,6 +207,55 @@ a:hover {
 
 .slick-slide > div {
   width: 100%;
+  display: flex;
+}
+
+/* Slick arrows */
+.slick-prev,
+.slick-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(164, 30, 34, 0.9) !important;
+  color: white !important;
+  border: none;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background: #A41E22 !important;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slick-prev:focus,
+.slick-next:focus {
+  outline: none;
+  background: #A41E22 !important;
+}
+
+/* Hide arrows if no slides or only 1 slide */
+.slick-slider[data-single="true"] .slick-prev,
+.slick-slider[data-single="true"] .slick-next {
+  display: none !important;
 }
 
 /* Mobile specific fixes */
@@ -212,5 +271,20 @@ a:hover {
   
   .slick-slide {
     display: flex !important;
+  }
+  
+  .slick-prev,
+  .slick-next {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+  
+  .slick-prev {
+    left: 5px;
+  }
+  
+  .slick-next {
+    right: 5px;
   }
 }

@@ -416,11 +416,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           }
         }
         .ticker-animate {
-          animation: ticker-scroll 40s linear infinite;
+          animation: ticker-scroll 25s linear infinite;
         }
         @media (max-width: 768px) {
           .ticker-animate {
-            animation: ticker-scroll 20s linear infinite;
+            animation: ticker-scroll 15s linear infinite;
           }
         }
         .ticker-animate:hover {

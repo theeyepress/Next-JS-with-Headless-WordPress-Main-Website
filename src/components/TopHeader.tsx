@@ -56,18 +56,60 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   }, [locale]);
 
   const [staticDate, setStaticDate] = useState("");
+  const [dateSlides, setDateSlides] = useState<string[]>([]);
   
   // Parse date HTML on client only (DOMParser not available on server)
   useEffect(() => {
-    if (!dateTimeHTML) return;
+    if (!dateTimeHTML) {
+      const today = new Date();
+      const bnDates = [
+        getBengaliDate(today),
+        getBengaliDate(new Date(today.getTime() - 86400000)),
+        getBengaliDate(new Date(today.getTime() - 172800000))
+      ];
+      setDateSlides(bnDates);
+      return;
+    }
     const parser = new DOMParser();
     const doc = parser.parseFromString(dateTimeHTML, "text/html");
-    let dateSlide = doc.querySelector(".datetime-slide");
-    if (!dateSlide) {
-      dateSlide = doc.querySelector(".datetime-slide-en");
+    const slides = doc.querySelectorAll(".datetime-slide, .datetime-slide-en");
+    if (slides.length > 0) {
+      const dates = Array.from(slides).map(s => s.textContent?.trim() || "").filter(d => d);
+      setDateSlides(dates.length > 0 ? dates : [getBengaliDate(new Date())]);
+    } else {
+      let dateSlide = doc.querySelector(".datetime-slide");
+      if (!dateSlide) {
+        dateSlide = doc.querySelector(".datetime-slide-en");
+      }
+      const date = dateSlide?.textContent?.trim() || "";
+      setStaticDate(date);
+      if (date) {
+        setDateSlides([date, getBengaliDate(new Date())]);
+      } else {
+        setDateSlides([getBengaliDate(new Date())]);
+      }
     }
-    setStaticDate(dateSlide?.textContent?.trim() || "");
   }, [dateTimeHTML]);
+
+  function getBengaliDate(date: Date) {
+    const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+    const bnDays = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"];
+    const day = date.getDate();
+    const month = bnMonths[date.getMonth()];
+    const year = date.getFullYear();
+    const dayName = bnDays[date.getDay()];
+    return `${dayName}, ${day} ${month} ${year}`;
+  }
+
+  function getEnglishDate(date: Date) {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const dayName = days[date.getDay()];
+    return `${dayName}, ${month} ${day}, ${year}`;
+  }
 
   useEffect(() => {
     const bn_nums = ["০","১","২","৩","৪","৫","৬","৭","৮","৯"];
@@ -142,23 +184,43 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           }
         }
         .ticker-animate {
-          animation: ticker-scroll 60s linear infinite;
+          animation: ticker-scroll 35s linear infinite;
         }
         @media (max-width: 768px) {
           .ticker-animate {
-            animation: ticker-scroll 30s linear infinite;
+            animation: ticker-scroll 20s linear infinite;
           }
         }
         .ticker-animate:hover {
           animation-play-state: paused;
         }
         @keyframes slideVertical {
-          0%, 40% { transform: translateY(0); }
-          50%, 90% { transform: translateY(-100%); }
+          0% { transform: translateY(0); }
+          25% { transform: translateY(0); }
+          35% { transform: translateY(-100%); }
+          50% { transform: translateY(-100%); }
+          75% { transform: translateY(-200%); }
+          90% { transform: translateY(-200%); }
           100% { transform: translateY(0); }
         }
         .datetime-slider {
-          animation: slideVertical 8s ease-in-out infinite;
+          animation: slideVertical 12s ease-in-out infinite;
+        }
+        .datetime-slider:hover {
+          animation-play-state: paused;
+        }
+        @keyframes slideVerticalMobile {
+          0% { transform: translateX(0); }
+          20% { transform: translateX(0); }
+          30% { transform: translateX(-100%); }
+          80% { transform: translateX(-100%); }
+          90% { transform: translateX(0); }
+          100% { transform: translateX(0); }
+        }
+        @media (max-width: 768px) {
+          .datetime-slider {
+            animation: slideVerticalMobile 10s ease-in-out infinite;
+          }
         }
         @keyframes star-orbit {
           0% {
@@ -262,15 +324,24 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 
         {/* Right: Date/Time + Links - Show on all devices */}
         <div className="flex items-center gap-1 md:gap-3 lg:gap-4">
-          {/* Date/Time - Show on all devices including mobile */}
-          {(dateTimeHTML || staticDate) && (
+          {/* Date/Time - Show on all devices - both time and date */}
+          {(dateTimeHTML || dateSlides.length > 0 || currentTime) && (
             <div 
-              className="date-time text-xs md:text-sm whitespace-nowrap"
-              style={{ textAlign: "center", color: '#ffffff', fontSize: '10px', lineHeight: '1.2' }}
+              className="date-time text-xs md:text-sm whitespace-nowrap flex gap-1 md:gap-2"
+              style={{ color: '#ffffff' }}
             >
-              <div className="datetime-slider" style={{ height: '18px', overflow: 'hidden' }}>
-                <div style={{ color: '#ffffff', height: '18px', lineHeight: '18px' }}>{currentTime || "..."}</div>
-                <div style={{ color: '#ffffff', height: '18px', lineHeight: '18px' }}>{staticDate || "..."}</div>
+              <span style={{ color: '#ffffff' }}>{currentTime || "..."}</span>
+              <span style={{ color: '#ffffff' }}>|</span>
+              <div className="datetime-slider overflow-hidden h-[1.2em] flex flex-col">
+                {dateSlides.length > 0 ? (
+                  dateSlides.map((date, idx) => (
+                    <span key={idx} className="whitespace-nowrap" style={{ color: '#ffffff' }}>
+                      {locale === "bn" ? date : getEnglishDate(new Date())}
+                    </span>
+                  ))
+                ) : (
+                  <span style={{ color: '#ffffff' }}>{staticDate || "..."}</span>
+                )}
               </div>
             </div>
           )}

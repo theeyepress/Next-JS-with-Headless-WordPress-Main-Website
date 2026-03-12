@@ -1,7 +1,7 @@
 // src/components/VideoSlider.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "react-slick";
@@ -45,21 +45,25 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   className = "",
 }) => {
   const [currentVideo, setCurrentVideo] = useState<VideoPost | null>(null);
+  const sliderRef = React.useRef<Slider>(null);
 
   const settings = {
     dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 4,
+    infinite: videos && videos.length > 1,
+    speed: 500,
+    slidesToShow: Math.min(4, videos?.length || 1),
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
+    autoplay: videos && videos.length > 1,
+    autoplaySpeed: 3000,
     swipe: true,
     swipeToSlide: true,
     touchMove: true,
+    arrows: videos && videos.length > 1,
+    prevArrow: <button className="slick-prev" aria-label="Previous">‹</button>,
+    nextArrow: <button className="slick-next" aria-label="Next">›</button>,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 1024, settings: { slidesToShow: Math.min(3, videos?.length || 1) } },
+      { breakpoint: 768, settings: { slidesToShow: Math.min(2, videos?.length || 1), swipe: true, draggable: true } },
       { breakpoint: 480, settings: { slidesToShow: 1, swipe: true, draggable: true } },
     ],
   };
@@ -116,7 +120,11 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
         </h2>
       </div>
 
-      <Slider {...settings}>
+      <Slider 
+        ref={sliderRef} 
+        {...settings}
+        className={videos.length <= 1 ? "video-slider-single" : ""}
+      >
         {videos.map((video, index) => {
           const thumbnail = getThumbnail(video);
           const category = getCategory(video);
