@@ -47,18 +47,23 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   const [currentVideo, setCurrentVideo] = useState<VideoPost | null>(null);
   const sliderRef = React.useRef<Slider>(null);
 
+  const hasVideos = videos && videos.length > 0;
+  const hasMultipleVideos = videos && videos.length > 1;
+
   const settings = {
     dots: false,
-    infinite: videos && videos.length > 1,
+    infinite: hasMultipleVideos,
     speed: 500,
     slidesToShow: Math.min(4, videos?.length || 1),
     slidesToScroll: 1,
-    autoplay: videos && videos.length > 1,
-    autoplaySpeed: 3000,
+    autoplay: hasVideos,
+    autoplaySpeed: 3500,
     swipe: true,
     swipeToSlide: true,
     touchMove: true,
-    arrows: videos && videos.length > 1,
+    arrows: hasMultipleVideos,
+    pauseOnHover: true,
+    pauseOnDotsHover: true,
     prevArrow: <button className="slick-prev" aria-label="Previous">‹</button>,
     nextArrow: <button className="slick-next" aria-label="Next">›</button>,
     responsive: [

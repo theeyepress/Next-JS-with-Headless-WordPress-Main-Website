@@ -419,13 +419,13 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           overflow: visible;
         }
         .ticker-animate {
-          animation: ticker-scroll 25s linear infinite;
+          animation: ticker-scroll 50s linear infinite;
           display: inline-flex;
           flex-wrap: nowrap;
         }
         @media (max-width: 768px) {
           .ticker-animate {
-            animation: ticker-scroll 15s linear infinite;
+            animation: ticker-scroll 35s linear infinite;
           }
         }
         .ticker-animate:hover {

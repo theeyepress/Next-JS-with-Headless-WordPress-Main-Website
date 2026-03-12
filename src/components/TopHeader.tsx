@@ -64,8 +64,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       const today = new Date();
       const bnDates = [
         getBengaliDate(today),
-        getBengaliDate(new Date(today.getTime() - 86400000)),
-        getBengaliDate(new Date(today.getTime() - 172800000))
+        getBengaliDate(new Date(today.getTime() - 86400000))
       ];
       setDateSlides(bnDates);
       return;
@@ -75,7 +74,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     const slides = doc.querySelectorAll(".datetime-slide, .datetime-slide-en");
     if (slides.length > 0) {
       const dates = Array.from(slides).map(s => s.textContent?.trim() || "").filter(d => d);
-      setDateSlides(dates.length > 0 ? dates : [getBengaliDate(new Date())]);
+      if (dates.length > 1) {
+        setDateSlides(dates.slice(0, 2));
+      } else if (dates.length === 1) {
+        setDateSlides([dates[0], getBengaliDate(new Date())]);
+      } else {
+        setDateSlides([getBengaliDate(new Date()), getBengaliDate(new Date())]);
+      }
     } else {
       let dateSlide = doc.querySelector(".datetime-slide");
       if (!dateSlide) {
@@ -86,7 +91,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       if (date) {
         setDateSlides([date, getBengaliDate(new Date())]);
       } else {
-        setDateSlides([getBengaliDate(new Date())]);
+        setDateSlides([getBengaliDate(new Date()), getBengaliDate(new Date())]);
       }
     }
   }, [dateTimeHTML]);
@@ -187,29 +192,36 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           overflow: visible;
         }
         .ticker-animate {
-          animation: ticker-scroll 35s linear infinite;
+          animation: ticker-scroll 60s linear infinite;
           display: inline-flex;
           flex-wrap: nowrap;
         }
         @media (max-width: 768px) {
           .ticker-animate {
-            animation: ticker-scroll 20s linear infinite;
+            animation: ticker-scroll 40s linear infinite;
           }
         }
         .ticker-animate:hover {
           animation-play-state: paused;
         }
-        @keyframes slideVertical {
+        @keyframes dateScroll {
           0% { transform: translateY(0); }
-          25% { transform: translateY(0); }
-          35% { transform: translateY(-100%); }
-          50% { transform: translateY(-100%); }
-          75% { transform: translateY(-200%); }
-          90% { transform: translateY(-200%); }
+          10% { transform: translateY(0); }
+          45% { transform: translateY(-100%); }
+          55% { transform: translateY(-100%); }
+          90% { transform: translateY(0); }
           100% { transform: translateY(0); }
         }
         .datetime-slider {
-          animation: slideVertical 12s ease-in-out infinite;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+        .datetime-slider span {
+          flex-shrink: 0;
+        }
+        .datetime-slider.animating {
+          animation: dateScroll 8s ease-in-out infinite;
         }
         .datetime-slider:hover {
           animation-play-state: paused;
@@ -337,9 +349,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             >
               <span style={{ color: '#ffffff' }}>{currentTime || "..."}</span>
               <span style={{ color: '#ffffff' }}>|</span>
-              <div className="datetime-slider overflow-hidden h-[1.2em] flex flex-col">
+              <div className={`datetime-slider ${dateSlides.length > 1 ? 'animating' : ''}`}>
                 {dateSlides.length > 0 ? (
-                  dateSlides.map((date, idx) => (
+                  dateSlides.slice(0, 2).map((date, idx) => (
                     <span key={idx} className="whitespace-nowrap" style={{ color: '#ffffff' }}>
                       {locale === "bn" ? date : getEnglishDate(new Date())}
                     </span>
