@@ -11,6 +11,13 @@
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
+  overflow-y: auto;
+}
+
+/* Ensure sticky works properly */
+.sticky {
+  position: sticky;
+  top: 0;
 }
 
 /* Box sizing for all */
