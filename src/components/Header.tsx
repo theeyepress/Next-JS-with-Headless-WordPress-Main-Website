@@ -409,14 +409,19 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       <style jsx global>{`
         @keyframes ticker-scroll {
           0% {
-            transform: translate3d(0, 0, 0);
+            transform: translateX(0);
           }
           100% {
-            transform: translate3d(-50%, 0, 0);
+            transform: translateX(-50%);
           }
+        }
+        .ticker-track {
+          overflow: visible;
         }
         .ticker-animate {
           animation: ticker-scroll 25s linear infinite;
+          display: inline-flex;
+          flex-wrap: nowrap;
         }
         @media (max-width: 768px) {
           .ticker-animate {

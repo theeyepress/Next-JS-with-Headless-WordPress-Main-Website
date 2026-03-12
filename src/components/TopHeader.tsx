@@ -177,14 +177,19 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       <style jsx global>{`
         @keyframes ticker-scroll {
           0% {
-            transform: translate3d(0, 0, 0);
+            transform: translateX(0);
           }
           100% {
-            transform: translate3d(-66.67%, 0, 0);
+            transform: translateX(-50%);
           }
+        }
+        .ticker-track {
+          overflow: visible;
         }
         .ticker-animate {
           animation: ticker-scroll 35s linear infinite;
+          display: inline-flex;
+          flex-wrap: nowrap;
         }
         @media (max-width: 768px) {
           .ticker-animate {
