@@ -123,6 +123,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       return num.toString().split("").map(n => bn_nums[parseInt(n)] || n).join("");
     }
 
+    const translations = {
+      bn: { now: "এখন", morning: "সকাল", noon: "দুপুর", afternoon: "বিকেল", evening: "সন্ধ্যা", night: "রাত" },
+      en: { now: "Now", morning: "Morning", noon: "Noon", afternoon: "Afternoon", evening: "Evening", night: "Night" }
+    };
+
     function updateTime() {
       const now = new Date();
       const hours24 = now.getHours();
@@ -137,7 +142,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       else if (hours24 >= 18 && hours24 < 20) periodKey = "evening";
       else periodKey = "night";
 
-      const period = t(periodKey);
+      const trans = translations[locale as keyof typeof translations] || translations.bn;
+      const period = trans[periodKey as keyof typeof trans];
+      const nowText = trans.now;
 
       const hrStr = hours < 10 ? "0" + hours : hours.toString();
       const minStr = minutes < 10 ? "0" + minutes : minutes.toString();
@@ -145,13 +152,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
 
       const timeStr = `${toBn(parseInt(hrStr))}:${toBn(parseInt(minStr))}:${toBn(parseInt(secStr))}`;
 
-      setCurrentTime(`${t('now')} ${period} - ${timeStr}`);
+      setCurrentTime(`${nowText} ${period} - ${timeStr}`);
     }
 
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, [t, locale]);
+  }, [locale]);
 
   // Parse ticker HTML fallback on client only
   const [parsedTickerItems, setParsedTickerItems] = useState<TickerItem[]>([]);
