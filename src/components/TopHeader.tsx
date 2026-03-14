@@ -1,7 +1,7 @@
 // src/components/TopHeader.tsx
 "use client";
 
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -38,6 +38,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const t = useTranslations("TopHeader");
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
+  const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
 
   // Fetch ticker from REST API
   useEffect(() => {
