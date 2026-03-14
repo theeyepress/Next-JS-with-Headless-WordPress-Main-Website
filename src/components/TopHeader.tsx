@@ -33,19 +33,24 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   menuItems = [],
 }) => {
   const t = useTranslations("TopHeader");
-  const locale = useLocale();
+  const currentLocale = useLocale();
+  const [locale, setLocale] = useState(currentLocale);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
-  const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
+
+  // Sync locale state with next-intl
+  useEffect(() => {
+    setLocale(currentLocale);
+  }, [currentLocale]);
 
   // Fetch ticker from REST API
   useEffect(() => {
     async function fetchTicker() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${locale}&count=10`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${currentLocale}&count=10`);
         if (res.ok) {
           const data = await res.json();
-          console.log(`Ticker fetched for ${locale}:`, data.length, 'posts');
+          console.log(`Ticker fetched for ${currentLocale}:`, data.length, 'posts');
           setTickerItems(data);
         }
       } catch (e) {
@@ -53,7 +58,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       }
     }
     fetchTicker();
-  }, [locale]);
+  }, [currentLocale]);
 
   const [staticDate, setStaticDate] = useState("");
   const [dateSlides, setDateSlides] = useState<string[]>([]);
@@ -77,9 +82,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       if (dates.length > 1) {
         setDateSlides(dates.slice(0, 2));
       } else if (dates.length === 1) {
-        setDateSlides([dates[0], getBengaliDate(new Date())]);
+        setDateSlides([dates[0], currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       } else {
-        setDateSlides([getBengaliDate(new Date()), getBengaliDate(new Date())]);
+        setDateSlides([currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       }
     } else {
       let dateSlide = doc.querySelector(".datetime-slide");
@@ -89,12 +94,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       const date = dateSlide?.textContent?.trim() || "";
       setStaticDate(date);
       if (date) {
-        setDateSlides([date, getBengaliDate(new Date())]);
+        setDateSlides([date, currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       } else {
-        setDateSlides([getBengaliDate(new Date()), getBengaliDate(new Date())]);
+        setDateSlides([currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       }
     }
-  }, [dateTimeHTML]);
+  }, [dateTimeHTML, currentLocale]);
 
   function getBengaliDate(date: Date) {
     const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
@@ -143,7 +148,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       const minStr = minutes < 10 ? "0" + minutes : minutes.toString();
       const secStr = seconds < 10 ? "0" + seconds : seconds.toString();
 
-      const timeStr = locale === "bn" 
+      const timeStr = currentLocale === "bn" 
         ? `${toBn(parseInt(hrStr))}:${toBn(parseInt(minStr))}:${toBn(parseInt(secStr))}`
         : `${hrStr}:${minStr}:${secStr}`;
 
@@ -153,7 +158,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, [t, locale]);
+  }, [t, currentLocale]);
 
   // Parse ticker HTML fallback on client only
   const [parsedTickerItems, setParsedTickerItems] = useState<TickerItem[]>([]);
@@ -335,7 +340,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </div>
                 {/* Slide 2: Date */}
                 <div className="h-[1.5em]" style={{ color: '#ffffff' }}>
-                  {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
+                  {currentLocale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
                 </div>
               </div>
             </div>
