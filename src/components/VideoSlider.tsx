@@ -216,29 +216,32 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
       {/* Video Player Modal for Self-hosted and Post videos */}
       {currentVideo && (
         <>
-          {/* Background fade overlay */}
+          {/* Background fade overlay with blur */}
           <div 
-            className="fixed inset-0 bg-black/70 z-[9998] transition-opacity"
+            className="fixed inset-0 z-[9980] bg-black/60 backdrop-blur-md"
             onClick={() => setCurrentVideo(null)}
           />
-          {/* Video modal */}
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 pointer-events-none">
-            <div className="relative w-full max-w-5xl bg-black rounded-lg overflow-hidden pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+          {/* Video modal - below header, above content */}
+          <div className="fixed inset-x-0 top-[100px] bottom-[80px] z-[9981] flex items-center justify-center p-4 md:p-8 overflow-hidden">
+            <div 
+              className="relative w-full max-w-5xl h-full max-h-[80vh] bg-black rounded-xl overflow-hidden shadow-2xl" 
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Close button */}
               <button
                 onClick={() => setCurrentVideo(null)}
-                className="absolute top-2 right-2 md:top-4 md:right-4 z-10 w-8 h-8 md:w-10 md:h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-lg md:text-xl font-bold transition-colors"
+                className="absolute top-3 right-3 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 rounded-full flex items-center justify-center text-white text-2xl font-bold transition-all backdrop-blur-sm"
               >
                 ✕
               </button>
               
               {/* Video player */}
-              <div className="relative aspect-video">
+              <div className="w-full h-full bg-black flex items-center justify-center">
                 <video
                   src={currentVideo.url || currentVideo.embedUrl}
                   controls
                   autoPlay
-                  className="w-full h-full"
+                  className="w-full h-full max-h-[70vh] object-contain"
                 >
                   Your browser does not support the video tag.
                 </video>
@@ -246,10 +249,10 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
               
               {/* Video info */}
               {currentVideo.title && (
-                <div className="p-3 md:p-4 bg-white">
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900">{currentVideo.title}</h3>
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
+                  <h3 className="text-white text-lg md:text-xl font-bold">{currentVideo.title}</h3>
                   {currentVideo.excerpt && (
-                    <p className="text-gray-600 mt-1 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
+                    <p className="text-gray-300 mt-1 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
                   )}
                 </div>
               )}
