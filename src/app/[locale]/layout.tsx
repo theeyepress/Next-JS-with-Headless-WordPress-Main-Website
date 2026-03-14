@@ -194,17 +194,15 @@ export default async function LocaleLayout({
               menuItems={menuItems}
             />
 
-            <div className="sticky top-0 z-50">
-              <Header 
-                siteOptions={{ 
-                  logo: logoFromRest || "",
-                  urgentNotice: urgentNoticeFromRest,
-                  siteIcon: siteIconFromRest || logoFromRest || ""
-                }} 
-                menuItems={menuItems}
+            <Header 
+              siteOptions={{ 
+                logo: logoFromRest || "",
+                urgentNotice: urgentNoticeFromRest,
+                siteIcon: siteIconFromRest || logoFromRest || ""
+              }} 
+              menuItems={menuItems}
                 languages={languages}
               />
-            </div>
 
             {children}
 

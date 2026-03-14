@@ -16,8 +16,9 @@ html, body {
 
 /* Ensure sticky works properly */
 .sticky {
-  position: sticky;
-  top: 0;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
 }
 
 /* Box sizing for all */
