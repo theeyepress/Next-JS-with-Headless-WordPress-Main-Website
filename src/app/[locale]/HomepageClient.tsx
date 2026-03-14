@@ -91,6 +91,27 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
   const [videos, setVideos] = useState<VideoPost[]>(initialVideos);
   const [ads, setAds] = useState<AdConfig[]>(initialAds);
   const [loading, setLoading] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState<VideoPost | null>(null);
+
+  // Function to open video modal - exposed to children
+  const openVideoModal = (video: VideoPost) => {
+    if (video.type === "youtube") {
+      window.open(video.watchUrl || `https://www.youtube.com/watch?v=${video.videoId}`, "_blank");
+    } else if (video.type === "self-hosted" || video.type === "selfhosted") {
+      setCurrentVideo(video);
+    } else if (video.type === "post") {
+      if (video.embedUrl || video.url) {
+        setCurrentVideo(video);
+      } else if (video.slug) {
+        window.open(`/${locale}/${encodeURIComponent(video.slug)}`, "_self");
+      }
+    }
+  };
+
+  // Function to close video modal
+  const closeVideoModal = () => {
+    setCurrentVideo(null);
+  };
 
   // Helper function to get ad by slot number
   const getAdBySlot = (slotNum: number) => {
@@ -267,7 +288,12 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       {/* Video Section - Show message if no videos */}
       <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
         {videos && videos.length > 0 ? (
-          <VideoSlider videos={videos} locale={locale} />
+          <VideoSlider 
+            videos={videos} 
+            locale={locale}
+            currentVideo={currentVideo}
+            onVideoClose={closeVideoModal}
+          />
         ) : (
           <div className="bg-gray-100 rounded-lg p-6 md:p-8 text-center">
             <p className="text-gray-700">
@@ -588,6 +614,67 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             className="rounded-lg" 
           />
         </section>
+      )}
+
+      {/* Full Page Video Modal with Backdrop Blur */}
+      {currentVideo && (
+        <>
+          {/* Backdrop blur overlay - covers entire viewport */}
+          <div 
+            className="fixed inset-0 z-[9980] bg-black/70 backdrop-blur-lg"
+            onClick={closeVideoModal}
+          />
+          {/* Video modal container */}
+          <div className="fixed inset-0 z-[9981] flex items-center justify-center p-4 md:p-6 lg:p-8 pointer-events-none">
+            <div 
+              className="relative w-full max-w-6xl h-full max-h-[85vh] bg-black rounded-2xl overflow-hidden shadow-2xl pointer-events-auto flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={closeVideoModal}
+                className="absolute top-3 right-3 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white text-xl md:text-2xl font-bold transition-all backdrop-blur-md border border-white/20"
+              >
+                ✕
+              </button>
+              
+              {/* Video player */}
+              <div className="flex-1 bg-black flex items-center justify-center min-h-0">
+                {(currentVideo.type === "self-hosted" || currentVideo.type === "selfhosted") ? (
+                  <video
+                    src={currentVideo.url || currentVideo.embedUrl}
+                    controls
+                    autoPlay
+                    className="w-full h-full max-h-[75vh] object-contain"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                ) : currentVideo.embedUrl ? (
+                  <iframe
+                    src={currentVideo.embedUrl}
+                    className="w-full h-full max-h-[75vh]"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-white">Video URL not available</p>
+                  </div>
+                )}
+              </div>
+              
+              {/* Video info */}
+              {currentVideo.title && (
+                <div className="flex-shrink-0 p-4 md:p-6 bg-gradient-to-t from-black/95 via-black/80 to-transparent">
+                  <h3 className="text-white text-lg md:text-2xl font-bold">{currentVideo.title}</h3>
+                  {currentVideo.excerpt && (
+                    <p className="text-gray-300 mt-1 md:mt-2 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </>
       )}
 
     </main>

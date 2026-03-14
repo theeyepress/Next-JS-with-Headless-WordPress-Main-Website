@@ -37,15 +37,23 @@ type VideoSliderProps = {
   videos: VideoPost[];
   locale?: string;
   className?: string;
+  currentVideo?: VideoPost | null;
+  onVideoClose?: () => void;
 };
 
 const VideoSlider: React.FC<VideoSliderProps> = ({
   videos,
   locale = "bn",
   className = "",
+  currentVideo: externalCurrentVideo,
+  onVideoClose,
 }) => {
   console.log("VideoSlider received videos:", videos);
-  const [currentVideo, setCurrentVideo] = useState<VideoPost | null>(null);
+  const [internalCurrentVideo, setInternalCurrentVideo] = useState<VideoPost | null>(null);
+  const currentVideo = externalCurrentVideo ?? internalCurrentVideo;
+  const setCurrentVideo = externalCurrentVideo !== undefined 
+    ? (() => {}) 
+    : setInternalCurrentVideo;
   const sliderRef = React.useRef<Slider>(null);
 
   const hasVideos = videos && videos.length > 0;
@@ -213,13 +221,13 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
         })}
       </Slider>
 
-      {/* Video Player Modal for Self-hosted and Post videos */}
-      {currentVideo && (
+      {/* Video Player Modal for Self-hosted and Post videos - Only show if no external props */}
+      {!externalCurrentVideo && internalCurrentVideo && (
         <>
-          {/* Background fade overlay with blur */}
+          {/* Background fade overlay with blur - covers entire page */}
           <div 
             className="fixed inset-0 z-[9980] bg-black/60 backdrop-blur-md"
-            onClick={() => setCurrentVideo(null)}
+            onClick={() => onVideoClose ? onVideoClose() : setInternalCurrentVideo(null)}
           />
           {/* Video modal - below header, above content */}
           <div className="fixed inset-x-0 top-[100px] bottom-[80px] z-[9981] flex items-center justify-center p-4 md:p-8 overflow-hidden">
@@ -229,7 +237,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
             >
               {/* Close button */}
               <button
-                onClick={() => setCurrentVideo(null)}
+                onClick={() => onVideoClose ? onVideoClose() : setInternalCurrentVideo(null)}
                 className="absolute top-3 right-3 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 rounded-full flex items-center justify-center text-white text-2xl font-bold transition-all backdrop-blur-sm"
               >
                 ✕
@@ -238,7 +246,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
               {/* Video player */}
               <div className="w-full h-full bg-black flex items-center justify-center">
                 <video
-                  src={currentVideo.url || currentVideo.embedUrl}
+                  src={internalCurrentVideo.url || internalCurrentVideo.embedUrl}
                   controls
                   autoPlay
                   className="w-full h-full max-h-[70vh] object-contain"
@@ -248,11 +256,11 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
               </div>
               
               {/* Video info */}
-              {currentVideo.title && (
+              {internalCurrentVideo.title && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
-                  <h3 className="text-white text-lg md:text-xl font-bold">{currentVideo.title}</h3>
-                  {currentVideo.excerpt && (
-                    <p className="text-gray-300 mt-1 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
+                  <h3 className="text-white text-lg md:text-xl font-bold">{internalCurrentVideo.title}</h3>
+                  {internalCurrentVideo.excerpt && (
+                    <p className="text-gray-300 mt-1 text-sm md:text-base line-clamp-2">{internalCurrentVideo.excerpt}</p>
                   )}
                 </div>
               )}
