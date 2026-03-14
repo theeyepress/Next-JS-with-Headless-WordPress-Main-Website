@@ -44,6 +44,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   locale = "bn",
   className = "",
 }) => {
+  console.log("VideoSlider received videos:", videos);
   const [currentVideo, setCurrentVideo] = useState<VideoPost | null>(null);
   const sliderRef = React.useRef<Slider>(null);
 

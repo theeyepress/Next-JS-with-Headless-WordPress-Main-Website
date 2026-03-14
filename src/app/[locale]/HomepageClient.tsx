@@ -85,6 +85,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
   heroPosts = [], trendingPosts = [], popularPosts = [], editorsChoicePosts = [], latestPosts = [],
   initialVideos = [], initialAds = []
 }) => {
+  console.log("Initial videos received:", initialVideos);
   const sectionsRef = useRef<HTMLDivElement>(null);
   const [categories, setCategories] = useState<Category[]>(menuCategories);
   const [videos, setVideos] = useState<VideoPost[]>(initialVideos);
