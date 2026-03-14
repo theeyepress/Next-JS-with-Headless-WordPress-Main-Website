@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 
 type TickerItem = {
@@ -34,8 +33,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   menuItems = [],
 }) => {
   const pathname = usePathname();
-  const locale = pathname?.split('/')[1] || 'bn';
-  const t = useTranslations("TopHeader");
+  const currentLocale = pathname ? pathname.split('/')[1] : 'bn';
+  const isEnglish = currentLocale === 'en';
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
   const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
@@ -44,10 +43,10 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   useEffect(() => {
     async function fetchTicker() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${locale}&count=10`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${currentLocale}&count=10`);
         if (res.ok) {
           const data = await res.json();
-          console.log(`Ticker fetched for ${locale}:`, data.length, 'posts');
+          console.log(`Ticker fetched for ${currentLocale}:`, data.length, 'posts');
           setTickerItems(data);
         }
       } catch (e) {
@@ -55,7 +54,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       }
     }
     fetchTicker();
-  }, [locale]);
+  }, [currentLocale]);
 
   const [dateSlides, setDateSlides] = useState<string[]>([]);
   
@@ -78,9 +77,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       if (dates.length > 1) {
         setDateSlides(dates.slice(0, 2));
       } else if (dates.length === 1) {
-        setDateSlides([dates[0], locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([dates[0], currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       } else {
-        setDateSlides([locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       }
     } else {
       let dateSlide = doc.querySelector(".datetime-slide");
@@ -89,12 +88,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       }
       const date = dateSlide?.textContent?.trim() || "";
       if (date) {
-        setDateSlides([date, locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([date, currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       } else {
-        setDateSlides([locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       }
     }
-  }, [dateTimeHTML, locale]);
+  }, [dateTimeHTML, currentLocale]);
 
   function getBengaliDate(date: Date) {
     const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
@@ -142,7 +141,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       else if (hours24 >= 18 && hours24 < 20) periodKey = "evening";
       else periodKey = "night";
 
-      const trans = translations[locale as keyof typeof translations] || translations.bn;
+      const trans = isEnglish ? translations.en : translations.bn;
       const period = trans[periodKey as keyof typeof trans];
       const nowText = trans.now;
 
@@ -158,7 +157,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, [locale]);
+  }, [isEnglish]);
 
   // Parse ticker HTML fallback on client only
   const [parsedTickerItems, setParsedTickerItems] = useState<TickerItem[]>([]);
@@ -340,12 +339,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </div>
                 {/* Slide 2: Date */}
                 <div className="h-[1.5em]" style={{ color: '#ffffff' }}>
-                  {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
+                  {currentLocale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
                 </div>
               </div>
             </div>
           )}
-          <AuthButtons locale={locale} />
+          <AuthButtons currentLocale={currentLocale} />
         </div>
       </div>
 
@@ -354,7 +353,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[100]" onClick={() => setIsSideNavOpen(false)}>
           <div className="fixed left-0 top-0 w-[280px] sm:w-[320px] h-full bg-white shadow-xl overflow-y-auto z-[101]" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <Link href={`/${locale}`} className="flex items-center gap-3" onClick={() => setIsSideNavOpen(false)}>
+              <Link href={`/${currentLocale}`} className="flex items-center gap-3" onClick={() => setIsSideNavOpen(false)}>
                 <Image src={siteIconUrl} alt="Site Icon" width={40} height={40} className="w-10 h-10 object-contain" />
                 <span className="text-lg font-bold text-[#A41E22]">The EyePress</span>
               </Link>
@@ -369,7 +368,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </div>
             <nav className="flex flex-col p-4">
               <Link 
-                href={`/${locale}`} 
+                href={`/${currentLocale}`} 
                 className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
                 onClick={() => setIsSideNavOpen(false)}
               >
@@ -379,14 +378,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 {t('home')}
               </Link>
               <Link 
-                href={`/${locale}/about`} 
+                href={`/${currentLocale}/about`} 
                 className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
                 onClick={() => setIsSideNavOpen(false)}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                {locale === 'bn' ? 'আমাদের সম্পর্কে' : 'About Us'}
+                {currentLocale === 'bn' ? 'আমাদের সম্পর্কে' : 'About Us'}
               </Link>
               
               {/* Dynamic Menu Categories */}
@@ -394,7 +393,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 <>
                   <div className="border-t border-gray-200 my-2"></div>
                   <p className="px-4 py-2 text-xs font-bold text-gray-500 uppercase">
-                    {locale === 'bn' ? 'বিভাগসমূহ' : 'Categories'}
+                    {currentLocale === 'bn' ? 'বিভাগসমূহ' : 'Categories'}
                   </p>
                   {menuItems.map((item, index) => (
                     <Link 
@@ -414,24 +413,24 @@ const TopHeader: React.FC<TopHeaderProps> = ({
               
               <div className="border-t border-gray-200 my-2"></div>
               <Link 
-                href={`/${locale}/contact`} 
+                href={`/${currentLocale}/contact`} 
                 className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
                 onClick={() => setIsSideNavOpen(false)}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                {locale === 'bn' ? 'যোগাযোগ' : 'Contact'}
+                {currentLocale === 'bn' ? 'যোগাযোগ' : 'Contact'}
               </Link>
               <Link 
-                href={`/${locale}/subscribe`} 
+                href={`/${currentLocale}/subscribe`} 
                 className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
                 onClick={() => setIsSideNavOpen(false)}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-                {locale === 'bn' ? 'সাবস্ক্রাইব' : 'Subscribe'}
+                {currentLocale === 'bn' ? 'সাবস্ক্রাইব' : 'Subscribe'}
               </Link>
             </nav>
           </div>
@@ -441,7 +440,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   );
 };
 
-const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
+const AuthButtons: React.FC<{ currentLocale: string }> = ({ currentLocale }) => {
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasChecked, setHasChecked] = useState(false);
@@ -481,7 +480,7 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
     localStorage.removeItem('wp_token');
     localStorage.removeItem('wp_user');
     setUser(null);
-    window.location.href = `/${locale}`;
+    window.location.href = `/${currentLocale}`;
   };
 
   if (isLoading || !hasChecked) {
@@ -496,7 +495,7 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
     return (
       <div className="flex items-center gap-1 sm:gap-3">
         <Link
-          href={`/${locale}/profile`}
+          href={`/${currentLocale}/profile`}
           className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity"
         >
           {user.avatar ? (
@@ -518,7 +517,7 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
           onClick={handleLogout}
           className="bg-white text-[#a41e22] px-2 sm:px-3 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#a41e22] hover:text-white border border-[#a41e22]"
         >
-          <span className="hidden sm:inline">{locale === 'bn' ? "লগআউট" : "Logout"}</span>
+          <span className="hidden sm:inline">{currentLocale === 'bn' ? "লগআউট" : "Logout"}</span>
           <span className="sm:hidden">↪</span>
         </button>
       </div>
@@ -528,17 +527,17 @@ const AuthButtons: React.FC<{ locale: string }> = ({ locale }) => {
   return (
     <>
       <Link
-        href={`/${locale}/login`}
+        href={`/${currentLocale}/login`}
         className="bg-white text-[#a41e22] px-2 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#a41e22] hover:text-white border border-[#a41e22]"
       >
-        <span className="hidden xs:inline">{locale === 'bn' ? "লগইন" : "Login"}</span>
+        <span className="hidden xs:inline">{currentLocale === 'bn' ? "লগইন" : "Login"}</span>
         <span className="xs:hidden">👤</span>
       </Link>
       <Link
-        href={`/${locale}/register`}
+        href={`/${currentLocale}/register`}
         className="hidden sm:inline-flex bg-[#a41e22] text-white px-3 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer ml-1 sm:ml-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#6c1312]"
       >
-        {locale === 'bn' ? "নিবন্ধন" : "Register"}
+        {currentLocale === 'bn' ? "নিবন্ধন" : "Register"}
       </Link>
     </>
   );
