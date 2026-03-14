@@ -185,7 +185,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${notoSansBengali.variable} antialiased`} suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={messages} locale={validLocale}>
           <Providers>
             <TopHeader
               siteIconUrl={siteIconFromRest || logoFromRest || "/default-icon.png"}
