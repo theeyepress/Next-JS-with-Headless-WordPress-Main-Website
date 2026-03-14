@@ -184,13 +184,13 @@ function SearchContent({ locale }: SearchClientProps) {
                   >
                     <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
                       {/* Featured Image */}
-                      <div className="relative h-52 overflow-hidden bg-gray-100">
+                      <div className="relative h-52 overflow-hidden">
                         {post.featuredImage?.node?.sourceUrl ? (
                           <div className="relative h-full">
                             <img 
                               src={post.featuredImage.node.sourceUrl} 
                               alt={post.featuredImage.node.altText || post.title}
-                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                           </div>

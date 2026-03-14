@@ -229,12 +229,12 @@ const SinglePostClient: React.FC<SinglePostClientProps> = ({
             </header>
 
             {post.featuredImage?.node?.sourceUrl && (
-              <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden bg-gray-100">
+              <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden">
                 <Image
                   src={post.featuredImage.node.sourceUrl}
                   alt={post.featuredImage.node.altText || post.title}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   priority
                 />
               </div>

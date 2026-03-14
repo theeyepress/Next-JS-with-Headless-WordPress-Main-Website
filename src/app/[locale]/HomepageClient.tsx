@@ -319,12 +319,12 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             {/* Large Featured Post */}
             <div className="lg:col-span-2 h-full">
               <Link href={`/${locale}/${displayTrendingPosts[0]?.slug}`} className="group block">
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100">
+                <div className="relative aspect-video rounded-lg overflow-hidden">
                   {displayTrendingPosts[0]?.featuredImage?.node?.sourceUrl ? (
                     <img 
                       src={displayTrendingPosts[0].featuredImage.node.sourceUrl} 
                       alt={displayTrendingPosts[0].featuredImage.node.altText || displayTrendingPosts[0].title}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-300 flex items-center justify-center">
@@ -352,12 +352,12 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             <div className="flex flex-col gap-2 md:gap-4 h-full">
               {displayTrendingPosts.slice(1, 5).map((post) => (
                 <Link key={post.id} href={`/${locale}/${post.slug}`} className="group flex gap-2 md:gap-3 items-center flex-1">
-                  <div className="w-16 md:w-24 h-14 md:h-20 flex-shrink-0 rounded overflow-hidden bg-gray-100">
+                  <div className="w-16 md:w-24 h-14 md:h-20 flex-shrink-0 rounded overflow-hidden">
                     {post?.featuredImage?.node?.sourceUrl ? (
                       <img 
                         src={post.featuredImage.node.sourceUrl} 
                         alt={post.featuredImage.node.altText || post.title}
-                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-300" />
@@ -396,12 +396,12 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
                 href={`/${locale}/${post.slug}`} 
                 className="group flex items-center gap-2 md:gap-4 p-2 md:p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
               >
-                <div className="w-14 md:w-20 h-12 md:h-16 flex-shrink-0 rounded overflow-hidden bg-gray-100">
+                <div className="w-14 md:w-20 h-12 md:h-16 flex-shrink-0 rounded overflow-hidden">
                   {post?.featuredImage?.node?.sourceUrl ? (
                     <img 
                       src={post.featuredImage.node.sourceUrl} 
                       alt={post.featuredImage.node.altText || post.title}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-300" />
@@ -442,12 +442,12 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {displayEditorsChoice.slice(0, 6).map((post) => (
               <Link key={post.id} href={`/${locale}/${post.slug}`} className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="aspect-video overflow-hidden bg-gray-100">
+                <div className="aspect-video overflow-hidden">
                   {post?.featuredImage?.node?.sourceUrl ? (
                     <img 
                       src={post.featuredImage.node.sourceUrl} 
                       alt={post.featuredImage.node.altText || post.title}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-300 flex items-center justify-center">
