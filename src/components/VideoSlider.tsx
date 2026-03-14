@@ -215,42 +215,47 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
 
       {/* Video Player Modal for Self-hosted and Post videos */}
       {currentVideo && (
-        <div 
-          className="fixed inset-0 bg-black/95 z-[9999] flex items-center justify-center p-2 md:p-4"
-          onClick={() => setCurrentVideo(null)}
-        >
-          <div className="relative w-full max-w-5xl bg-black rounded-lg overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            {/* Close button */}
-            <button
-              onClick={() => setCurrentVideo(null)}
-              className="absolute top-2 right-2 md:top-4 md:right-4 z-10 w-8 h-8 md:w-10 md:h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-lg md:text-xl font-bold transition-colors"
-            >
-              ✕
-            </button>
-            
-            {/* Video player */}
-            <div className="relative aspect-video">
-              <video
-                src={currentVideo.url || currentVideo.embedUrl}
-                controls
-                autoPlay
-                className="w-full h-full"
+        <>
+          {/* Background fade overlay */}
+          <div 
+            className="fixed inset-0 bg-black/70 z-[9998] transition-opacity"
+            onClick={() => setCurrentVideo(null)}
+          />
+          {/* Video modal */}
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 pointer-events-none">
+            <div className="relative w-full max-w-5xl bg-black rounded-lg overflow-hidden pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+              {/* Close button */}
+              <button
+                onClick={() => setCurrentVideo(null)}
+                className="absolute top-2 right-2 md:top-4 md:right-4 z-10 w-8 h-8 md:w-10 md:h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-lg md:text-xl font-bold transition-colors"
               >
-                Your browser does not support the video tag.
-              </video>
-            </div>
-            
-            {/* Video info */}
-            {currentVideo.title && (
-              <div className="p-3 md:p-4 bg-white">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900">{currentVideo.title}</h3>
-                {currentVideo.excerpt && (
-                  <p className="text-gray-600 mt-1 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
-                )}
+                ✕
+              </button>
+              
+              {/* Video player */}
+              <div className="relative aspect-video">
+                <video
+                  src={currentVideo.url || currentVideo.embedUrl}
+                  controls
+                  autoPlay
+                  className="w-full h-full"
+                >
+                  Your browser does not support the video tag.
+                </video>
               </div>
-            )}
+              
+              {/* Video info */}
+              {currentVideo.title && (
+                <div className="p-3 md:p-4 bg-white">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900">{currentVideo.title}</h3>
+                  {currentVideo.excerpt && (
+                    <p className="text-gray-600 mt-1 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
