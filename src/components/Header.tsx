@@ -629,7 +629,6 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        id="main-header"
         className="w-full bg-white shadow-md sticky top-0 z-50"
         ref={dropdownRef}
       >
