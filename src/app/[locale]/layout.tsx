@@ -187,24 +187,22 @@ export default async function LocaleLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${notoSansBengali.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={validLocale}>
           <Providers>
-            <div className="sticky top-0 z-[100]">
-              <TopHeader
-                siteIconUrl={siteIconFromRest || logoFromRest || "/default-icon.png"}
-                tickerHTML={tickerHTMLFromRest}
-                dateTimeHTML={dateTimeHTMLFromRest}
-                menuItems={menuItems}
-              />
+            <TopHeader
+              siteIconUrl={siteIconFromRest || logoFromRest || "/default-icon.png"}
+              tickerHTML={tickerHTMLFromRest}
+              dateTimeHTML={dateTimeHTMLFromRest}
+              menuItems={menuItems}
+            />
 
-              <Header 
-                siteOptions={{ 
-                  logo: logoFromRest || "",
-                  urgentNotice: urgentNoticeFromRest,
-                  siteIcon: siteIconFromRest || logoFromRest || ""
-                }} 
-                menuItems={menuItems}
+            <Header 
+              siteOptions={{ 
+                logo: logoFromRest || "",
+                urgentNotice: urgentNoticeFromRest,
+                siteIcon: siteIconFromRest || logoFromRest || ""
+              }} 
+              menuItems={menuItems}
                 languages={languages}
               />
-            </div>
 
             {children}
 
