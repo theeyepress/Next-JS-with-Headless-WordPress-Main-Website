@@ -205,45 +205,20 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         .ticker-animate:hover {
           animation-play-state: paused;
         }
-        @keyframes dateTimeSlideUp {
-          0% { 
-            transform: translateY(0);
-          }
-          40% { 
-            transform: translateY(0);
-          }
-          50% { 
-            transform: translateY(-100%);
-          }
-          90% { 
-            transform: translateY(-100%);
-          }
-          100% { 
-            transform: translateY(0);
-          }
+        @keyframes slideVertical {
+          0%, 40% { transform: translateY(0); }
+          50%, 90% { transform: translateY(-100%); }
+          100% { transform: translateY(0); }
         }
         .datetime-slider {
-          display: block;
-          overflow: hidden;
-          height: 1.5em;
-        }
-        .datetime-slider.animating {
-          animation: dateTimeSlideUp 8s ease-in-out infinite;
+          animation: slideVertical 8s ease-in-out infinite;
         }
         .datetime-slider:hover {
           animation-play-state: paused;
         }
-        @keyframes slideVerticalMobile {
-          0% { transform: translateX(0); }
-          20% { transform: translateX(0); }
-          30% { transform: translateX(-100%); }
-          80% { transform: translateX(-100%); }
-          90% { transform: translateX(0); }
-          100% { transform: translateX(0); }
-        }
         @media (max-width: 768px) {
           .datetime-slider {
-            animation: slideVerticalMobile 10s ease-in-out infinite;
+            animation: slideVertical 8s ease-in-out infinite;
           }
         }
         @keyframes star-orbit {
@@ -351,16 +326,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {currentTime && (
             <div 
               className="date-time text-xs md:text-sm whitespace-nowrap flex items-center"
+              style={{ height: '1.5em', overflow: 'hidden' }}
             >
-              <div className="datetime-slider animating">
-                {/* Slide 1: Date */}
-                <span className="whitespace-nowrap block" style={{ color: '#ffffff' }}>
-                  {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
-                </span>
-                {/* Slide 2: Time */}
-                <span className="whitespace-nowrap block" style={{ color: '#ffffff' }}>
+              <div className="datetime-slider h-[1.5em]">
+                {/* Slide 1: Time */}
+                <div className="h-[1.5em]" style={{ color: '#ffffff' }}>
                   {currentTime}
-                </span>
+                </div>
+                {/* Slide 2: Date */}
+                <div className="h-[1.5em]" style={{ color: '#ffffff' }}>
+                  {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
+                </div>
               </div>
             </div>
           )}
