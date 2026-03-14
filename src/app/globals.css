@@ -14,24 +14,6 @@ html, body {
   overflow-y: auto;
 }
 
-/* Ensure sticky works properly */
-.sticky {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 9999 !important;
-}
-
-/* Ensure parent containers don't break sticky */
-header {
-  overflow: visible !important;
-}
-
-/* Body needs overflow visible for sticky to work */
-body {
-  overflow-y: visible !important;
-  overflow-x: hidden;
-}
-
 /* Box sizing for all */
 * {
   box-sizing: border-box;

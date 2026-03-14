@@ -629,8 +629,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        className={`w-full bg-white shadow-md sticky top-0 transition-all duration-300 ${isScrolled ? 'py-1' : ''}`}
-        style={{ position: 'sticky', top: '0', zIndex: 9999 }}
+        className={`w-full bg-white shadow-md transition-all duration-300 ${isScrolled ? 'py-1' : ''}`}
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
           
@@ -638,7 +637,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="xl:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <svg className="w-6 h-6 text-[#A41E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
@@ -704,7 +703,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className="h-10 w-auto md:h-14 lg:h-16 object-contain"
+                        className="h-10 w-auto md:h-14 xl:h-16 object-contain"
                       />
                     </Link>
                   ) : (
@@ -766,7 +765,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
         </div>
 
         {/* Desktop Navigation - Hidden on mobile */}
-        <div className="hidden lg:block border-t border-gray-100">
+        <div className="hidden xl:block border-t border-gray-100">
           <nav className="flex items-center justify-center gap-1 px-4 py-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             {/* TRENDING label */}
             <div 
@@ -851,10 +850,10 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           <>
             {/* Overlay - click to close */}
             <div 
-              className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+              className="fixed inset-0 bg-black bg-opacity-50 z-40 xl:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
-            <div ref={mobileMenuRef} className="lg:hidden border-t border-gray-100 bg-white fixed top-auto left-0 right-0 z-50 shadow-lg">
+            <div ref={mobileMenuRef} className="xl:hidden border-t border-gray-100 bg-white fixed top-auto left-0 right-0 z-50 shadow-lg">
               <nav className="flex flex-col py-2 px-2 max-h-[70vh] overflow-y-auto" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
               {menuItems.map((item, index) => {
                 const isItemActive = isActive(item.url);
@@ -910,7 +909,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
         {/* Mobile Ticker - Under Logo - Show on xs to lg (below xl where TopHeader has ticker) */}
         {tickerItems.length > 0 && (
-          <div className="lg:hidden px-2 py-2 bg-[#6c1312]" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+          <div className="xl:hidden px-2 py-2 bg-[#6c1312]" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             <div className="flex items-center overflow-hidden">
               <span className="font-extrabold uppercase text-xs flex-shrink-0 whitespace-nowrap px-3 py-1" style={{ backgroundColor: '#A41E22', color: '#ffffff', zIndex: 10 }}>
                 {currentLang === "bn" ? "সর্বশেষ:" : "LATEST:"}
@@ -934,7 +933,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
         {/* Mobile Urgent Notice - Only show if no ticker */}
         {!tickerItems.length && siteOptions?.urgentNotice && (
-          <div className="lg:hidden px-2 py-1.5" style={{ backgroundColor: "#f5f5f5", borderTop: "1px solid #e0e0e0" }}>
+          <div className="xl:hidden px-2 py-1.5" style={{ backgroundColor: "#f5f5f5", borderTop: "1px solid #e0e0e0" }}>
             <div className="flex items-center justify-center gap-1.5 text-[#A41E22] text-xs font-medium">
               <span style={{ fontWeight: 800, textTransform: "uppercase" }}>
                 {currentLang === "en" ? "Notice:" : "নোটিশ:"}

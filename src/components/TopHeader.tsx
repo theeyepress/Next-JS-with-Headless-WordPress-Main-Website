@@ -301,8 +301,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           </a>
         </div>
 
-        {/* Middle: Ticker - Show on lg and above */}
-        <div className="hidden lg:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
+        {/* Middle: Ticker - Show on xl and above */}
+        <div className="hidden xl:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
           {items.length > 0 && (
             <div className="flex items-center w-full overflow-hidden" style={{ gap: '0.5rem' }}>
               <span className="ticker-label whitespace-nowrap font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0 px-3 py-1" style={{ backgroundColor: '#A41E22', color: '#ffffff', zIndex: 10 }}>
