@@ -19,11 +19,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Box sizing for all */
-* {
-  box-sizing: border-box;
-}
-
 /* Fix for specific elements that might cause horizontal scroll */
 img, video, iframe, svg, picture, canvas {
   max-width: 100%;
