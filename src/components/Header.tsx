@@ -629,8 +629,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        className="w-full bg-white shadow-md sticky z-40"
-        style={{ top: '44px' }}
+        className="w-full bg-white shadow-md"
         ref={dropdownRef}
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
