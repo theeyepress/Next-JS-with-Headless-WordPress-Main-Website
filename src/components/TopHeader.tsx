@@ -4,7 +4,8 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 type TickerItem = {
   title: string;
@@ -32,8 +33,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   dateTimeHTML,
   menuItems = [],
 }) => {
+  const pathname = usePathname();
+  const locale = pathname?.split('/')[1] || 'bn';
   const t = useTranslations("TopHeader");
-  const locale = useLocale();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
 
