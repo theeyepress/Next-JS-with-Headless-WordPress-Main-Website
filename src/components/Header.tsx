@@ -629,8 +629,8 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        className={`w-full bg-white shadow-md sticky top-0 z-[9999] transition-all duration-300 ${isScrolled ? 'py-1' : ''}`}
-        style={{ position: 'sticky', top: 0, zIndex: 9999 }}
+        className="w-full bg-white shadow-md sticky top-0 z-50"
+        ref={dropdownRef}
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
           

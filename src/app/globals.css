@@ -14,18 +14,6 @@ html, body {
   overflow-y: auto;
 }
 
-/* Sticky Header Fix - Full width and proper z-index */
-header.sticky {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 9999 !important;
-}
-
-/* Ensure parent doesn't break sticky */
-main, #__next, [data-nextjs-scroll-offset-boundary] {
-  overflow: visible !important;
-}
-
 /* Box sizing for all */
 * {
   box-sizing: border-box;
