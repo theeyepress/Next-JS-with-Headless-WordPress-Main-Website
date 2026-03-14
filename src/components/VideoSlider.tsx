@@ -78,9 +78,15 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
     if (video.type === "youtube") {
       window.open(video.watchUrl || `https://www.youtube.com/watch?v=${video.videoId}`, "_blank");
     } else if (video.type === "self-hosted" || video.type === "selfhosted") {
+      // Self-hosted videos play in modal
       setCurrentVideo(video);
-    } else if (video.type === "post" && video.slug) {
-      window.open(`/${locale}/${encodeURIComponent(video.slug)}`, "_self");
+    } else if (video.type === "post") {
+      // Post-based videos - check if has embed URL, otherwise open post
+      if (video.embedUrl || video.url) {
+        setCurrentVideo(video);
+      } else if (video.slug) {
+        window.open(`/${locale}/${encodeURIComponent(video.slug)}`, "_self");
+      }
     }
   };
 
@@ -116,8 +122,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   };
 
   return (
-    <div className={className}>
-      <div className="flex items-center justify-between mb-4">
+    <div className={`${className} my-4 md:my-6`}>
+      <div className="flex items-center justify-between mb-4 md:mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-[#6C1312] flex items-center gap-2">
           <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20">
             <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
@@ -150,19 +156,19 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
                       />
-                      {/* Play button overlay */}
-                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-14 h-14 rounded-full bg-[#A41E22] flex items-center justify-center">
+                      {/* Play button overlay - always visible */}
+                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#A41E22] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                           {video.type === "youtube" ? (
-                            <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                             </svg>
                           ) : video.type === "self-hosted" || video.type === "selfhosted" ? (
-                            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                             </svg>
                           ) : (
-                            <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                             </svg>
                           )}
@@ -207,29 +213,41 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
         })}
       </Slider>
 
-      {/* Video Player Modal for Self-hosted videos */}
+      {/* Video Player Modal for Self-hosted and Post videos */}
       {currentVideo && (
         <div 
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/95 z-[9999] flex items-center justify-center p-2 md:p-4"
           onClick={() => setCurrentVideo(null)}
         >
-          <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-5xl bg-black rounded-lg overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
             <button
               onClick={() => setCurrentVideo(null)}
-              className="absolute -top-10 right-0 text-white text-xl hover:text-red-500"
+              className="absolute top-2 right-2 md:top-4 md:right-4 z-10 w-8 h-8 md:w-10 md:h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-lg md:text-xl font-bold transition-colors"
             >
-              ✕ Close
+              ✕
             </button>
-            <video
-              src={currentVideo.url}
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            >
-              Your browser does not support the video tag.
-            </video>
+            
+            {/* Video player */}
+            <div className="relative aspect-video">
+              <video
+                src={currentVideo.url || currentVideo.embedUrl}
+                controls
+                autoPlay
+                className="w-full h-full"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            
+            {/* Video info */}
             {currentVideo.title && (
-              <h3 className="text-white text-lg mt-2">{currentVideo.title}</h3>
+              <div className="p-3 md:p-4 bg-white">
+                <h3 className="text-lg md:text-xl font-bold text-gray-900">{currentVideo.title}</h3>
+                {currentVideo.excerpt && (
+                  <p className="text-gray-600 mt-1 text-sm md:text-base line-clamp-2">{currentVideo.excerpt}</p>
+                )}
+              </div>
             )}
           </div>
         </div>
