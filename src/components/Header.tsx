@@ -911,11 +911,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
         {/* Mobile Ticker - Under Logo - Show on xs to lg (below xl where TopHeader has ticker) */}
         {tickerItems.length > 0 && (
           <div className="lg:hidden px-2 py-2 bg-[#6c1312]" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
-            <div className="flex items-center gap-2 overflow-hidden">
-              <span className="font-extrabold uppercase text-xs flex-shrink-0 whitespace-nowrap px-2 py-1 mr-2" style={{ backgroundColor: '#A41E22', color: '#ffffff' }}>
+            <div className="flex items-center overflow-hidden">
+              <span className="font-extrabold uppercase text-xs flex-shrink-0 whitespace-nowrap px-3 py-1" style={{ backgroundColor: '#A41E22', color: '#ffffff', zIndex: 10 }}>
                 {currentLang === "bn" ? "সর্বশেষ:" : "LATEST:"}
               </span>
-              <div className="flex overflow-hidden whitespace-nowrap">
+              <div className="flex overflow-hidden whitespace-nowrap" style={{ zIndex: 1 }}>
                 <div className="ticker-animate flex" style={{ width: 'max-content' }}>
                   {[...tickerItems, ...tickerItems].map((item, index) => (
                     <Link 

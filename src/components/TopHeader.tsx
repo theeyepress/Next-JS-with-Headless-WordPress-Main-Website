@@ -304,11 +304,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         {/* Middle: Ticker - Show on lg and above */}
         <div className="hidden lg:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
           {items.length > 0 && (
-            <div className="flex items-center gap-2 w-full overflow-hidden">
-              <span className="ticker-label whitespace-nowrap font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0 px-2 py-1 mr-2" style={{ backgroundColor: '#A41E22', color: '#ffffff' }}>
+            <div className="flex items-center w-full overflow-hidden" style={{ gap: '0.5rem' }}>
+              <span className="ticker-label whitespace-nowrap font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0 px-3 py-1" style={{ backgroundColor: '#A41E22', color: '#ffffff', zIndex: 10 }}>
                 {t('latest')}
               </span>
-              <div className="ticker-track overflow-hidden flex-1 min-w-0">
+              <div className="ticker-track overflow-hidden flex-1 min-w-0" style={{ zIndex: 1 }}>
                 <div className="ticker-animate whitespace-nowrap">
                   {[...items, ...items, ...items].map((item, index) => (
                     <span key={index} className="ticker-item mx-0.5 inline-flex">
