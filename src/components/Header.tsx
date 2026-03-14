@@ -912,7 +912,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
         {tickerItems.length > 0 && (
           <div className="lg:hidden px-2 py-2 bg-[#6c1312]" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             <div className="flex items-center gap-2 overflow-hidden">
-              <span className="text-cyan-400 font-extrabold uppercase text-xs flex-shrink-0 whitespace-nowrap">
+              <span className="font-extrabold uppercase text-xs flex-shrink-0 whitespace-nowrap px-2 py-1 mr-2" style={{ backgroundColor: '#A41E22', color: '#ffffff' }}>
                 {currentLang === "bn" ? "সর্বশেষ:" : "LATEST:"}
               </span>
               <div className="flex overflow-hidden whitespace-nowrap">

@@ -305,7 +305,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         <div className="hidden lg:flex flex-1 mx-2 lg:mx-8 overflow-hidden items-center">
           {items.length > 0 && (
             <div className="flex items-center gap-2 w-full overflow-hidden">
-              <span className="ticker-label whitespace-nowrap text-cyan-400 font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0 z-10">
+              <span className="ticker-label whitespace-nowrap font-extrabold tracking-widest uppercase text-xs lg:text-base flex-shrink-0 px-2 py-1 mr-2" style={{ backgroundColor: '#A41E22', color: '#ffffff' }}>
                 {t('latest')}
               </span>
               <div className="ticker-track overflow-hidden flex-1 min-w-0">
