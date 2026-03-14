@@ -33,24 +33,18 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   menuItems = [],
 }) => {
   const t = useTranslations("TopHeader");
-  const currentLocale = useLocale();
-  const [locale, setLocale] = useState(currentLocale);
+  const locale = useLocale();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
-
-  // Sync locale state with next-intl
-  useEffect(() => {
-    setLocale(currentLocale);
-  }, [currentLocale]);
 
   // Fetch ticker from REST API
   useEffect(() => {
     async function fetchTicker() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${currentLocale}&count=10`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/ticker?locale=${locale}&count=10`);
         if (res.ok) {
           const data = await res.json();
-          console.log(`Ticker fetched for ${currentLocale}:`, data.length, 'posts');
+          console.log(`Ticker fetched for ${locale}:`, data.length, 'posts');
           setTickerItems(data);
         }
       } catch (e) {
@@ -58,9 +52,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       }
     }
     fetchTicker();
-  }, [currentLocale]);
+  }, [locale]);
 
-  const [staticDate, setStaticDate] = useState("");
   const [dateSlides, setDateSlides] = useState<string[]>([]);
   
   // Parse date HTML on client only (DOMParser not available on server)
@@ -82,9 +75,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       if (dates.length > 1) {
         setDateSlides(dates.slice(0, 2));
       } else if (dates.length === 1) {
-        setDateSlides([dates[0], currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([dates[0], locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       } else {
-        setDateSlides([currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       }
     } else {
       let dateSlide = doc.querySelector(".datetime-slide");
@@ -92,14 +85,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         dateSlide = doc.querySelector(".datetime-slide-en");
       }
       const date = dateSlide?.textContent?.trim() || "";
-      setStaticDate(date);
       if (date) {
-        setDateSlides([date, currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([date, locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       } else {
-        setDateSlides([currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), currentLocale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
+        setDateSlides([locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date()), locale === "bn" ? getBengaliDate(new Date()) : getEnglishDate(new Date())]);
       }
     }
-  }, [dateTimeHTML, currentLocale]);
+  }, [dateTimeHTML, locale]);
 
   function getBengaliDate(date: Date) {
     const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
@@ -148,7 +140,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       const minStr = minutes < 10 ? "0" + minutes : minutes.toString();
       const secStr = seconds < 10 ? "0" + seconds : seconds.toString();
 
-      const timeStr = currentLocale === "bn" 
+      const timeStr = locale === "bn" 
         ? `${toBn(parseInt(hrStr))}:${toBn(parseInt(minStr))}:${toBn(parseInt(secStr))}`
         : `${hrStr}:${minStr}:${secStr}`;
 
@@ -158,7 +150,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, [t, currentLocale]);
+  }, [t, locale]);
 
   // Parse ticker HTML fallback on client only
   const [parsedTickerItems, setParsedTickerItems] = useState<TickerItem[]>([]);
@@ -340,7 +332,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </div>
                 {/* Slide 2: Date */}
                 <div className="h-[1.5em]" style={{ color: '#ffffff' }}>
-                  {currentLocale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
+                  {locale === "bn" ? (dateSlides[0] || getBengaliDate(new Date())) : getEnglishDate(new Date())}
                 </div>
               </div>
             </div>
