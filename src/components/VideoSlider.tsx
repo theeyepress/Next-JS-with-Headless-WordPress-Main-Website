@@ -39,6 +39,7 @@ type VideoSliderProps = {
   className?: string;
   currentVideo?: VideoPost | null;
   onVideoClose?: () => void;
+  onVideoClick?: (video: VideoPost) => void;
 };
 
 const VideoSlider: React.FC<VideoSliderProps> = ({
@@ -47,6 +48,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   className = "",
   currentVideo: externalCurrentVideo,
   onVideoClose,
+  onVideoClick,
 }) => {
   console.log("VideoSlider received videos:", videos);
   const [internalCurrentVideo, setInternalCurrentVideo] = useState<VideoPost | null>(null);
@@ -83,15 +85,22 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   };
 
   const handleVideoClick = (video: VideoPost) => {
+    // If external onVideoClick is provided, use it
+    if (onVideoClick) {
+      onVideoClick(video);
+      return;
+    }
+    
+    // Otherwise use internal state
     if (video.type === "youtube") {
       window.open(video.watchUrl || `https://www.youtube.com/watch?v=${video.videoId}`, "_blank");
     } else if (video.type === "self-hosted" || video.type === "selfhosted") {
       // Self-hosted videos play in modal
-      setCurrentVideo(video);
+      setInternalCurrentVideo(video);
     } else if (video.type === "post") {
       // Post-based videos - check if has embed URL, otherwise open post
       if (video.embedUrl || video.url) {
-        setCurrentVideo(video);
+        setInternalCurrentVideo(video);
       } else if (video.slug) {
         window.open(`/${locale}/${encodeURIComponent(video.slug)}`, "_self");
       }
@@ -99,8 +108,14 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
   };
 
   const getThumbnail = (video: VideoPost) => {
+    // If explicit thumbnail provided, use it
     if (video.thumbnail) return video.thumbnail;
+    // If featured image from WordPress, use it
     if (video.featuredImage?.node?.sourceUrl) return video.featuredImage.node.sourceUrl;
+    // For YouTube videos, generate thumbnail from videoId
+    if (video.type === "youtube" && video.videoId) {
+      return `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
+    }
     // Return null - will show placeholder div
     return null;
   };

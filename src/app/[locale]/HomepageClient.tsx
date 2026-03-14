@@ -293,6 +293,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             locale={locale}
             currentVideo={currentVideo}
             onVideoClose={closeVideoModal}
+            onVideoClick={openVideoModal}
           />
         ) : (
           <div className="bg-gray-100 rounded-lg p-6 md:p-8 text-center">
