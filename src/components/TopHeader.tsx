@@ -143,9 +143,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       const minStr = minutes < 10 ? "0" + minutes : minutes.toString();
       const secStr = seconds < 10 ? "0" + seconds : seconds.toString();
 
-      const timeStr = locale === "bn" 
-        ? `${toBn(parseInt(hrStr))}:${toBn(parseInt(minStr))}:${toBn(parseInt(secStr))}`
-        : `${hrStr}:${minStr}:${secStr}`;
+      const timeStr = `${toBn(parseInt(hrStr))}:${toBn(parseInt(minStr))}:${toBn(parseInt(secStr))}`;
 
       setCurrentTime(`${t('now')} ${period} - ${timeStr}`);
     }
