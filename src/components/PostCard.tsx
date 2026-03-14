@@ -89,12 +89,12 @@ const PostCard: React.FC<PostCardProps> = ({
         className={`group flex gap-2 md:gap-4 p-2 md:p-3 bg-white hover:bg-gray-50 transition-all duration-300 ${className}`}
       >
         {imageUrl && (
-          <div className="relative w-20 h-16 md:w-32 md:h-24 flex-shrink-0 overflow-hidden rounded-md">
+          <div className="relative w-20 h-16 md:w-32 md:h-24 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
             <Image
               src={imageUrl}
               alt={imageAlt}
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-300"
+              className="object-contain group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 80px, 128px"
             />
           </div>
@@ -121,12 +121,12 @@ const PostCard: React.FC<PostCardProps> = ({
         className={`group block bg-white hover:shadow-lg transition-all duration-300 ${className}`}
       >
         {imageUrl && (
-          <div className="relative w-full h-48 md:h-56 lg:h-64 xl:h-80 overflow-hidden rounded-t-lg">
+          <div className="relative w-full h-48 md:h-56 lg:h-64 xl:h-80 overflow-hidden rounded-t-lg bg-gray-100">
             <Image
               src={imageUrl}
               alt={imageAlt}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-contain group-hover:scale-105 transition-transform duration-500"
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
@@ -162,12 +162,12 @@ const PostCard: React.FC<PostCardProps> = ({
       className={`group block bg-white hover:shadow-lg transition-all duration-300 ${className}`}
     >
       {imageUrl && (
-        <div className="relative w-full h-36 md:h-48 overflow-hidden rounded-t-lg">
+        <div className="relative w-full h-36 md:h-48 overflow-hidden rounded-t-lg bg-gray-100">
           <Image
             src={imageUrl}
             alt={imageAlt}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-contain group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {showCategory && category && (

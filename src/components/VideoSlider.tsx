@@ -170,14 +170,15 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
                 onClick={() => handleVideoClick(video)}
                 className="group block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all h-full flex flex-col cursor-pointer"
               >
-                <div className="relative h-32 md:h-40 flex-shrink-0 overflow-hidden">
+                <div className="relative h-32 md:h-40 flex-shrink-0 overflow-hidden bg-gray-100">
                   {thumbnail ? (
                     <>
                       <Image
                         src={thumbnail}
                         alt={getTitle(video)}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="object-contain group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       />
                       {/* Play button overlay - always visible */}
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/40 transition-colors">

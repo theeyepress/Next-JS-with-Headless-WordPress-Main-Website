@@ -193,13 +193,13 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
                   href={`/${locale}/${featuredPost.slug}`}
                   className="group block bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
                 >
-                  <div className="relative h-64 md:h-80 w-full">
+                  <div className="relative h-64 md:h-80 w-full bg-gray-100">
                     {featuredPost.featuredImage?.node?.sourceUrl ? (
                       <Image
                         src={featuredPost.featuredImage.node.sourceUrl}
                         alt={featuredPost.featuredImage.node.altText || featuredPost.title}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-contain group-hover:scale-105 transition-transform duration-500"
                         priority
                       />
                     ) : (

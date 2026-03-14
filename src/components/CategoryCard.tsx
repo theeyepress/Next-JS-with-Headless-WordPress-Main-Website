@@ -129,12 +129,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         className={`group relative block overflow-hidden rounded-lg ${className}`}
       >
         {imageUrl ? (
-          <div className="relative h-40 md:h-48 lg:h-64">
+          <div className="relative h-40 md:h-48 lg:h-64 bg-gray-100">
             <Image
               src={imageUrl}
               alt={imageAlt}
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              className="object-contain group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -162,14 +162,14 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         href={categoryLink}
         className={`group flex items-center gap-2 md:gap-3 p-1.5 md:p-2 rounded-lg hover:bg-gray-100 transition-colors ${className}`}
       >
-        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br ${gradient}`}>
+        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-200`}>
           {imageUrl ? (
             <Image
               src={imageUrl}
               alt={imageAlt}
               width={48}
               height={48}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-white font-bold text-sm md:text-base">
@@ -193,12 +193,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       className={`group relative block overflow-hidden rounded-lg ${className}`}
     >
       {imageUrl ? (
-        <div className="relative h-28 md:h-36">
+        <div className="relative h-28 md:h-36 bg-gray-100">
           <Image
             src={imageUrl}
             alt={imageAlt}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            className="object-contain group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />

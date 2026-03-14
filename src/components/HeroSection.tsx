@@ -67,13 +67,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="lg:col-span-3">
             {featuredPost && (
               <Link href={`/${locale}/${encodeURIComponent(featuredPost.slug)}`} className="group block">
-                <div className="relative h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 overflow-hidden rounded-lg">
+                <div className="relative h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 overflow-hidden rounded-lg bg-gray-100">
                   {featuredPost.featuredImage?.node?.sourceUrl ? (
                     <Image
                       src={featuredPost.featuredImage.node.sourceUrl}
                       alt={featuredPost.featuredImage.node.altText || featuredPost.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-contain group-hover:scale-105 transition-transform duration-500"
                       priority
                       sizes="(max-width: 1024px) 100vw, 30vw"
                     />
@@ -125,13 +125,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             {secondaryPosts.slice(0, 4).map((post) => (
               <Link key={post.id} href={`/${locale}/${encodeURIComponent(post.slug)}`} className="group block bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative h-32 md:h-36 overflow-hidden rounded-t-lg">
+                <div className="relative h-32 md:h-36 overflow-hidden rounded-t-lg bg-gray-100">
                   {post.featuredImage?.node?.sourceUrl ? (
                     <Image
                       src={post.featuredImage.node.sourceUrl}
                       alt={post.featuredImage.node.altText || post.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-contain group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (
@@ -184,7 +184,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                           src={post.featuredImage.node.sourceUrl}
                           alt={post.featuredImage.node.altText || post.title}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                          className="object-contain group-hover:scale-105 transition-transform duration-300"
                           sizes="64px"
                         />
                       ) : (
