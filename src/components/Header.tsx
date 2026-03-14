@@ -749,9 +749,10 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Subscribe Button - Temporary replacement for language switcher */}
             <a
               href={`/${currentLang}/subscribe`}
-              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full text-white font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105"
+              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105"
               style={{ 
                 backgroundColor: "#6C1312",
+                color: "#ffffff",
               }}
             >
               <span className="font-bold hidden xs:inline">
