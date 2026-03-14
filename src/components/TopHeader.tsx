@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 
 type TickerItem = {
@@ -35,6 +36,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const pathname = usePathname();
   const currentLocale = pathname ? pathname.split('/')[1] : 'bn';
   const isEnglish = currentLocale === 'en';
+  const t = useTranslations("TopHeader");
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
   const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
