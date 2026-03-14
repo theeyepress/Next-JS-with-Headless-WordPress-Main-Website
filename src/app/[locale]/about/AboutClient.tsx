@@ -82,7 +82,7 @@ const AboutClient = ({ locale }: AboutClientProps) => {
             </p>
             <Link 
               href={`/${locale}/contact`}
-              className="inline-block px-6 py-3 bg-[#6C1312] text-white font-bold rounded-lg hover:bg-[#A41E22] transition-colors"
+              className="inline-block px-6 py-3 bg-[#6C1312] text-white font-bold rounded-lg hover:bg-[#B42125] transition-all"
             >
               {locale === "bn" ? "যোগাযোগ পৃষ্ঠা দেখুন" : "Visit Contact Page"}
             </Link>

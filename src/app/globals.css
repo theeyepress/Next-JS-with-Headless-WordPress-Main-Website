@@ -271,3 +271,88 @@ a:hover {
     right: 5px;
   }
 }
+
+/* ============================================
+   BUTTON STYLES - Sitewide
+   ============================================ */
+
+/* Default button styles - Apply to all buttons */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+.btn,
+.button,
+a.btn,
+a.button {
+  transition: all 0.3s ease;
+}
+
+/* Primary Button - Default (Dark Red) */
+.btn-primary,
+button.btn-primary,
+a.btn-primary,
+.btn-primary button,
+.bg-\[\#6C1312\],
+.bg-\[\#A41E22\] {
+  background-color: #6C1312 !important;
+  color: #ffffff !important;
+  border: none;
+}
+
+.btn-primary:hover,
+button.btn-primary:hover,
+a.btn-primary:hover,
+.bg-\[\#6C1312\]:hover,
+.bg-\[\#A41E22\]:hover {
+  background-color: #B42125 !important;
+  color: #ffffff !important;
+}
+
+/* Secondary Button - Alternative (for buttons beside each other) */
+.btn-secondary,
+button.btn-secondary,
+a.btn-secondary,
+.btn-secondary button {
+  background-color: #ffffff !important;
+  color: #6C1312 !important;
+  border: 2px solid #6C1312 !important;
+}
+
+.btn-secondary:hover,
+button.btn-secondary:hover,
+a.btn-secondary:hover {
+  background-color: #B42125 !important;
+  color: #ffffff !important;
+  border-color: #B42125 !important;
+}
+
+/* Alternative Button - Another option */
+.btn-alt,
+button.btn-alt,
+a.btn-alt {
+  background-color: #B42125 !important;
+  color: #ffffff !important;
+}
+
+.btn-alt:hover,
+button.btn-alt:hover,
+a.btn-alt:hover {
+  background-color: #6C1312 !important;
+  color: #ffffff !important;
+}
+
+/* Top Header Subscribe Button - Make text white */
+.top-header-subscribe,
+.header-subscribe,
+a:has-text("সাবস্ক্রাইব"),
+a:has-text("Subscribe") {
+  background-color: #6C1312 !important;
+  color: #ffffff !important;
+}
+
+.top-header-subscribe:hover,
+.header-subscribe:hover {
+  background-color: #B42125 !important;
+  color: #ffffff !important;
+}

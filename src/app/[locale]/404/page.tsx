@@ -33,7 +33,7 @@ export default async function NotFoundPage({ params }: PageProps) {
 
         <Link
           href={`/${locale}`}
-          className="inline-block px-8 py-3 bg-[#A41E22] text-white rounded-lg font-bold hover:bg-[#6C1312] transition-colors"
+          className="inline-block px-8 py-3 bg-[#6C1312] text-white rounded-lg font-bold hover:bg-[#B42125] transition-all"
         >
           {labels.goHome}
         </Link>

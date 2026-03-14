@@ -307,7 +307,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
                 <p className="text-gray-700 text-lg">{labels.noPosts}</p>
                 <Link
                   href={`/${locale}`}
-                  className="inline-block mt-4 px-6 py-2 bg-[#A41E22] text-white rounded-lg font-medium hover:bg-[#8B1510] transition-colors"
+                  className="inline-block mt-4 px-6 py-2 bg-[#6C1312] text-white rounded-lg font-medium hover:bg-[#B42125] transition-all"
                 >
                   {labels.backToHome}
                 </Link>

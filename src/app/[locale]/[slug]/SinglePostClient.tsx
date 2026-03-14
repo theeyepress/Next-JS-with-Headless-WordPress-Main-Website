@@ -159,7 +159,7 @@ const SinglePostClient: React.FC<SinglePostClientProps> = ({
               {post.categories?.nodes?.[0] && (
                 <Link
                   href={`/${locale}/category/${post.categories.nodes[0].slug}`}
-                  className="inline-block px-3 py-1 text-white text-sm font-bold uppercase tracking-wide rounded mb-4 transition-colors hover:bg-[#8B1510]"
+                  className="inline-block px-3 py-1 text-white text-sm font-bold uppercase tracking-wide rounded mb-4 transition-all hover:bg-[#B42125]"
                   style={{ backgroundColor: '#6C1312' }}
                 >
                   {post.categories.nodes[0].name}

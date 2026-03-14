@@ -247,7 +247,7 @@ const RegisterClient: React.FC<RegisterClientProps> = ({ locale }) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#A41E22] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#8B1510] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#6C1312] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#B42125] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading && <Loader2 className="animate-spin" size={20} />}
               {t.registerBtn}

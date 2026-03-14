@@ -88,7 +88,7 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
             <p className="text-gray-600 mb-6">{t.loginPrompt}</p>
             <Link
               href={`/${locale}/login`}
-              className="inline-block bg-[#A41E22] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8B1510] transition-colors"
+              className="inline-block bg-[#6C1312] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#B42125] transition-all"
             >
               {t.loginBtn}
             </Link>
@@ -157,7 +157,7 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <button
               onClick={handleLogout}
-              className="flex-1 flex items-center justify-center gap-2 border-2 border-[#A41E22] text-[#A41E22] py-3 px-4 rounded-lg font-semibold hover:bg-[#A41E22] hover:text-white transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 border-2 border-[#6C1312] text-[#6C1312] py-3 px-4 rounded-lg font-semibold hover:bg-[#B42125] hover:text-white hover:border-[#B42125] transition-all"
             >
               <LogOut className="w-5 h-5" />
               {t.logout}

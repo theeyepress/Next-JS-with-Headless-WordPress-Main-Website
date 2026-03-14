@@ -134,7 +134,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full py-3 bg-[#6C1312] text-white font-bold rounded-lg hover:bg-[#A41E22] transition-colors disabled:opacity-50"
+                className="w-full py-3 bg-[#6C1312] text-white font-bold rounded-lg hover:bg-[#B42125] transition-all disabled:opacity-50"
               >
                 {status === "loading" ? c.sending : c.send}
               </button>

@@ -101,7 +101,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
             <button
               type="submit"
               disabled={status === "loading"}
-              className="px-8 py-4 bg-white text-[#A41E22] rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50"
+              className="px-8 py-4 bg-[#6C1312] text-white rounded-full font-bold text-lg hover:bg-[#B42125] transition-all transform hover:scale-105 shadow-lg disabled:opacity-50"
             >
               {status === "loading" ? "..." : labels.button}
             </button>
@@ -137,7 +137,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
           <button
             type="submit"
             disabled={status === "loading"}
-            className="px-6 py-3 bg-[#A41E22] hover:bg-[#8a1a1d] rounded font-bold transition-colors disabled:opacity-50"
+            className="px-6 py-3 bg-[#6C1312] text-white hover:bg-[#B42125] rounded font-bold transition-all disabled:opacity-50"
           >
             {status === "loading" ? "..." : labels.button}
           </button>
@@ -170,7 +170,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
             <button
               type="submit"
               disabled={status === "loading"}
-              className="px-8 py-3 bg-[#6C1312] hover:bg-[#5a1010] text-white rounded font-bold transition-colors disabled:opacity-50"
+              className="px-8 py-3 bg-[#6C1312] text-white hover:bg-[#B42125] rounded font-bold transition-all disabled:opacity-50"
             >
               {status === "loading" ? "..." : labels.button}
             </button>
@@ -200,7 +200,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
         <button
           type="submit"
           disabled={status === "loading"}
-          className="px-4 py-2 bg-[#A41E22] hover:bg-[#8a1a1d] text-white rounded text-sm font-bold transition-colors disabled:opacity-50"
+          className="px-4 py-2 bg-[#6C1312] text-white hover:bg-[#B42125] rounded text-sm font-bold transition-all disabled:opacity-50"
         >
           {status === "loading" ? "..." : labels.button}
         </button>
