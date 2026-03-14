@@ -749,16 +749,15 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Subscribe Button - Temporary replacement for language switcher */}
             <a
               href={`/${currentLang}/subscribe`}
-              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105"
+              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105 text-white"
               style={{ 
                 backgroundColor: "#6C1312",
-                color: "#ffffff",
               }}
             >
-              <span className="font-bold hidden xs:inline">
+              <span className="font-bold hidden xs:inline text-white">
                 {currentLang === "bn" ? "সাবস্ক্রাইব" : "Subscribe"}
               </span>
-              <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 md:w-4 md:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
             </a>
