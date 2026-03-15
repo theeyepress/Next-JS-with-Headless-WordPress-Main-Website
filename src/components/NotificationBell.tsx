@@ -23,6 +23,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.theeyepress.com";
 
@@ -43,6 +44,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
       try {
         const parsed = JSON.parse(storedUser);
         if (parsed.email) {
+          setUserEmail(parsed.email);
           fetchNotifications(parsed.email);
         }
       } catch (e) {
@@ -51,6 +53,29 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Poll for new notifications every 10 seconds
+  useEffect(() => {
+    if (!userEmail) return;
+    
+    const interval = setInterval(() => {
+      fetchNotifications(userEmail);
+    }, 10000); // 10 seconds
+    
+    return () => clearInterval(interval);
+  }, [userEmail]);
+
+  // Also refresh when page becomes visible again
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && userEmail) {
+        fetchNotifications(userEmail);
+      }
+    };
+    
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [userEmail]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
