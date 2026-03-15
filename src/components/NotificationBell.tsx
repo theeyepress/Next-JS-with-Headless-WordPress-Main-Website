@@ -39,13 +39,15 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("eyepress_user");
+    // Try both wp_user and eyepress_user for backward compatibility
+    const storedUser = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser);
-        if (parsed.email) {
-          setUserEmail(parsed.email);
-          fetchNotifications(parsed.email);
+        const email = parsed.email;
+        if (email) {
+          setUserEmail(email);
+          fetchNotifications(email);
         }
       } catch (e) {
         console.error("Error parsing user:", e);
@@ -54,13 +56,13 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Poll for new notifications every 10 seconds
+  // Poll for new notifications every 5 seconds
   useEffect(() => {
     if (!userEmail) return;
     
     const interval = setInterval(() => {
       fetchNotifications(userEmail);
-    }, 10000); // 10 seconds
+    }, 5000); // 5 seconds
     
     return () => clearInterval(interval);
   }, [userEmail]);
@@ -108,7 +110,8 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   };
 
   const markAllAsRead = async () => {
-    const storedUser = localStorage.getItem("eyepress_user");
+    // Try both wp_user and eyepress_user for backward compatibility
+    const storedUser = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser);
