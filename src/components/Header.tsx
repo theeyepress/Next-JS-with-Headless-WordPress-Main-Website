@@ -796,7 +796,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
         {/* Desktop Navigation - Hidden on mobile */}
         <div className="hidden xl:block border-t border-gray-100">
-          <nav className="flex items-center justify-center gap-0.5 px-3 py-1" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+          <nav className="flex items-center justify-center gap-0 px-2 py-1" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             {/* TRENDING label */}
             <div 
               className="trending-star relative px-3 py-1.5 rounded-md text-white font-semibold text-sm mr-2 flex items-center"
@@ -816,7 +816,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                   <>
                     <button
                       onClick={() => toggleDropdown(item.label)}
-                      className={`menu-item-wrapper flex items-center gap-1 px-2.5 py-1.5 font-bold text-xs rounded-md transition-all cursor-pointer uppercase tracking-wide ${
+                      className={`menu-item-wrapper flex items-center gap-0.5 px-2 py-1.5 font-bold text-xs rounded-md transition-all cursor-pointer ${currentLang === 'en' ? 'capitalize' : 'uppercase'} tracking-wide ${
                         isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
                       }`}
                       style={{ 
@@ -840,7 +840,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                             <a
                               key={childIndex}
                               href={child.url}
-                              className={`menu-item-wrapper block px-3 py-2 font-bold text-xs transition-all no-underline uppercase tracking-wide ${
+                              className={`menu-item-wrapper block px-3 py-2 font-bold text-xs transition-all no-underline ${currentLang === 'en' ? 'capitalize' : 'uppercase'} tracking-wide ${
                                 isChildActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
                               }`}
                             style={{ 
@@ -858,14 +858,9 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                 ) : (
                   <a
                     href={item.url}
-                    className={`menu-item-wrapper px-2.5 py-1.5 font-bold text-xs rounded-md transition-all no-underline uppercase tracking-wide ${
+                    className={`menu-item-wrapper px-2 py-1.5 font-bold text-xs rounded-md transition-all no-underline ${currentLang === 'en' ? 'capitalize' : 'uppercase'} tracking-wide ${
                       isItemActive ? 'bg-[#6C1312]' : 'hover:bg-gray-50'
                     }`}
-                    style={{ 
-                      fontWeight: 600,
-                      color: isItemActive ? '#ffffff !important' : '#1a1a1a',
-                      backgroundColor: isItemActive ? '#6C1312' : 'transparent'
-                    }}
                   >
                     <span className="menu-item-text" style={{ color: isItemActive ? '#ffffff !important' : '#1a1a1a' }}>{item.label}</span>
                   </a>
