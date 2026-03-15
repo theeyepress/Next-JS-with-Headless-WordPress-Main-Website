@@ -43,15 +43,18 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   useEffect(() => {
     // Try both wp_user and eyepress_user for backward compatibility
     const storedUser = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
+    console.log("Stored user:", storedUser);
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser);
+        console.log("Parsed user:", parsed);
         const email = parsed.email;
+        console.log("User email:", email);
         if (email) {
           setUserEmail(email);
-          // First sync existing comments
-          syncNotifications(email).then(() => {
-            // Then fetch notifications
+          // Sync first, then fetch (wait for sync to complete)
+          syncNotifications(email).then((synced) => {
+            console.log("Sync completed, synced:", synced);
             fetchNotifications(email);
           });
         }
@@ -67,8 +70,9 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
     if (!userEmail) return;
     
     const interval = setInterval(() => {
-      // Sync first, then fetch
-      syncNotifications(userEmail).then(() => {
+      // Sync first, then fetch (wait for sync to complete)
+      syncNotifications(userEmail).then((synced) => {
+        console.log("Interval sync completed, synced:", synced);
         fetchNotifications(userEmail);
       });
     }, 5000); // 5 seconds
@@ -129,7 +133,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
 
   // Sync existing comments to notifications table
   const syncNotifications = async (email: string) => {
-    if (!email) return;
+    if (!email) return false;
     try {
       console.log("Syncing notifications for:", email);
       const response = await fetch(`${API_URL}/wp-json/eyepress/v1/notifications/sync`, {
@@ -139,8 +143,11 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
       });
       const data = await response.json();
       console.log("Sync response:", data);
+      console.log("Total found:", data.total_found, "Synced:", data.synced);
+      return data.synced > 0; // Return true if synced something
     } catch (err) {
       console.error("Error syncing notifications:", err);
+      return false;
     }
   };
 
@@ -229,7 +236,15 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          if (!isOpen && userEmail) {
+            // Refresh notifications when opening modal
+            syncNotifications(userEmail).then(() => {
+              fetchNotifications(userEmail);
+            });
+          }
+        }}
         className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer hover:bg-gray-100"
         title={labels.title}
       >
