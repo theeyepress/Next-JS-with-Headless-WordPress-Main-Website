@@ -658,7 +658,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        className="fixed top-0 left-0 right-0 w-full bg-white/95 backdrop-blur-md shadow-md z-50 transition-shadow duration-300 sticky-header"
+        className="fixed top-[42px] sm:top-[48px] lg:top-[56px] left-0 right-0 w-full bg-white/95 backdrop-blur-md shadow-md z-50 transition-shadow duration-300 sticky-header"
         ref={dropdownRef}
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
