@@ -205,7 +205,7 @@ export default async function LocaleLayout({
               />
 
             {/* Spacer for fixed headers */}
-            <div className="h-[130px] sm:h-[140px] lg:h-[160px]"></div>
+            <div className="h-[115px] sm:h-[120px] lg:h-[130px]"></div>
 
             {children}
 

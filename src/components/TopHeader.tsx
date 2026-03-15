@@ -277,15 +277,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         }
       `}</style>
       
-      <div className="fixed top-0 left-0 right-0 w-full bg-[#6c1312] text-white px-2 py-1.5 md:py-2 flex items-center justify-between z-[60] transition-transform duration-300" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
+      <div className="fixed top-0 left-0 right-0 w-full bg-[#6c1312] text-white px-2 py-1 md:py-1.5 flex items-center justify-between z-[60] transition-transform duration-300" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
         {/* Left - Menu Button + Site Icon */}
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2 md:gap-3">
           <button
-            className="text-white focus:outline-none cursor-pointer p-1"
+            className="text-white focus:outline-none cursor-pointer p-0.5"
             onClick={() => setIsSideNavOpen(true)}
           >
             <svg
-              className="w-5 h-5 md:w-6 md:h-6"
+              className="w-4 h-4 md:w-5 md:h-5"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -297,7 +297,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           </button>
 
           <a href="/" className="icon-star-orbit">
-            <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" />
+            <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 object-contain" />
           </a>
         </div>
 

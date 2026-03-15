@@ -658,10 +658,10 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       `}</style>
 
       <header 
-        className="fixed top-[42px] sm:top-[48px] lg:top-[56px] left-0 right-0 w-full bg-white/95 backdrop-blur-md shadow-md z-50 transition-shadow duration-300 sticky-header"
+        className="fixed top-[34px] sm:top-[38px] lg:top-[42px] left-0 right-0 w-full bg-white/95 backdrop-blur-md shadow-md z-50 transition-shadow duration-300 sticky-header"
         ref={dropdownRef}
       >
-        <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
+        <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-1.5 md:py-2">
           
           {/* Mobile Menu Button - Left */}
           <div className="flex items-center gap-2">
@@ -713,7 +713,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className={`h-10 w-auto md:h-14 xl:h-16 object-contain transition-all duration-300 ease-out ${
+                        className={`h-9 w-auto md:h-11 xl:h-12 object-contain transition-all duration-300 ease-out ${
                           isScrolled ? 'opacity-0 scale-90 absolute' : 'opacity-100'
                         }`}
                       />
@@ -722,7 +722,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                         <img 
                           src={siteOptions.siteIcon} 
                           alt="Site Icon" 
-                          className={`h-10 w-10 md:h-10 md:w-10 object-contain transition-all duration-300 ease-out ${
+                          className={`h-9 w-9 md:h-9 md:w-9 object-contain transition-all duration-300 ease-out ${
                             isScrolled ? 'opacity-100' : 'opacity-0 scale-90 absolute'
                           }`}
                         />
@@ -730,7 +730,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                         <img 
                           src={siteOptions.logo} 
                           alt="Site Icon" 
-                          className={`h-10 w-10 md:h-10 md:w-10 object-contain transition-all duration-300 ease-out ${
+                          className={`h-9 w-9 md:h-9 md:w-9 object-contain transition-all duration-300 ease-out ${
                             isScrolled ? 'opacity-100' : 'opacity-0 scale-90 absolute'
                           }`}
                         />
@@ -751,10 +751,10 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer hover:bg-gray-100"
+              className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full text-[#A41E22] font-semibold text-sm transition-all cursor-pointer hover:bg-gray-100"
               title={currentLang === "bn" ? "অনুসন্ধান" : "Search"}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
@@ -764,7 +764,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
               href="https://www.youtube.com/@TheEyePress"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded-md text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer hover:bg-gray-200"
+              className="hidden sm:flex items-center gap-1 px-2 md:px-2.5 py-1 rounded-md text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer hover:bg-gray-200"
               style={{ 
                 backgroundColor: "#f5f5f5",
                 border: "1px solid #e0e0e0"
@@ -779,7 +779,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
             {/* Subscribe Button - Temporary replacement for language switcher */}
             <a
               href={`/${currentLang}/subscribe`}
-              className="flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105 text-white"
+              className="flex items-center gap-1 px-2 md:px-2.5 py-1 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105 text-white"
               style={{ 
                 backgroundColor: "#6C1312",
               }}
@@ -796,7 +796,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
         {/* Desktop Navigation - Hidden on mobile */}
         <div className="hidden xl:block border-t border-gray-100">
-          <nav className="flex items-center justify-center gap-1 px-4 py-2" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
+          <nav className="flex items-center justify-center gap-1 px-4 py-1.5" style={{ fontFamily: "var(--font-bengali), sans-serif" }}>
             {/* TRENDING label */}
             <div 
               className="trending-star relative px-3 py-1.5 rounded-md text-white font-semibold text-sm mr-2 flex items-center"
