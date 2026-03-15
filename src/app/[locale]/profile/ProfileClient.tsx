@@ -180,28 +180,27 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
     setIsUploading(true);
     
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('avatar', file);
     formData.append('user_id', user.id.toString());
     
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/wp/v2/users/${user.id}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/update-avatar`,
         {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('wp_token')}`
-          },
           body: formData
         }
       );
       
-      if (res.ok) {
-        const data = await res.json();
-        const avatarUrl = data.avatar_urls?.['96'] || data.avatar_url;
-        
-        const updatedUser = { ...user, avatar: avatarUrl };
+      const data = await res.json();
+      
+      if (data.success && data.avatar_url) {
+        const updatedUser = { ...user, avatar: data.avatar_url };
         setUser(updatedUser);
         localStorage.setItem('wp_user', JSON.stringify(updatedUser));
+      } else {
+        console.error('Upload failed:', data.message);
+        alert(data.message || 'Failed to upload avatar');
       }
     } catch (error) {
       console.error('Failed to update avatar:', error);
