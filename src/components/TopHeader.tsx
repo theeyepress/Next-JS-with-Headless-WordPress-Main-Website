@@ -278,12 +278,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       `}</style>
       
       <div 
-        className="fixed top-0 left-0 right-0 w-full text-white px-2 py-1 md:py-1.5 flex items-center justify-between z-[60] transition-transform duration-300" 
+        className="fixed top-0 left-0 right-0 w-full text-white px-2 py-1 md:py-1.5 flex items-center justify-between z-[60] transition-transform duration-300 overflow-hidden" 
         style={{ 
           fontFamily: 'var(--font-bengali), sans-serif',
-          backgroundColor: '#A41E22',
+          background: 'linear-gradient(135deg, #A41E22 0%, #8a1a1d 50%, #6C1312 100%)',
         }}
       >
+        {/* Decorative bubbles */}
+        <div className="absolute top-0 left-0 w-16 h-16 bg-white/5 rounded-full -translate-x-8 -translate-y-8"></div>
+        <div className="absolute top-8 left-1/4 w-8 h-8 bg-white/5 rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-20 h-20 bg-white/5 rounded-full translate-x-10 translate-y-10"></div>
+        <div className="absolute bottom-8 right-1/3 w-6 h-6 bg-white/5 rounded-full"></div>
         {/* Left - Menu Button + Site Icon */}
         <div className="flex items-center gap-2 md:gap-3">
           <button
