@@ -14,6 +14,7 @@ import {
   translatePostSlug,
   refreshCategorySlugs
 } from "@/lib/categorySlugMap";
+import NotificationBell from "@/components/NotificationBell";
 
 type MenuItem = {
   label: string;
@@ -748,6 +749,9 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
           {/* Right - Search + Live + Language - Compact on mobile */}
           <div className="flex items-center gap-1 md:gap-2">
+            {/* Notification Bell - Only show when user is logged in */}
+            <NotificationBell locale={currentLang} />
+            
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
