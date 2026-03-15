@@ -661,7 +661,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
         className="fixed top-[34px] sm:top-[38px] lg:top-[42px] left-0 right-0 w-full bg-white/95 backdrop-blur-md shadow-md z-50 transition-shadow duration-300 sticky-header"
         ref={dropdownRef}
       >
-        <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-1.5 md:py-2">
+        <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-2.5">
           
           {/* Mobile Menu Button - Left */}
           <div className="flex items-center gap-2">
@@ -713,7 +713,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className={`h-9 w-auto md:h-11 xl:h-12 object-contain transition-all duration-300 ease-out ${
+                        className={`h-10 w-auto md:h-12 xl:h-14 object-contain transition-all duration-300 ease-out ${
                           isScrolled ? 'opacity-0 scale-90 absolute' : 'opacity-100'
                         }`}
                       />
@@ -722,7 +722,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                         <img 
                           src={siteOptions.siteIcon} 
                           alt="Site Icon" 
-                          className={`h-9 w-9 md:h-9 md:w-9 object-contain transition-all duration-300 ease-out ${
+                          className={`h-10 w-10 md:h-10 md:w-10 object-contain transition-all duration-300 ease-out ${
                             isScrolled ? 'opacity-100' : 'opacity-0 scale-90 absolute'
                           }`}
                         />
@@ -730,7 +730,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                         <img 
                           src={siteOptions.logo} 
                           alt="Site Icon" 
-                          className={`h-9 w-9 md:h-9 md:w-9 object-contain transition-all duration-300 ease-out ${
+                          className={`h-10 w-10 md:h-10 md:w-10 object-contain transition-all duration-300 ease-out ${
                             isScrolled ? 'opacity-100' : 'opacity-0 scale-90 absolute'
                           }`}
                         />
