@@ -121,17 +121,17 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/wp-json/wp/v2/comments`, {
+      const response = await fetch(`${API_URL}/wp-json/eyepress/v1/guest-comment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          post: postId,
-          author_name: formData.name,
-          author_email: formData.email,
-          author_url: formData.website || undefined,
-          content: formData.comment,
+          post_id: postId,
+          name: formData.name,
+          email: formData.email,
+          website: formData.website || undefined,
+          comment: formData.comment,
         }),
       });
 
