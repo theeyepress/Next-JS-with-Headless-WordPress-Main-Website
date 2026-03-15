@@ -55,7 +55,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
           // Sync first, then fetch (wait for sync to complete)
           syncNotifications(email).then((synced) => {
             console.log("Sync completed, synced:", synced);
-            fetchNotifications(email);
+            // Add small delay to ensure database commit
+            setTimeout(() => {
+              fetchNotifications(email);
+            }, 500);
           });
         }
       } catch (e) {
@@ -73,7 +76,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
       // Sync first, then fetch (wait for sync to complete)
       syncNotifications(userEmail).then((synced) => {
         console.log("Interval sync completed, synced:", synced);
-        fetchNotifications(userEmail);
+        if (!synced) {
+          // Only fetch if nothing was synced
+          fetchNotifications(userEmail);
+        }
       });
     }, 5000); // 5 seconds
     
@@ -144,6 +150,15 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
       const data = await response.json();
       console.log("Sync response:", data);
       console.log("Total found:", data.total_found, "Synced:", data.synced);
+      
+      // If synced, directly use the synced notifications instead of fetching again
+      if (data.synced > 0 && data.notifications) {
+        console.log("Using synced notifications directly");
+        setNotifications(data.notifications || []);
+        setUnreadCount(data.notifications.filter((n: any) => !n.notification_read).length || 0);
+        return true;
+      }
+      
       return data.synced > 0; // Return true if synced something
     } catch (err) {
       console.error("Error syncing notifications:", err);
@@ -240,8 +255,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
           setIsOpen(!isOpen);
           if (!isOpen && userEmail) {
             // Refresh notifications when opening modal
-            syncNotifications(userEmail).then(() => {
-              fetchNotifications(userEmail);
+            syncNotifications(userEmail).then((synced) => {
+              if (!synced) {
+                fetchNotifications(userEmail);
+              }
             });
           }
         }}
