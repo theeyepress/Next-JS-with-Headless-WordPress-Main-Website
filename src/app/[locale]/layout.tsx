@@ -204,6 +204,9 @@ export default async function LocaleLayout({
                 languages={languages}
               />
 
+            {/* Spacer for fixed headers */}
+            <div className="h-16 sm:h-20 xl:h-24"></div>
+
             {children}
 
             <Footer 

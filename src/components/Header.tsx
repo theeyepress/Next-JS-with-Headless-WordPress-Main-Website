@@ -406,6 +406,14 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
   return (
     <>
+      {/* Preload logo images to prevent buffering during scroll */}
+      {siteOptions?.logo && (
+        <link rel="preload" as="image" href={siteOptions.logo} />
+      )}
+      {siteOptions?.siteIcon && (
+        <link rel="preload" as="image" href={siteOptions.siteIcon} />
+      )}
+      
       <style jsx global>{`
         @keyframes ticker-scroll {
           0% {
@@ -626,10 +634,31 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
         .logo-image {
           transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+        
+        /* Smooth header transitions */
+        .header-content {
+          transition: padding 0.3s ease, background-color 0.3s ease;
+        }
+        
+        /* Prevent layout shift during logo swap */
+        .logo-wrapper {
+          min-height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          will-change: transform, opacity;
+        }
+        
+        /* GPU acceleration for smooth scrolling */
+        .sticky-header {
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
       `}</style>
 
       <header 
-        className="w-full bg-white shadow-md sticky top-0 z-40"
+        className="fixed top-0 left-0 right-0 w-full bg-white/95 backdrop-blur-md shadow-md z-50 transition-shadow duration-300 sticky-header"
         ref={dropdownRef}
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-3">
@@ -675,43 +704,43 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           {/* Center - Logo - Responsive */}
           <div className="flex-1 flex justify-center px-2">
             <div className="logo-star-orbit logo-container">
-              <div className="logo">
-                {isScrolled ? (
-                  siteOptions?.siteIcon ? (
-                    <Link href="/">
-                      <img 
-                        src={siteOptions.siteIcon} 
-                        alt="Site Icon" 
-                        className="h-8 w-8 md:h-10 md:w-10 object-contain"
-                      />
-                    </Link>
-                  ) : siteOptions?.logo ? (
-                    <Link href="/">
+              <div className="logo-wrapper">
+                {siteOptions?.logo ? (
+                  <Link href="/">
+                    {/* Show both images but toggle visibility for smooth transition */}
+                    <div className="relative flex items-center justify-center">
+                      {/* Large logo - shown when not scrolled */}
                       <img 
                         src={siteOptions.logo} 
                         alt="Site Logo" 
-                        className="h-8 w-auto md:h-10 object-contain"
+                        className={`h-10 w-auto md:h-14 xl:h-16 object-contain transition-all duration-300 ease-out ${
+                          isScrolled ? 'opacity-0 scale-90 absolute' : 'opacity-100'
+                        }`}
                       />
-                    </Link>
-                  ) : (
-                    <Link href="/" className="text-[#A41E22] text-base md:text-lg font-bold">
-                      The EyePress
-                    </Link>
-                  )
+                      {/* Small icon - shown when scrolled */}
+                      {siteOptions.siteIcon ? (
+                        <img 
+                          src={siteOptions.siteIcon} 
+                          alt="Site Icon" 
+                          className={`h-10 w-10 md:h-10 md:w-10 object-contain transition-all duration-300 ease-out ${
+                            isScrolled ? 'opacity-100' : 'opacity-0 scale-90 absolute'
+                          }`}
+                        />
+                      ) : (
+                        <img 
+                          src={siteOptions.logo} 
+                          alt="Site Icon" 
+                          className={`h-10 w-10 md:h-10 md:w-10 object-contain transition-all duration-300 ease-out ${
+                            isScrolled ? 'opacity-100' : 'opacity-0 scale-90 absolute'
+                          }`}
+                        />
+                      )}
+                    </div>
+                  </Link>
                 ) : (
-                  siteOptions?.logo ? (
-                    <Link href="/">
-                      <img 
-                        src={siteOptions.logo} 
-                        alt="Site Logo" 
-                        className="h-10 w-auto md:h-14 xl:h-16 object-contain"
-                      />
-                    </Link>
-                  ) : (
-                    <Link href="/" className="text-[#A41E22] text-lg md:text-xl font-bold">
-                      The EyePress
-                    </Link>
-                  )
+                  <Link href="/" className={`text-[#A41E22] font-bold transition-all duration-300 ${isScrolled ? 'text-base md:text-lg' : 'text-lg md:text-xl'}`}>
+                    The EyePress
+                  </Link>
                 )}
               </div>
             </div>
