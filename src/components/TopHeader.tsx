@@ -517,7 +517,7 @@ const AuthButtons: React.FC<{ currentLocale: string }> = ({ currentLocale }) => 
         </Link>
         <button
           onClick={handleLogout}
-          className="bg-white text-[#6C1312] px-2 sm:px-3 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#B42125] hover:text-white border-2 border-[#6C1312]"
+          className="bg-white text-[#A41E22] px-2 sm:px-3 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#B42125] hover:text-white border-2 border-[#A41E22]"
         >
           <span className="hidden sm:inline">{currentLocale === 'bn' ? "লগআউট" : "Logout"}</span>
           <span className="sm:hidden">↪</span>
@@ -530,14 +530,14 @@ const AuthButtons: React.FC<{ currentLocale: string }> = ({ currentLocale }) => 
     <>
       <Link
         href={`/${currentLocale}/login`}
-        className="bg-white text-[#6C1312] px-2 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#B42125] hover:text-white border-2 border-[#6C1312]"
+        className="bg-white text-[#A41E22] px-2 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#B42125] hover:text-white border-2 border-[#A41E22]"
       >
         <span className="hidden xs:inline">{currentLocale === 'bn' ? "লগইন" : "Login"}</span>
         <span className="xs:hidden">👤</span>
       </Link>
       <Link
         href={`/${currentLocale}/register`}
-        className="hidden sm:inline-flex bg-[#6C1312] text-white px-3 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer ml-1 sm:ml-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#B42125]"
+        className="hidden sm:inline-flex bg-[#A41E22] text-white px-3 sm:px-4 py-1 text-xs sm:text-sm font-bold rounded-md cursor-pointer ml-1 sm:ml-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 hover:bg-[#B42125]"
       >
         {currentLocale === 'bn' ? "নিবন্ধন" : "Register"}
       </Link>
