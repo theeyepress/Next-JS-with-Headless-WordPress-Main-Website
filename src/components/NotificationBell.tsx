@@ -47,7 +47,11 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
         const email = parsed.email;
         if (email) {
           setUserEmail(email);
-          fetchNotifications(email);
+          // First sync existing comments
+          syncNotifications(email).then(() => {
+            // Then fetch notifications
+            fetchNotifications(email);
+          });
         }
       } catch (e) {
         console.error("Error parsing user:", e);
@@ -61,7 +65,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
     if (!userEmail) return;
     
     const interval = setInterval(() => {
-      fetchNotifications(userEmail);
+      // Sync first, then fetch
+      syncNotifications(userEmail).then(() => {
+        fetchNotifications(userEmail);
+      });
     }, 5000); // 5 seconds
     
     return () => clearInterval(interval);
@@ -106,6 +113,23 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
       console.error("Error fetching notifications:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Sync existing comments to notifications table
+  const syncNotifications = async (email: string) => {
+    try {
+      const response = await fetch(`${API_URL}/wp-json/eyepress/v1/notifications/sync`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Notifications synced:", data);
+      }
+    } catch (err) {
+      console.error("Error syncing notifications:", err);
     }
   };
 
