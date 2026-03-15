@@ -8,6 +8,7 @@ type Notification = {
   email: string;
   comment_id: number;
   post_id: number;
+  post_slug: string;
   post_title: string;
   status: string;
   notification_read: number;
@@ -23,6 +24,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.theeyepress.com";
@@ -97,20 +99,29 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
   }, []);
 
   const fetchNotifications = async (email: string) => {
+    if (!email) return;
     setLoading(true);
+    setError("");
     try {
+      console.log("Fetching notifications for:", email);
       const response = await fetch(
         `${API_URL}/wp-json/eyepress/v1/notifications?email=${encodeURIComponent(email)}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          setNotifications(data.notifications || []);
-          setUnreadCount(data.unread_count || 0);
-        }
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Notifications response:", data);
+      
+      if (!response.ok) {
+        setError(data.message || "Failed to fetch notifications");
+      } else if (data.success) {
+        setNotifications(data.notifications || []);
+        setUnreadCount(data.unread_count || 0);
+      } else {
+        setError(data.message || "Unknown error");
       }
     } catch (err) {
       console.error("Error fetching notifications:", err);
+      setError("Network error");
     } finally {
       setLoading(false);
     }
@@ -118,16 +129,16 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
 
   // Sync existing comments to notifications table
   const syncNotifications = async (email: string) => {
+    if (!email) return;
     try {
+      console.log("Syncing notifications for:", email);
       const response = await fetch(`${API_URL}/wp-json/eyepress/v1/notifications/sync`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Notifications synced:", data);
-      }
+      const data = await response.json();
+      console.log("Sync response:", data);
     } catch (err) {
       console.error("Error syncing notifications:", err);
     }
@@ -256,13 +267,17 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
               <div className="p-4 text-center text-gray-500 text-sm">
                 {locale === "bn" ? "লোড হচ্ছে..." : "Loading..."}
               </div>
+            ) : error ? (
+              <div className="p-4 text-center text-red-500 text-sm">{error}</div>
             ) : notifications.length === 0 ? (
-              <div className="p-4 text-center text-gray-500 text-sm">{labels.empty}</div>
+              <div className="p-4 text-center text-gray-500 text-sm">
+                {userEmail ? labels.empty : (locale === "bn" ? "লগইন করুন" : "Please login")}
+              </div>
             ) : (
               notifications.map((notification) => (
                 <Link
                   key={notification.id}
-                  href={`/${locale}/${notification.post_id}`}
+                  href={`/${locale}/${notification.post_slug || notification.post_id}`}
                   className={`block px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors ${
                     !notification.notification_read ? "bg-blue-50" : ""
                   }`}
