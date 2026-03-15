@@ -10,6 +10,7 @@ import AdBanner from "@/components/AdBanner";
 import SubscribeForm from "@/components/SubscribeForm";
 import CategoryCard from "@/components/CategoryCard";
 import VideoSlider from "@/components/VideoSlider";
+import CommentSection from "@/components/CommentSection";
 
 type Post = {
   id: string;
@@ -369,6 +370,11 @@ const SinglePostClient: React.FC<SinglePostClientProps> = ({
                 </button>
               </div>
             </div>
+
+            {/* Comments Section */}
+            {post.id && (
+              <CommentSection postId={parseInt(post.id)} locale={locale} />
+            )}
           </div>
 
           {/* Sidebar */}
