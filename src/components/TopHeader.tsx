@@ -277,7 +277,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         }
       `}</style>
       
-      <div className="fixed top-0 left-0 right-0 w-full bg-[#6c1312] text-white px-2 py-1 md:py-1.5 flex items-center justify-between z-[60] transition-transform duration-300" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
+      <div className="fixed top-0 left-0 right-0 w-full bg-[#A41E22] text-white px-2 py-1 md:py-1.5 flex items-center justify-between z-[60] transition-transform duration-300" style={{ fontFamily: 'var(--font-bengali), sans-serif' }}>
         {/* Left - Menu Button + Site Icon */}
         <div className="flex items-center gap-2 md:gap-3">
           <button
