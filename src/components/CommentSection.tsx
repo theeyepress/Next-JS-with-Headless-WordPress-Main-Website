@@ -23,6 +23,13 @@ type CommentSectionProps = {
   locale: string;
 };
 
+type User = {
+  name: string;
+  email: string;
+  id?: number;
+  token?: string;
+};
+
 const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +37,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -71,6 +79,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
           name: parsed.name || "",
           email: parsed.email || "",
         }));
+        if (parsed.id || parsed.token) {
+          setIsLoggedIn(true);
+        }
       } catch (e) {
         console.error("Error parsing user:", e);
       }
@@ -121,19 +132,38 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/wp-json/eyepress/v1/guest-comment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          post_id: postId,
-          name: formData.name,
-          email: formData.email,
-          website: formData.website || undefined,
-          comment: formData.comment,
-        }),
-      });
+      let response;
+      
+      if (isLoggedIn && user?.token) {
+        response = await fetch(`${API_URL}/wp-json/wp/v2/comments`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${user.token}`
+          },
+          body: JSON.stringify({
+            post: postId,
+            author_name: formData.name,
+            author_email: formData.email,
+            author_url: formData.website || undefined,
+            content: formData.comment,
+          }),
+        });
+      } else {
+        response = await fetch(`${API_URL}/wp-json/eyepress/v1/guest-comment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            post_id: postId,
+            name: formData.name,
+            email: formData.email,
+            website: formData.website || undefined,
+            comment: formData.comment,
+          }),
+        });
+      }
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -177,7 +207,21 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
 
       {/* Comment Form */}
       <div className="bg-gray-50 rounded-lg p-6 mb-8">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">{labels.leaveComment}</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-bold text-gray-900">{labels.leaveComment}</h3>
+          {isLoggedIn ? (
+            <span className="flex items-center gap-2 text-sm text-green-600">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              {locale === "bn" ? "আপনি লগইন আছেন" : "Logged in"}
+            </span>
+          ) : (
+            <span className="text-sm text-gray-500">
+              {locale === "bn" ? "অতিথি হিসেবে মতামত দিন" : "Commenting as guest"}
+            </span>
+          )}
+        </div>
         
         {successMessage && (
           <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
