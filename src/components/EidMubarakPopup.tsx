@@ -8,32 +8,53 @@ type EidMubarakPopupProps = {
   locale?: string;
 };
 
+const MAX_SHOWS = 3;
+
 const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'entering' | 'visible' | 'exiting'>('entering');
+  const [showCount, setShowCount] = useState(0);
 
   useEffect(() => {
-    const eidPopup = localStorage.getItem("eidMubarakPopup2026");
-    if (eidPopup) {
+    const storageKey = "eidMubarakPopup2026";
+    const shownCount = parseInt(localStorage.getItem(storageKey) || "0", 10);
+    
+    if (shownCount >= MAX_SHOWS) {
       setIsHidden(true);
       return;
     }
 
+    const nextShow = shownCount + 1;
+    setShowCount(nextShow);
+    
+    const delays = [5000, 15000, 30000];
+    const delay = delays[Math.min(nextShow - 1, delays.length - 1)];
+    
     const timer = setTimeout(() => {
       setIsVisible(true);
       setAnimationPhase('visible');
-    }, 5000);
+    }, delay);
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem("eidMubarakPopup2026", "shown");
+    const storageKey = "eidMubarakPopup2026";
+    const currentCount = parseInt(localStorage.getItem(storageKey) || "0", 10);
+    const newCount = currentCount + 1;
+    
+    localStorage.setItem(storageKey, newCount.toString());
+    
     setAnimationPhase('exiting');
     setTimeout(() => {
       setIsVisible(false);
-      setTimeout(() => setIsHidden(true), 300);
+      
+      if (newCount >= MAX_SHOWS) {
+        setTimeout(() => setIsHidden(true), 300);
+      } else {
+        setTimeout(() => setIsHidden(true), 300);
+      }
     }, 500);
   };
 
@@ -450,6 +471,18 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
         .crescent-1 { top: 20px; right: 20px; }
         .crescent-2 { bottom: 60px; left: 20px; }
 
+        .visit-counter {
+          display: inline-block;
+          background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+          border: 1px solid rgba(255, 215, 0, 0.3);
+          color: #ffd700;
+          font-size: 0.75rem;
+          padding: 4px 12px;
+          border-radius: 20px;
+          margin-bottom: 16px;
+          font-weight: 500;
+        }
+
         @media (max-width: 640px) {
           .eid-popup {
             padding: 30px 20px;
@@ -509,6 +542,11 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
           .eid-message-text {
             font-size: 0.85rem;
           }
+
+          .visit-counter {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+          }
         }
       `}</style>
 
@@ -551,6 +589,14 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
               <span className="moon-face">🌙</span>
             </div>
           </div>
+
+          {showCount > 1 && (
+            <div className="visit-counter">
+              {isBengali 
+                ? `${showCount} তম ${MAX_SHOWS} এর মধ্যে`
+                : `${showCount} of ${MAX_SHOWS}`}
+            </div>
+          )}
 
           <h2 className="eid-title">
             {isBengali ? "ঈদ মুবারক" : "Eid Mubarak"}
@@ -606,7 +652,9 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
           </button>
 
           <p className="close-hint">
-            {isBengali ? "ইভেন্ট অনুভব করতে ক্লিক করুন" : "Click to celebrate"}
+            {isBengali 
+              ? `আরও ${MAX_SHOWS - showCount} বার দেখা যাবে • ক্লিক করুন` 
+              : `See ${MAX_SHOWS - showCount} more time${MAX_SHOWS - showCount !== 1 ? 's' : ''} • Click to continue`}
           </p>
         </div>
       </div>
