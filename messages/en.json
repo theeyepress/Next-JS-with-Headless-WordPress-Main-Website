@@ -24,5 +24,16 @@
     "news": "News",
     "sports": "Sports",
     "close": "Close"
+  },
+  "EidMubarak": {
+    "title": "Eid Mubarak",
+    "subtitle": "May Allah grant you health, prosperity, and peace",
+    "message": "Wishing you and your family a joyous Eid-ul-Fitr from the The EyePress family! May this special day bring you happiness and peace 🎉",
+    "year": "2026",
+    "button": "Eid Mubarak! 🎊",
+    "closeHint": "Click to celebrate",
+    "prayers": "Prayers",
+    "love": "Love",
+    "prosperity": "Prosperity"
   }
 }

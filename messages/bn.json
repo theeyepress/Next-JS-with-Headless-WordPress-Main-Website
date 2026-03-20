@@ -24,5 +24,16 @@
     "news": "খবর",
     "sports": "খেলা",
     "close": "বন্ধ"
+  },
+  "EidMubarak": {
+    "title": "ঈদ মুবারক",
+    "subtitle": "আল্লাহ আপনাকে সুস্থতা, সমৃদ্ধি ও শান্তি দান করুন",
+    "message": "২০২৬ সালের পবিত্র ঈদ-উল-ফিতর উপলক্ষে The EyePress পরিবারের পক্ষ থেকে আপনাকে ও আপনার পরিবারকে ঈদের অনেক শুভেচ্ছা! 🎉 May this special day bring you happiness and peace",
+    "year": "২০২৬",
+    "button": "ঈদ মুবারক! 🎊",
+    "closeHint": "ইভেন্ট অনুভব করতে ক্লিক করুন",
+    "prayers": "দোয়া",
+    "love": "ভালোবাসা",
+    "prosperity": "সমৃদ্ধি"
   }
 }
