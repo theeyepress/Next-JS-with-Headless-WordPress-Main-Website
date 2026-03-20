@@ -16,7 +16,12 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
   const [animationPhase, setAnimationPhase] = useState<'entering' | 'visible' | 'exiting'>('entering');
   const [showCount, setShowCount] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    setHasInteracted(true);
+  }, []);
 
   useEffect(() => {
     const storageKey = "eidMubarakPopup2026";
@@ -42,13 +47,34 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
   }, []);
 
   useEffect(() => {
-    if (isVisible && audioRef.current && !isMuted) {
+    if (isVisible && audioRef.current && !isMuted && hasInteracted) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch(() => {});
     }
+  }, [isVisible, isMuted, hasInteracted]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !isVisible || isMuted) return;
+
+    const handleEnded = () => {
+      setAnimationPhase('exiting');
+      setTimeout(() => {
+        setIsVisible(false);
+        setTimeout(() => setIsHidden(true), 300);
+      }, 500);
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    return () => audio.removeEventListener('ended', handleEnded);
   }, [isVisible, isMuted]);
 
   const handleClose = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    
     const storageKey = "eidMubarakPopup2026";
     const currentCount = parseInt(localStorage.getItem(storageKey) || "0", 10);
     const newCount = currentCount + 1;
@@ -58,12 +84,7 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
     setAnimationPhase('exiting');
     setTimeout(() => {
       setIsVisible(false);
-      
-      if (newCount >= MAX_SHOWS) {
-        setTimeout(() => setIsHidden(true), 300);
-      } else {
-        setTimeout(() => setIsHidden(true), 300);
-      }
+      setTimeout(() => setIsHidden(true), 300);
     }, 500);
   };
 
