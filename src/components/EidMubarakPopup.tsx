@@ -14,14 +14,8 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'entering' | 'visible' | 'exiting'>('entering');
-  const [showCount, setShowCount] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    setHasInteracted(true);
-  }, []);
 
   useEffect(() => {
     const storageKey = "eidMubarakPopup2026";
@@ -33,7 +27,6 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
     }
 
     const nextShow = shownCount + 1;
-    setShowCount(nextShow);
     
     const delays = [5000, 15000, 30000];
     const delay = delays[Math.min(nextShow - 1, delays.length - 1)];
@@ -47,11 +40,11 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
   }, []);
 
   useEffect(() => {
-    if (isVisible && audioRef.current && !isMuted && hasInteracted) {
+    if (isVisible && audioRef.current && !isMuted) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch(() => {});
     }
-  }, [isVisible, isMuted, hasInteracted]);
+  }, [isVisible, isMuted]);
 
   useEffect(() => {
     const audio = audioRef.current;
