@@ -455,12 +455,6 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
           transform: translateY(0);
         }
 
-        .close-hint {
-          margin-top: 16px;
-          font-size: 0.8rem;
-          color: #888;
-        }
-
         .crescent-decoration {
           position: absolute;
           font-size: 2rem;
@@ -470,18 +464,6 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
 
         .crescent-1 { top: 20px; right: 20px; }
         .crescent-2 { bottom: 60px; left: 20px; }
-
-        .visit-counter {
-          display: inline-block;
-          background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
-          border: 1px solid rgba(255, 215, 0, 0.3);
-          color: #ffd700;
-          font-size: 0.75rem;
-          padding: 4px 12px;
-          border-radius: 20px;
-          margin-bottom: 16px;
-          font-weight: 500;
-        }
 
         @media (max-width: 640px) {
           .eid-popup {
@@ -542,16 +524,17 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
           .eid-message-text {
             font-size: 0.85rem;
           }
-
-          .visit-counter {
-            font-size: 0.7rem;
-            padding: 3px 10px;
-          }
         }
       `}</style>
 
-      <div className={`eid-overlay ${isVisible ? 'visible' : ''} ${animationPhase === 'exiting' ? 'exiting' : ''}`}>
-        <div className={`eid-popup ${isVisible ? 'visible' : ''} ${animationPhase === 'exiting' ? 'exiting' : ''}`}>
+      <div 
+        className={`eid-overlay ${isVisible ? 'visible' : ''} ${animationPhase === 'exiting' ? 'exiting' : ''}`}
+        onClick={handleClose}
+      >
+        <div 
+          className={`eid-popup ${isVisible ? 'visible' : ''} ${animationPhase === 'exiting' ? 'exiting' : ''}`}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="stars-container">
             <div className="star"></div>
             <div className="star"></div>
@@ -589,14 +572,6 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
               <span className="moon-face">🌙</span>
             </div>
           </div>
-
-          {showCount > 1 && (
-            <div className="visit-counter">
-              {isBengali 
-                ? `${showCount} তম ${MAX_SHOWS} এর মধ্যে`
-                : `${showCount} of ${MAX_SHOWS}`}
-            </div>
-          )}
 
           <h2 className="eid-title">
             {isBengali ? "ঈদ মুবারক" : "Eid Mubarak"}
@@ -650,12 +625,6 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
           <button onClick={handleClose} className="eid-button">
             {isBengali ? "ঈদ মুবারক! 🎊" : "Eid Mubarak! 🎊"}
           </button>
-
-          <p className="close-hint">
-            {isBengali 
-              ? `আরও ${MAX_SHOWS - showCount} বার দেখা যাবে • ক্লিক করুন` 
-              : `See ${MAX_SHOWS - showCount} more time${MAX_SHOWS - showCount !== 1 ? 's' : ''} • Click to continue`}
-          </p>
         </div>
       </div>
     </>
