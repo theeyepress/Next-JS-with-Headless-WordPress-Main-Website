@@ -1,7 +1,7 @@
 // src/components/EidMubarakPopup.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 
 type EidMubarakPopupProps = {
@@ -15,6 +15,8 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
   const [isHidden, setIsHidden] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'entering' | 'visible' | 'exiting'>('entering');
   const [showCount, setShowCount] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const storageKey = "eidMubarakPopup2026";
@@ -38,6 +40,13 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (isVisible && audioRef.current && !isMuted) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  }, [isVisible, isMuted]);
 
   const handleClose = () => {
     const storageKey = "eidMubarakPopup2026";
@@ -465,6 +474,63 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
         .crescent-1 { top: 20px; right: 20px; }
         .crescent-2 { bottom: 60px; left: 20px; }
 
+        .audio-toggle {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 215, 0, 0.3);
+          background: rgba(255, 215, 0, 0.1);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          z-index: 10;
+        }
+
+        .audio-toggle:hover {
+          background: rgba(255, 215, 0, 0.2);
+          transform: scale(1.1);
+        }
+
+        .audio-toggle svg {
+          width: 18px;
+          height: 18px;
+          color: #ffd700;
+        }
+
+        .audio-wave {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          height: 14px;
+        }
+
+        .audio-wave span {
+          width: 3px;
+          background: #ffd700;
+          border-radius: 2px;
+          animation: wave 0.8s ease-in-out infinite;
+        }
+
+        .audio-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+        .audio-wave span:nth-child(2) { height: 10px; animation-delay: 0.1s; }
+        .audio-wave span:nth-child(3) { height: 14px; animation-delay: 0.2s; }
+        .audio-wave span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
+
+        @keyframes wave {
+          0%, 100% { transform: scaleY(0.5); }
+          50% { transform: scaleY(1); }
+        }
+
+        .audio-muted .audio-wave span {
+          animation: none;
+          height: 3px;
+        }
+
         @media (max-width: 640px) {
           .eid-popup {
             padding: 30px 20px;
@@ -535,6 +601,33 @@ const EidMubarakPopup: React.FC<EidMubarakPopupProps> = ({ locale = "bn" }) => {
           className={`eid-popup ${isVisible ? 'visible' : ''} ${animationPhase === 'exiting' ? 'exiting' : ''}`}
           onClick={(e) => e.stopPropagation()}
         >
+          <audio
+            ref={audioRef}
+            src="/audio/eid-mubarak.mp3"
+            preload="auto"
+          />
+          
+          <button 
+            className={`audio-toggle ${isMuted ? 'audio-muted' : ''}`}
+            onClick={() => setIsMuted(!isMuted)}
+            aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+            ) : (
+              <div className="audio-wave">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            )}
+          </button>
+
           <div className="stars-container">
             <div className="star"></div>
             <div className="star"></div>
