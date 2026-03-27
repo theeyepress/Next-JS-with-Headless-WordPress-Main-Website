@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import TopHeader from "@/components/TopHeader";
 import ScrollToTop from "@/components/ScrollToTop";
 import CookieConsent from "@/components/CookieConsent";
-import EidMubarakPopup from "@/components/EidMubarakPopup";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import { fetchMenusViaRest, fetchFooterMenuViaRest } from "@/lib/graphql";
@@ -218,7 +217,6 @@ export default async function LocaleLayout({
             
             <ScrollToTop />
             <CookieConsent locale={validLocale} />
-            <EidMubarakPopup locale={validLocale} />
           </Providers>
         </NextIntlClientProvider>
       </body>
