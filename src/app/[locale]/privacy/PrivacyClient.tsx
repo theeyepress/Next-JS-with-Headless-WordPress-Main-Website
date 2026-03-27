@@ -79,7 +79,7 @@ const PrivacyClient = ({ locale }: PrivacyClientProps) => {
   return (
     <main className="bg-white min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16">
+      <div className="bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16 pt-24 sm:pt-28 lg:pt-32">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center">
             {c.title}

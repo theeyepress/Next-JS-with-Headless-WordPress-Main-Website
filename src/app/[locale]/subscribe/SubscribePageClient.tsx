@@ -47,7 +47,7 @@ const SubscribePageClient = ({ locale }: SubscribePageClientProps) => {
   return (
     <main className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#A41E22] via-[#8a1a1d] to-[#A41E22] py-16 md:py-20">
+      <div className="bg-gradient-to-r from-[#A41E22] via-[#8a1a1d] to-[#A41E22] py-16 md:py-20 pt-10 sm:pt-12 lg:pt-14">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">

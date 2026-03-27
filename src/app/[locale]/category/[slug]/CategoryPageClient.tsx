@@ -135,7 +135,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
       </div>
 
       {/* Hero Section - Category Banner */}
-      <div className="container mx-auto px-4 pb-6">
+      <div className="container mx-auto px-4 pb-6 pt-10 sm:pt-12 lg:pt-14">
         <div className="relative bg-gradient-to-r from-[#6C1312] to-[#A41E22] rounded-xl overflow-hidden">
           <div className="absolute inset-0 opacity-20">
             <div className="w-full h-full" style={{

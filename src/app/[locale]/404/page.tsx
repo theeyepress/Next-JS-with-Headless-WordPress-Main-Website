@@ -21,7 +21,7 @@ export default async function NotFoundPage({ params }: PageProps) {
   };
 
   return (
-    <main className="bg-gray-50 min-h-screen flex items-center justify-center">
+    <main className="bg-gray-50 min-h-screen flex items-center justify-center pt-24 sm:pt-28 lg:pt-32">
       <div className="container mx-auto px-4 py-16 text-center">
         {/* 404 Visual */}
         <div className="mb-8">

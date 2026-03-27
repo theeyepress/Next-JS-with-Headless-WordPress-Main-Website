@@ -85,7 +85,7 @@ function SearchContent({ locale }: SearchClientProps) {
   return (
     <main className="bg-gradient-to-b from-gray-50 to-white min-h-screen">
       {/* Hero Search Section */}
-      <div className="relative bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16 overflow-hidden">
+      <div className="relative bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16 pt-24 sm:pt-28 lg:pt-32 overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
           <div className="absolute -top-20 -left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>

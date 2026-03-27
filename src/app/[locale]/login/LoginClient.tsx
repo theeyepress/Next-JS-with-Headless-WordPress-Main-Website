@@ -90,7 +90,7 @@ const LoginClient: React.FC<LoginClientProps> = ({ locale }) => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4 py-12">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4 py-12 pt-24 sm:pt-28 lg:pt-32">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href={`/${locale}`} className="inline-block">
