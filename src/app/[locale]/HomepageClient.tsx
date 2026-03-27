@@ -599,11 +599,37 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
         </section>
       )}
 
-      {/* More Latest Posts */}
+      {/* More Latest Posts - First Row (Posts 17-32) */}
       {displayLatestPosts.length > 16 && (
         <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
             {displayLatestPosts.slice(16, 32).map((post) => (
+              <div key={post.id} className="post-card-animate">
+                <PostCard post={post} variant="small" locale={locale} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* More Latest Posts - Second Row (Posts 33-48) */}
+      {displayLatestPosts.length > 32 && (
+        <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
+            {displayLatestPosts.slice(32, 48).map((post) => (
+              <div key={post.id} className="post-card-animate">
+                <PostCard post={post} variant="small" locale={locale} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* More Latest Posts - Third Row (Posts 49-60) */}
+      {displayLatestPosts.length > 48 && (
+        <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
+            {displayLatestPosts.slice(48, 60).map((post) => (
               <div key={post.id} className="post-card-animate">
                 <PostCard post={post} variant="small" locale={locale} />
               </div>
