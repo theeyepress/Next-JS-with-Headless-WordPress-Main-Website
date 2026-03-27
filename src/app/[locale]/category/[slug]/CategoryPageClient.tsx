@@ -161,13 +161,13 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="container mx-auto px-4 pb-6">
-        <div className="flex items-center gap-2 bg-white rounded-lg p-2 shadow-sm">
+      <div className="container mx-auto px-4 pb-4 md:pb-6">
+        <div className="flex items-center gap-1 md:gap-2 bg-white rounded-lg p-1.5 md:p-2 shadow-sm overflow-x-auto">
           {(["trending", "latest", "all"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-lg font-bold transition-all ${
+              className={`px-3 md:px-6 py-2 md:py-3 rounded-lg font-bold text-sm md:text-base transition-all whitespace-nowrap ${
                 activeTab === tab
                   ? "bg-[#A41E22] text-white"
                   : "text-gray-600 hover:bg-gray-100"
@@ -183,17 +183,17 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
       </div>
 
       <div className="container mx-auto px-4 pb-8">
-        <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
           {/* Main Content */}
           <div className="lg:w-3/4">
             {/* Featured Post */}
             {featuredPost && activeTab === "latest" && (
-              <div className="mb-8">
+              <div className="mb-6 md:mb-8">
                 <Link
                   href={`/${locale}/${featuredPost.slug}`}
                   className="group block bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
                 >
-                  <div className="relative h-64 md:h-80 w-full">
+                  <div className="relative h-48 md:h-64 lg:h-80 w-full">
                     {featuredPost.featuredImage?.node?.sourceUrl ? (
                       <Image
                         src={featuredPost.featuredImage.node.sourceUrl}
@@ -208,13 +208,13 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
                       </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-[#A41E22] text-white text-sm font-bold rounded">
+                    <div className="absolute top-3 left-3 md:top-4 md:left-4">
+                      <span className="px-2 py-1 md:px-3 md:py-1 bg-[#A41E22] text-white text-xs md:text-sm font-bold rounded">
                         {locale === "bn" ? "ফিচারড" : "FEATURED"}
                       </span>
                     </div>
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 md:p-6">
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-[#A41E22] transition-colors mb-3">
                       {featuredPost.title}
                     </h2>
@@ -235,7 +235,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
             {/* Posts Grid */}
             {posts.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                   {(activeTab === "latest" ? gridPosts : posts).map((post) => (
                     <PostCard
                       key={post.id}
@@ -248,8 +248,8 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
 
                 {/* Pagination */}
                 {pagination && pagination.total_pages > 1 && (
-                  <div className="mt-12">
-                    <div className="flex items-center justify-center gap-2 flex-wrap">
+                  <div className="mt-8 md:mt-12">
+                    <div className="flex items-center justify-center gap-1 md:gap-2 flex-wrap">
                       {/* Previous */}
                       {pagination.current > 1 && (
                         <Link

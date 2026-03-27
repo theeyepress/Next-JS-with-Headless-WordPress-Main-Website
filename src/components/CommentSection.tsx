@@ -197,18 +197,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
   };
 
   return (
-    <div className="mt-12 pt-8 border-t border-gray-200">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-1 h-8 bg-[#A41E22]" />
-        <h2 className="text-2xl font-bold text-[#6C1312]">
+    <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-gray-200">
+      <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+        <div className="w-1 h-6 md:h-8 bg-[#A41E22]" />
+        <h2 className="text-xl md:text-2xl font-bold text-[#6C1312]">
           {labels.title} ({comments.length})
         </h2>
       </div>
 
       {/* Comment Form */}
-      <div className="bg-gray-50 rounded-lg p-6 mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-gray-900">{labels.leaveComment}</h3>
+      <div className="bg-gray-50 rounded-lg p-4 md:p-6 mb-6 md:mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3 md:mb-4">
+          <h3 className="text-base md:text-lg font-bold text-gray-900">{labels.leaveComment}</h3>
           {isLoggedIn ? (
             <span className="flex items-center gap-2 text-sm text-green-600">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -235,8 +235,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
             <div>
               <label htmlFor="comment-name" className="block text-sm font-medium text-gray-700 mb-1">
                 {labels.name} *
@@ -246,7 +246,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition"
+                className="w-full px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition"
                 placeholder={labels.name}
                 required
               />
@@ -260,7 +260,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition"
+                className="w-full px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition"
                 placeholder={labels.email}
                 required
               />
@@ -275,7 +275,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
               type="url"
               value={formData.website}
               onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition"
+              className="w-full px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition"
               placeholder="https://"
             />
           </div>
@@ -287,8 +287,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
               id="comment-content"
               value={formData.comment}
               onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition resize-none"
+              rows={3}
+              className="w-full px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition resize-none"
               placeholder={labels.comment}
               required
             />
@@ -296,7 +296,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId, locale }) => {
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2 bg-[#A41E22] text-white font-semibold rounded-lg hover:bg-[#8B1A1D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-5 py-2 md:px-6 md:py-2 bg-[#A41E22] text-white font-semibold rounded-lg hover:bg-[#8B1A1D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? labels.loading : labels.submit}
           </button>

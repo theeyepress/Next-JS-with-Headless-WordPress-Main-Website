@@ -125,15 +125,15 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   }
 
   const inputClasses = `
-    w-full px-4 py-3 md:px-5 md:py-4 rounded-xl text-gray-900 
+    w-full px-3 py-2 md:px-5 md:py-4 rounded-xl text-gray-900 
     focus:outline-none focus:ring-2 focus:ring-[#A41E22] focus:ring-offset-2
-    bg-white placeholder-gray-400 text-base
+    bg-white placeholder-gray-400 text-sm md:text-base
     border-2 border-gray-200 focus:border-[#A41E22]
     transition-all duration-200
   `;
 
   const buttonClasses = `
-    px-6 py-3 md:px-8 md:py-4 bg-[#A41E22] text-white rounded-xl font-bold text-base
+    px-5 py-2 md:px-8 md:py-4 bg-[#A41E22] text-white rounded-xl font-bold text-sm md:text-base
     hover:bg-[#8a1a1d] hover:shadow-lg hover:-translate-y-0.5
     transition-all duration-200 transform
     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0

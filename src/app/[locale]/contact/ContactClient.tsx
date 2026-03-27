@@ -116,7 +116,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-700 font-medium mb-2">{c.name}</label>
+                <label className="block text-gray-700 font-medium text-sm md:text-base mb-1 md:mb-2">{c.name}</label>
                 <input
                   type="text"
                   value={formData.name}
@@ -126,7 +126,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-2">{c.email}</label>
+                <label className="block text-gray-700 font-medium text-sm md:text-base mb-1 md:mb-2">{c.email}</label>
                 <input
                   type="email"
                   value={formData.email}
@@ -136,7 +136,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-2">{c.subject}</label>
+                <label className="block text-gray-700 font-medium text-sm md:text-base mb-1 md:mb-2">{c.subject}</label>
                 <input
                   type="text"
                   value={formData.subject}
@@ -146,11 +146,11 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-2">{c.message}</label>
+                <label className="block text-gray-700 font-medium text-sm md:text-base mb-1 md:mb-2">{c.message}</label>
                 <textarea
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  rows={5}
+                  rows={4}
                   className="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none resize-none"
                   required
                 />
@@ -158,7 +158,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full py-3 bg-[#6C1312] text-white font-bold rounded-lg hover:bg-[#B42125] transition-all disabled:opacity-50"
+                className="w-full py-2.5 md:py-3 bg-[#6C1312] text-white font-bold rounded-lg hover:bg-[#B42125] transition-all disabled:opacity-50"
               >
                 {status === "loading" ? c.sending : c.send}
               </button>
@@ -173,48 +173,48 @@ const ContactClient = ({ locale }: ContactClientProps) => {
 
           {/* Contact Info */}
           <div>
-            <h2 className="text-2xl font-bold text-[#6C1312] mb-6">{c.contactInfo}</h2>
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#6C1312] rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h2 className="text-xl md:text-2xl font-bold text-[#6C1312] mb-4 md:mb-6">{c.contactInfo}</h2>
+            <div className="space-y-4 md:space-y-6">
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#6C1312] rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">{c.email}</h3>
-                  <p className="text-gray-600">info@theeyepress.com</p>
+                  <h3 className="font-bold text-gray-900 text-sm md:text-base">{c.email}</h3>
+                  <p className="text-gray-600 text-sm md:text-base">info@theeyepress.com</p>
                 </div>
               </div>
               
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#6C1312] rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#6C1312] rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">{c.phone}</h3>
-                  <p className="text-gray-600">01761-622666</p>
+                  <h3 className="font-bold text-gray-900 text-sm md:text-base">{c.phone}</h3>
+                  <p className="text-gray-600 text-sm md:text-base">01761-622666</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#6C1312] rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#6C1312] rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">{c.address}</h3>
-                  <p className="text-gray-600">78 Naya Paltan, Shanjari Tower, 1000</p>
+                  <h3 className="font-bold text-gray-900 text-sm md:text-base">{c.address}</h3>
+                  <p className="text-gray-600 text-sm md:text-base">78 Naya Paltan, Shanjari Tower, 1000</p>
                 </div>
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="mt-8">
+            <div className="mt-6 md:mt-8">
               <h3 className="font-bold text-gray-900 mb-4">
                 {c.socialMedia}
               </h3>
