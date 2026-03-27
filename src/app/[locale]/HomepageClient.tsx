@@ -235,19 +235,19 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
   const heroPostIds = getShownPostIds(diverseHeroPosts);
   
   // Filter trending to exclude hero posts
-  const displayTrendingPosts = filterOutShownPosts(trendingPosts, heroPostIds, 5);
+  const displayTrendingPosts = filterOutShownPosts(trendingPosts, heroPostIds, 8);
   const trendingPostIds = new Set([...heroPostIds, ...getShownPostIds(displayTrendingPosts)]);
   
   // Filter popular to exclude hero + trending
-  const displayPopularPosts = filterOutShownPosts(popularPosts, trendingPostIds, 5);
+  const displayPopularPosts = filterOutShownPosts(popularPosts, trendingPostIds, 8);
   const popularPostIds = new Set([...trendingPostIds, ...getShownPostIds(displayPopularPosts)]);
   
   // Filter editor's choice to exclude hero + trending + popular
-  const displayEditorsChoice = filterOutShownPosts(editorsChoicePosts, popularPostIds, 6);
+  const displayEditorsChoice = filterOutShownPosts(editorsChoicePosts, popularPostIds, 12);
   const editorsPostIds = new Set([...popularPostIds, ...getShownPostIds(displayEditorsChoice)]);
   
   // Filter latest news to exclude all previous sections
-  const displayLatestPosts = filterOutShownPosts(latestPosts, editorsPostIds, 30);
+  const displayLatestPosts = filterOutShownPosts(latestPosts, editorsPostIds, 60);
 
   // Use menu categories if API categories are empty
   const displayCategories = categories.length > 0 ? categories : menuCategories;
@@ -350,7 +350,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             </div>
             {/* Two Small Posts - Equal height to left column */}
             <div className="flex flex-col gap-2 md:gap-4 h-full">
-              {displayTrendingPosts.slice(1, 5).map((post) => (
+              {displayTrendingPosts.slice(1, 7).map((post) => (
                 <Link key={post.id} href={`/${locale}/${post.slug}`} className="group flex gap-2 md:gap-3 items-center flex-1">
                   <div className="w-16 md:w-24 h-14 md:h-20 flex-shrink-0 rounded overflow-hidden">
                     {post?.featuredImage?.node?.sourceUrl ? (
@@ -390,7 +390,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
         </div>
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {displayPopularPosts.length > 0 ? (
-            displayPopularPosts.slice(0, 5).map((post) => (
+            displayPopularPosts.slice(0, 8).map((post) => (
               <Link 
                 key={post.id} 
                 href={`/${locale}/${post.slug}`} 
@@ -439,8 +439,8 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
           <h2 className="text-xl md:text-2xl font-bold text-[#6C1312]">{locale === "bn" ? "সম্পাদকের পছন্দ" : "Editor's Choice"}</h2>
         </div>
         {displayEditorsChoice.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-            {displayEditorsChoice.slice(0, 6).map((post) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {displayEditorsChoice.slice(0, 12).map((post) => (
               <Link key={post.id} href={`/${locale}/${post.slug}`} className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-video overflow-hidden">
                   {post?.featuredImage?.node?.sourceUrl ? (
@@ -527,7 +527,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
         </div>
         {latestPosts.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
-            {displayLatestPosts.slice(0, 4).map((post) => (
+            {displayLatestPosts.slice(0, 16).map((post) => (
               <div key={post.id} className="post-card-animate">
                 <PostCard post={post} variant="medium" locale={locale} />
               </div>
@@ -593,10 +593,10 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       )}
 
       {/* More Latest Posts */}
-      {latestPosts.length >= 4 && (
+      {displayLatestPosts.length > 16 && (
         <section className="container mx-auto px-2 md:px-4 py-4 md:py-6 gsap-section">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
-            {displayLatestPosts.slice(4, 8).map((post) => (
+            {displayLatestPosts.slice(16, 32).map((post) => (
               <div key={post.id} className="post-card-animate">
                 <PostCard post={post} variant="small" locale={locale} />
               </div>

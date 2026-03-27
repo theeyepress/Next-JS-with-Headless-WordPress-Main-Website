@@ -51,16 +51,16 @@ async function getHomepageData(locale: string) {
   ] = await Promise.all([
     fetch(`${API_URL}/wp-json/eyepress/v1/site-options?locale=${locale}`, { next: { revalidate: 600 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/categories?locale=${locale}`, { next: { revalidate: 1800 } }),
-    // Hero: Fetch more posts and ensure category diversity (fetch 15, show top 5 with different categories)
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=15`, { next: { revalidate: 300 } }),
-    // Trending: All posts sorted by view count (no category filter for now)
-    fetch(`${API_URL}/wp-json/eyepress/v1/trending?locale=${locale}&per_page=5`, { next: { revalidate: 300 } }),
-    // Most Popular: Entertainment (29)
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=29&per_page=5`, { next: { revalidate: 300 } }),
-    // Editor's Choice: Business (35)
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=35&per_page=5`, { next: { revalidate: 300 } }),
-    // Latest News: All posts
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=30`, { next: { revalidate: 300 } }),
+    // Hero: Fetch more posts and ensure category diversity (fetch 20, show top 5 with different categories)
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=20`, { next: { revalidate: 300 } }),
+    // Trending: All posts sorted by view count
+    fetch(`${API_URL}/wp-json/eyepress/v1/trending?locale=${locale}&per_page=8`, { next: { revalidate: 300 } }),
+    // Most Popular: Entertainment (29) - increased to 8
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=29&per_page=8`, { next: { revalidate: 300 } }),
+    // Editor's Choice: Business (35) - increased to 8
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=35&per_page=8`, { next: { revalidate: 300 } }),
+    // Latest News: All posts - increased to 60
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=60`, { next: { revalidate: 300 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/videos?locale=${locale}`, { next: { revalidate: 60 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/ads`, { next: { revalidate: 600 } }),
   ]);
