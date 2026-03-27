@@ -448,9 +448,9 @@ const SinglePostClient: React.FC<SinglePostClientProps> = ({
               {locale === "bn" ? "বিভাগসমূহ" : "Categories"}
             </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {allCategories.slice(0, 12).map((cat) => (
-              <CategoryCard key={cat.id} category={cat} locale={locale} variant="medium" />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
+            {allCategories.slice(0, 6).map((cat) => (
+              <CategoryCard key={cat.id} category={cat} locale={locale} variant="featured" />
             ))}
           </div>
         </section>

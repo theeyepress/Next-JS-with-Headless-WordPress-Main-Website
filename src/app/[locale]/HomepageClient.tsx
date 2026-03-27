@@ -510,7 +510,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
         </div>
         {displayCategories && displayCategories.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
-            {displayCategories.slice(0, 6).map((category) => (
+            {displayCategories.slice(0, 12).map((category) => (
               <CategoryCard key={category.id} category={category} locale={locale} variant="featured" />
             ))}
           </div>
