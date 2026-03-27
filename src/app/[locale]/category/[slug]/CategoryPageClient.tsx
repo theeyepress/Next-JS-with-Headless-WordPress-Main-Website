@@ -130,7 +130,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
   return (
     <main className="bg-gray-50 min-h-screen">
       {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 pt-2 pb-2">
+      <div className="container mx-auto px-4 pt-6 sm:pt-8 pb-2">
         <Breadcrumbs items={breadcrumbs} />
       </div>
 
