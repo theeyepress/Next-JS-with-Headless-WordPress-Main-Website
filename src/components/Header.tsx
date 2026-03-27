@@ -985,7 +985,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       {/* Search Modal - Responsive */}
       {isSearchOpen && (
         <div 
-          className="fixed inset-0 z-[70] flex items-start justify-center pt-20 md:pt-24 px-2 md:px-4"
+          className="fixed inset-0 z-[70] flex items-start justify-center pt-24 md:pt-28 px-2 md:px-4"
           style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
           onClick={() => setIsSearchOpen(false)}
         >
