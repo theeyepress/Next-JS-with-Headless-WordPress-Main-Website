@@ -78,8 +78,9 @@ const VideoSlider: React.FC<VideoSliderProps> = ({
     prevArrow: <button className="slick-prev" aria-label="Previous">‹</button>,
     nextArrow: <button className="slick-next" aria-label="Next">›</button>,
     responsive: [
+      { breakpoint: 1280, settings: { slidesToShow: Math.min(4, videos?.length || 1) } },
       { breakpoint: 1024, settings: { slidesToShow: Math.min(3, videos?.length || 1) } },
-      { breakpoint: 768, settings: { slidesToShow: Math.min(2, videos?.length || 1), swipe: true, draggable: true } },
+      { breakpoint: 640, settings: { slidesToShow: Math.min(2, videos?.length || 1), swipe: true, draggable: true } },
       { breakpoint: 480, settings: { slidesToShow: 1, swipe: true, draggable: true } },
     ],
   };
