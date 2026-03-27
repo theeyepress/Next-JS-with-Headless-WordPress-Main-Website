@@ -281,7 +281,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ locale }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 md:right-0 top-full mt-2 w-80 max-h-96 overflow-hidden rounded-lg shadow-xl bg-white border border-gray-200 z-50">
+        <div className="absolute right-0 md:right-2 top-full mt-2 w-80 max-h-96 overflow-hidden rounded-lg shadow-xl bg-white border border-gray-200 z-50">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50">
             <h3 className="font-bold text-gray-900 text-sm">{labels.title}</h3>
             {unreadCount > 0 && (

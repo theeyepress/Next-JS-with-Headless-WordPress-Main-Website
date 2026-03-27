@@ -260,7 +260,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
   const displayCategories = categories.length > 0 ? categories : menuCategories;
 
   return (
-    <main ref={sectionsRef} className="bg-gray-50 min-h-screen">
+    <main ref={sectionsRef} className="bg-gray-50 min-h-screen pt-10 sm:pt-12 lg:pt-14">
       {/* Ad Slot 12 - Above Hero */}
       {getAdBySlot(12) && (
         <section className="container mx-auto px-2 md:px-4 py-2">
