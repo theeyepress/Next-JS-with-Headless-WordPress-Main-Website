@@ -130,12 +130,12 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
   return (
     <main className="bg-gray-50 min-h-screen">
       {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 pt-6 pb-2">
+      <div className="container mx-auto px-4 pt-2 pb-2">
         <Breadcrumbs items={breadcrumbs} />
       </div>
 
       {/* Hero Section - Category Banner */}
-      <div className="container mx-auto px-4 pb-6 pt-14 sm:pt-16 lg:pt-20">
+      <div className="container mx-auto px-4 pb-6 pt-4 sm:pt-6 lg:pt-8">
         <div className="relative bg-gradient-to-r from-[#6C1312] to-[#A41E22] rounded-xl overflow-hidden">
           <div className="absolute inset-0 opacity-20">
             <div className="w-full h-full" style={{
