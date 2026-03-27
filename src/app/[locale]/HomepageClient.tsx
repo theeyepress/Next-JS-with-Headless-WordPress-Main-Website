@@ -234,9 +234,16 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
   // Track all shown post IDs
   const heroPostIds = getShownPostIds(diverseHeroPosts);
   
-  // Filter trending to exclude hero posts
-  const displayTrendingPosts = filterOutShownPosts(trendingPosts, heroPostIds, 8);
-  const trendingPostIds = new Set([...heroPostIds, ...getShownPostIds(displayTrendingPosts)]);
+  // Filter trending to exclude hero posts (from /trending API - ordered by view count)
+  const allTrendingPosts = filterOutShownPosts(trendingPosts, heroPostIds, 20);
+  
+  // Hero sidebar shows first 6 trending posts
+  const heroSidebarTrending = allTrendingPosts.slice(0, 6);
+  const heroSidebarTrendingIds = getShownPostIds(heroSidebarTrending);
+  
+  // "Trending Now" section shows remaining trending posts (excluding hero sidebar posts)
+  const displayTrendingPosts = allTrendingPosts.filter(post => !heroSidebarTrendingIds.has(post.id));
+  const trendingPostIds = new Set([...heroPostIds, ...heroSidebarTrendingIds, ...getShownPostIds(displayTrendingPosts)]);
   
   // Filter popular to exclude hero + trending
   const displayPopularPosts = filterOutShownPosts(popularPosts, trendingPostIds, 8);
@@ -245,8 +252,8 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
   // Filter editor's choice to exclude hero + trending + popular
   const displayEditorsChoice = filterOutShownPosts(editorsChoicePosts, popularPostIds, 12);
   const editorsPostIds = new Set([...popularPostIds, ...getShownPostIds(displayEditorsChoice)]);
-  
-  // Filter latest news to exclude all previous sections
+
+  // Filter latest news to exclude all previous sections (hero + trending + popular + editors)
   const displayLatestPosts = filterOutShownPosts(latestPosts, editorsPostIds, 60);
 
   // Use menu categories if API categories are empty
@@ -269,7 +276,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
       <HeroSection 
         featuredPost={featuredPost} 
         secondaryPosts={secondaryPosts} 
-        trendingPosts={displayTrendingPosts} 
+        trendingPosts={heroSidebarTrending}
         locale={locale} 
       />
 
