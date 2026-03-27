@@ -59,8 +59,8 @@ async function getHomepageData(locale: string) {
     fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=29&per_page=20`, { next: { revalidate: 300 } }),
     // Editor's Choice: Business (35) - increased to 20
     fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=35&per_page=20`, { next: { revalidate: 300 } }),
-    // Latest News: All posts - increased to 80
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=80`, { next: { revalidate: 300 } }),
+    // Latest News: All posts - 79
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=79`, { next: { revalidate: 300 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/videos?locale=${locale}`, { next: { revalidate: 60 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/ads`, { next: { revalidate: 600 } }),
   ]);
