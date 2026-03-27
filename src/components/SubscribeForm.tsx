@@ -125,7 +125,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   }
 
   const inputClasses = `
-    w-full px-5 py-4 rounded-xl text-gray-900 
+    w-full px-4 py-3 md:px-5 md:py-4 rounded-xl text-gray-900 
     focus:outline-none focus:ring-2 focus:ring-[#A41E22] focus:ring-offset-2
     bg-white placeholder-gray-400 text-base
     border-2 border-gray-200 focus:border-[#A41E22]
@@ -133,7 +133,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   `;
 
   const buttonClasses = `
-    px-8 py-4 bg-[#A41E22] text-white rounded-xl font-bold text-base
+    px-6 py-3 md:px-8 md:py-4 bg-[#A41E22] text-white rounded-xl font-bold text-base
     hover:bg-[#8a1a1d] hover:shadow-lg hover:-translate-y-0.5
     transition-all duration-200 transform
     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0
@@ -157,8 +157,8 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">{labels.title}</h3>
-            <p className="text-white/80 mb-8 max-w-xl mx-auto text-lg">{labels.description}</p>
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">{labels.title}</h3>
+            <p className="text-white/80 mb-8 max-w-xl mx-auto text-base md:text-lg">{labels.description}</p>
             
             <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
               <div className="flex flex-col sm:flex-row gap-3">
@@ -222,7 +222,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">{labels.titleSuccess}</h3>
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">{labels.titleSuccess}</h3>
             <p className="text-white/80 max-w-md mx-auto text-lg">{message}</p>
             <p className="text-white/50 text-sm mt-6">{labels.privacy}</p>
           </div>

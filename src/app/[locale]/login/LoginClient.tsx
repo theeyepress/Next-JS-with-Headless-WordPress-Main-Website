@@ -115,7 +115,7 @@ const LoginClient: React.FC<LoginClientProps> = ({ locale }) => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
+                className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
                 placeholder={t.usernamePlaceholder}
                 required
               />
@@ -130,7 +130,7 @@ const LoginClient: React.FC<LoginClientProps> = ({ locale }) => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all pr-12"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all pr-12"
                   placeholder={t.passwordPlaceholder}
                   required
                 />

@@ -45,7 +45,7 @@ const AboutClient = ({ locale }: AboutClientProps) => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16 pt-24 sm:pt-28 lg:pt-32">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 text-center">
             {c.title}
           </h1>
           <p className="text-xl text-white/80 text-center max-w-2xl mx-auto">
@@ -55,13 +55,13 @@ const AboutClient = ({ locale }: AboutClientProps) => {
       </div>
 
       {/* About Content */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
-          <p className="text-lg text-gray-700 leading-relaxed mb-8">
+          <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-6 md:mb-8">
             {c.description}
           </p>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
             <div className="bg-gray-50 p-6 rounded-lg">
               <h2 className="text-2xl font-bold text-[#6C1312] mb-4">{c.mission}</h2>
               <p className="text-gray-700">{c.missionText}</p>

@@ -166,7 +166,7 @@ const RegisterClient: React.FC<RegisterClientProps> = ({ locale }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
+                className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
                 placeholder={t.fullNamePlaceholder}
                 required
               />
@@ -179,7 +179,7 @@ const RegisterClient: React.FC<RegisterClientProps> = ({ locale }) => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
+                className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
                 placeholder={t.usernamePlaceholder}
                 required
               />
@@ -192,7 +192,7 @@ const RegisterClient: React.FC<RegisterClientProps> = ({ locale }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
+                className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all"
                 placeholder={t.emailPlaceholder}
                 required
               />
@@ -206,7 +206,7 @@ const RegisterClient: React.FC<RegisterClientProps> = ({ locale }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all pr-12"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A41E22] focus:border-transparent outline-none transition-all pr-12"
                   placeholder={t.passwordPlaceholder}
                   required
                 />

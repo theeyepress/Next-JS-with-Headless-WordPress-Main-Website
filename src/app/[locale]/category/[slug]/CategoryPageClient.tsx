@@ -142,12 +142,12 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
               backgroundImage: `url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.4\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')`,
             }} />
           </div>
-          <div className="relative px-8 py-12 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
+          <div className="relative px-4 md:px-8 py-8 md:py-12 text-center">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 md:mb-3">
               {category.name}
             </h1>
             {category.description && (
-              <p className="text-gray-200 text-lg max-w-2xl mx-auto mb-4">
+              <p className="text-gray-200 text-base md:text-lg max-w-2xl mx-auto mb-3 md:mb-4">
                 {category.description}
               </p>
             )}
@@ -183,7 +183,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
       </div>
 
       <div className="container mx-auto px-4 pb-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
           {/* Main Content */}
           <div className="lg:w-3/4">
             {/* Featured Post */}
@@ -428,7 +428,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({
               </span>
               <div className="w-10 h-1 bg-[#A41E22]" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#6C1312]">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#6C1312]">
               {locale === "bn" ? "বিভাগসমূহ" : "Categories"}
             </h2>
           </div>

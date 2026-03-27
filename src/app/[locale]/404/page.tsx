@@ -21,15 +21,15 @@ export default async function NotFoundPage({ params }: PageProps) {
   };
 
   return (
-    <main className="bg-gray-50 min-h-screen flex items-center justify-center pt-24 sm:pt-28 lg:pt-32">
-      <div className="container mx-auto px-4 py-16 text-center">
+    <main className="bg-gray-50 min-h-screen flex items-center justify-center pt-20 sm:pt-24 lg:pt-28">
+      <div className="container mx-auto px-4 py-12 md:py-16 text-center">
         {/* 404 Visual */}
-        <div className="mb-8">
-          <h1 className="text-[#A41E22] text-9xl font-bold opacity-20">404</h1>
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-[#A41E22] text-7xl md:text-9xl font-bold opacity-20">404</h1>
         </div>
 
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">{labels.title}</h2>
-        <p className="text-gray-600 mb-8 max-w-md mx-auto">{labels.description}</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4">{labels.title}</h2>
+        <p className="text-gray-600 mb-6 md:mb-8 max-w-md mx-auto">{labels.description}</p>
 
         <Link
           href={`/${locale}`}

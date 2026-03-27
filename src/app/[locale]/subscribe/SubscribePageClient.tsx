@@ -55,7 +55,7 @@ const SubscribePageClient = ({ locale }: SubscribePageClientProps) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
               {c.title}
             </h1>
             <p className="text-xl text-white/80 max-w-2xl mx-auto">
@@ -84,7 +84,7 @@ const SubscribePageClient = ({ locale }: SubscribePageClientProps) => {
                   key={index} 
                   className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300"
                 >
-                  <div className="text-4xl mb-3">{benefit.icon}</div>
+                  <div className="text-2xl md:text-3xl lg:text-4xl mb-3">{benefit.icon}</div>
                   <h3 className="font-bold text-gray-800 mb-1">{benefit.title}</h3>
                   <p className="text-sm text-gray-500">{benefit.desc}</p>
                 </div>

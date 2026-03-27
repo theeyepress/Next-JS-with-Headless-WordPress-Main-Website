@@ -81,7 +81,7 @@ const TermsClient = ({ locale }: TermsClientProps) => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16 pt-24 sm:pt-28 lg:pt-32">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 text-center">
             {c.title}
           </h1>
           <p className="text-white/80 text-center">{c.lastUpdate}</p>

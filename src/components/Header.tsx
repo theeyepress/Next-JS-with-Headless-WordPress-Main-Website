@@ -1035,7 +1035,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={currentLang === "bn" ? "এখানে খুঁজুন..." : "Search here..."}
-                  className="w-full px-4 py-3 pl-10 md:pl-14 text-base md:text-lg rounded-lg outline-none text-gray-900 placeholder-gray-400"
+                  className="w-full px-3 py-2 pl-9 md:px-4 md:py-3 md:pl-14 text-base md:text-lg rounded-lg outline-none text-gray-900 placeholder-gray-400"
                   style={{ border: "2px solid #A41E22", backgroundColor: "#fff" }}
                 />
                 <svg 

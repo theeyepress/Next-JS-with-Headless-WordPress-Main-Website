@@ -95,7 +95,7 @@ function SearchContent({ locale }: SearchClientProps) {
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 drop-shadow-lg">
               {labels.title}
             </h1>
             <p className="text-white/80 text-lg">
@@ -118,12 +118,12 @@ function SearchContent({ locale }: SearchClientProps) {
                   name="q"
                   defaultValue={query}
                   placeholder={labels.placeholder}
-                  className="w-full px-5 py-6 text-lg bg-transparent focus:outline-none text-gray-800 placeholder-gray-400"
+                  className="w-full px-4 py-4 md:px-5 md:py-6 text-base md:text-lg bg-transparent focus:outline-none text-gray-800 placeholder-gray-400"
                   autoFocus
                 />
                 <button
                   type="submit"
-                  className="px-8 py-4 bg-gradient-to-r from-[#A41E22] to-[#6C1312] text-white font-bold hover:from-[#6C1312] hover:to-[#A41E22] transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="px-5 py-3 md:px-8 md:py-4 bg-gradient-to-r from-[#A41E22] to-[#6C1312] text-white font-bold hover:from-[#6C1312] hover:to-[#A41E22] transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   {locale === "bn" ? "খুঁজুন" : "Search"}
                 </button>

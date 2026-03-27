@@ -498,7 +498,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             </span>
             <div className="w-6 md:w-10 h-1 bg-[#A41E22]" />
           </div>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#6C1312]">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#6C1312]">
             {locale === "bn" ? "বিভাগসমূহ" : "Categories"}
           </h2>
           <p className="text-gray-600 mt-2 max-w-xl mx-auto px-2 text-sm md:text-base">

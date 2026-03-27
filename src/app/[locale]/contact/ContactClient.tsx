@@ -97,7 +97,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] py-16 pt-24 sm:pt-28 lg:pt-32">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 text-center">
             {c.title}
           </h1>
           <p className="text-xl text-white/80 text-center max-w-2xl mx-auto">
@@ -107,11 +107,11 @@ const ContactClient = ({ locale }: ContactClientProps) => {
       </div>
 
       {/* Contact Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-gray-50 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold text-[#6C1312] mb-6">
+          <div className="bg-gray-50 p-6 md:p-8 rounded-lg">
+            <h2 className="text-xl md:text-2xl font-bold text-[#6C1312] mb-4 md:mb-6">
               {c.sendMessage}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,7 +121,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none"
                   required
                 />
               </div>
@@ -131,7 +131,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none"
                   required
                 />
               </div>
@@ -141,7 +141,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                   type="text"
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none"
                   required
                 />
               </div>
@@ -151,7 +151,7 @@ const ContactClient = ({ locale }: ContactClientProps) => {
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none resize-none"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:border-[#6C1312] focus:ring-1 focus:ring-[#6C1312] outline-none resize-none"
                   required
                 />
               </div>
