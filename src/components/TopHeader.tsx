@@ -290,10 +290,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         <div className="absolute bottom-0 right-0 w-20 h-20 bg-white/5 rounded-full translate-x-10 translate-y-10"></div>
         <div className="absolute bottom-8 right-1/3 w-6 h-6 bg-white/5 rounded-full"></div>
         {/* Left - Menu Button + Site Icon */}
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-3 md:gap-4">
           <button
-            className="text-white focus:outline-none cursor-pointer p-0.5"
+            className="text-white focus:outline-none cursor-pointer p-1 md:p-1.5 hover:bg-white/10 rounded transition-colors"
             onClick={() => setIsSideNavOpen(true)}
+            aria-label="Open menu"
           >
             <svg
               className="w-4 h-4 md:w-5 md:h-5"
