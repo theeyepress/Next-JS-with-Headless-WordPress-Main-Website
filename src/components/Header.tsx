@@ -65,6 +65,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
   const [searchQuery, setSearchQuery] = useState("");
   const [categorySlugs, setCategorySlugs] = useState<CategorySlugMap[]>([]);
   const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
+  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -84,6 +85,35 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
     }
     fetchTicker();
   }, [currentLang]);
+
+  // Check if logged-in user is subscribed
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const userData = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          if (user?.email) {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/subscription-status`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email }),
+              }
+            );
+            const data = await res.json();
+            if (data.subscribed) {
+              setIsUserSubscribed(true);
+            }
+          }
+        } catch (e) {
+          console.log("Error checking subscription:", e);
+        }
+      }
+    };
+    checkSubscription();
+  }, []);
 
   // Check if a menu item is active
   const isActive = (url: string) => {
@@ -787,21 +817,23 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
               </span>
             </a>
             
-            {/* Subscribe Button - Temporary replacement for language switcher */}
-            <a
-              href={`/${currentLang}/subscribe`}
-              className="flex items-center gap-1 px-2 md:px-2.5 py-1 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105 text-white"
-              style={{ 
-                backgroundColor: "#6C1312",
-              }}
-            >
-              <span className="font-bold hidden xs:inline text-white">
-                {currentLang === "bn" ? "সাবস্ক্রাইব" : "Subscribe"}
-              </span>
-              <svg className="w-3 h-3 md:w-4 md:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </a>
+            {/* Subscribe Button - Hide if already subscribed */}
+            {!isUserSubscribed && (
+              <a
+                href={`/${currentLang}/subscribe`}
+                className="flex items-center gap-1 px-2 md:px-2.5 py-1 rounded-full font-semibold text-xs md:text-sm transition-all cursor-pointer hover:brightness-110 hover:scale-105 text-white"
+                style={{ 
+                  backgroundColor: "#6C1312",
+                }}
+              >
+                <span className="font-bold hidden xs:inline text-white">
+                  {currentLang === "bn" ? "সাবস্ক্রাইব" : "Subscribe"}
+                </span>
+                <svg className="w-3 h-3 md:w-4 md:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+              </a>
+            )}
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 // src/components/Footer.tsx
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -27,6 +27,35 @@ const Footer: React.FC<FooterProps> = ({
   menuItems = [],
 }) => {
   const pathname = usePathname();
+  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const userData = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          if (user?.email) {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/subscription-status`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email }),
+              }
+            );
+            const data = await res.json();
+            if (data.subscribed) {
+              setIsUserSubscribed(true);
+            }
+          }
+        } catch (e) {
+          console.log("Error checking subscription:", e);
+        }
+      }
+    };
+    checkSubscription();
+  }, []);
   
   const isActive = (url: string) => {
     if (!url) return false;
@@ -97,11 +126,13 @@ const Footer: React.FC<FooterProps> = ({
                     {labels.about}
                   </Link>
                 </li>
-                <li>
-                  <Link href={`/${locale}/subscribe`} className="text-white hover:text-[#A41E22] text-sm transition-colors">
-                    {locale === "bn" ? "সাবস্ক্রাইব" : "Subscribe"}
-                  </Link>
-                </li>
+                {!isUserSubscribed && (
+                  <li>
+                    <Link href={`/${locale}/subscribe`} className="text-white hover:text-[#A41E22] text-sm transition-colors">
+                      {locale === "bn" ? "সাবস্ক্রাইব" : "Subscribe"}
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <Link href={`/${locale}/privacy`} className="text-white hover:text-[#A41E22] text-sm transition-colors">
                     {labels.privacy}

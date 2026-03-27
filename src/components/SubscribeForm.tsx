@@ -1,7 +1,7 @@
 // src/components/SubscribeForm.tsx
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocale } from "next-intl";
 
 type SubscribeFormProps = {
@@ -18,7 +18,37 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoadingCheck, setIsLoadingCheck] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const userData = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          if (user?.email) {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/subscription-status`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email }),
+              }
+            );
+            const data = await res.json();
+            if (data.subscribed) {
+              setIsSubscribed(true);
+            }
+          }
+        } catch (e) {
+          console.log("Error checking subscription:", e);
+        }
+      }
+      setIsLoadingCheck(false);
+    };
+    checkSubscription();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +115,14 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
       ? "আমরা আপনার ব্যক্তিগত তথ্য সুরক্ষিত রাখি।"
       : "We protect your personal information.",
   };
+
+  if (!isLoadingCheck && isSubscribed) {
+    return null;
+  }
+
+  if (isLoadingCheck) {
+    return null;
+  }
 
   const inputClasses = `
     w-full px-5 py-4 rounded-xl text-gray-900 

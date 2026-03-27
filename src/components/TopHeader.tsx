@@ -40,6 +40,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
   const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
+  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
 
   // Fetch ticker from REST API
   useEffect(() => {
@@ -57,6 +58,35 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     }
     fetchTicker();
   }, [currentLocale]);
+
+  // Check if logged-in user is subscribed
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const userData = localStorage.getItem("wp_user") || localStorage.getItem("eyepress_user");
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          if (user?.email) {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/wp-json/eyepress/v1/subscription-status`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email }),
+              }
+            );
+            const data = await res.json();
+            if (data.subscribed) {
+              setIsUserSubscribed(true);
+            }
+          }
+        } catch (e) {
+          console.log("Error checking subscription:", e);
+        }
+      }
+    };
+    checkSubscription();
+  }, []);
 
   const [dateSlides, setDateSlides] = useState<string[]>([]);
   
@@ -436,16 +466,18 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 </svg>
                 {currentLocale === 'bn' ? 'যোগাযোগ' : 'Contact'}
               </Link>
-              <Link 
-                href={`/${currentLocale}/subscribe`} 
-                className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
-                onClick={() => setIsSideNavOpen(false)}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-                {currentLocale === 'bn' ? 'সাবস্ক্রাইব' : 'Subscribe'}
-              </Link>
+              {!isUserSubscribed && (
+                <Link 
+                  href={`/${currentLocale}/subscribe`} 
+                  className="flex items-center gap-3 px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg font-medium"
+                  onClick={() => setIsSideNavOpen(false)}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                  {currentLocale === 'bn' ? 'সাবস্ক্রাইব' : 'Subscribe'}
+                </Link>
+              )}
             </nav>
           </div>
         </div>
