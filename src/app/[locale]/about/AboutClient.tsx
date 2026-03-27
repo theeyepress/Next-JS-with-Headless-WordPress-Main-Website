@@ -77,8 +77,8 @@ const AboutClient = ({ locale }: AboutClientProps) => {
             <h2 className="text-2xl font-bold text-[#6C1312] mb-4">{c.contact}</h2>
             <p className="text-gray-700 mb-4">
               {locale === "bn" 
-                ? "যোগাযোগের জন্য ইমেইল করুন: contact@theeyepress.com"
-                : "Email us at: contact@theeyepress.com"}
+                ? "যোগাযোগের জন্য ইমেইল করুন: info@theeyepress.com"
+                : "Email us at: info@theeyepress.com"}
             </p>
             <Link 
               href={`/${locale}/contact`}
@@ -89,7 +89,7 @@ const AboutClient = ({ locale }: AboutClientProps) => {
           </div>
 
           {/* Subscribe Section */}
-          <div className="max-w-lg mx-auto">
+          <div className="w-full">
             <SubscribeForm variant="hero" />
           </div>
         </div>
