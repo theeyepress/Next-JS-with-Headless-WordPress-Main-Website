@@ -290,14 +290,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         <div className="absolute bottom-0 right-0 w-20 h-20 bg-white/5 rounded-full translate-x-10 translate-y-10"></div>
         <div className="absolute bottom-8 right-1/3 w-6 h-6 bg-white/5 rounded-full"></div>
         {/* Left - Menu Button + Site Icon */}
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-3 md:gap-4 pl-1">
           <button
             className="text-white focus:outline-none cursor-pointer p-1 md:p-1.5 hover:bg-white/10 rounded transition-colors"
             onClick={() => setIsSideNavOpen(true)}
             aria-label="Open menu"
           >
             <svg
-              className="w-4 h-4 md:w-5 md:h-5"
+              className="w-5 h-5 md:w-6 md:h-6"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -308,8 +308,8 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </svg>
           </button>
 
-          <a href="/" className="icon-star-orbit">
-            <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 object-contain" />
+          <a href="/" className="icon-star-orbit ml-1">
+            <Image src={siteIconUrl} alt="Site Icon" width={48} height={48} className="w-9 h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 object-contain" />
           </a>
         </div>
 
