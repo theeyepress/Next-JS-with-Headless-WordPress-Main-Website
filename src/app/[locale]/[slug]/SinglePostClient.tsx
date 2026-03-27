@@ -147,12 +147,12 @@ const SinglePostClient: React.FC<SinglePostClientProps> = ({
   ];
 
   return (
-    <main className="bg-white min-h-screen pt-10 sm:pt-12 lg:pt-14">
-      <div className="container mx-auto px-4 py-4">
+    <main className="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-20">
+      <div className="container mx-auto px-4 pt-4 pb-2">
         <Breadcrumbs items={breadcrumbs} />
       </div>
 
-      <article className="container mx-auto px-4 py-6">
+      <article className="container mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-8">
