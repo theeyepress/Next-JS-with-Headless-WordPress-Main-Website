@@ -89,12 +89,8 @@ const AboutClient = ({ locale }: AboutClientProps) => {
           </div>
 
           {/* Subscribe Section */}
-          <div className="bg-gradient-to-r from-[#6C1312] via-[#8a1a1d] to-[#A41E22] rounded-2xl p-8 md:p-12 text-center">
-            <h3 className="text-3xl font-bold text-white mb-4">{c.subscribe}</h3>
-            <p className="text-white/80 mb-8 max-w-2xl mx-auto">{c.subscribeText}</p>
-            <div className="max-w-lg mx-auto">
-              <SubscribeForm variant="hero" />
-            </div>
+          <div className="max-w-lg mx-auto">
+            <SubscribeForm variant="hero" />
           </div>
         </div>
       </div>
