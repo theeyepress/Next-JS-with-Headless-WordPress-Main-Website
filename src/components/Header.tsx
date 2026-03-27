@@ -805,7 +805,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
               href="https://www.youtube.com/@TheEyePress"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1 px-2 md:px-2.5 py-1 rounded-md text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer hover:bg-gray-200"
+              className="flex items-center gap-1 px-1.5 sm:px-2 md:px-2.5 py-1 rounded-md text-[#A41E22] font-semibold text-xs md:text-sm transition-all cursor-pointer hover:bg-gray-200"
               style={{ 
                 backgroundColor: "#f5f5f5",
                 border: "1px solid #e0e0e0"
