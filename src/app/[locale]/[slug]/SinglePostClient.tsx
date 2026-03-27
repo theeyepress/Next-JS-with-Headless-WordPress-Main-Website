@@ -147,8 +147,8 @@ const SinglePostClient: React.FC<SinglePostClientProps> = ({
   ];
 
   return (
-    <main className="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-20">
-      <div className="container mx-auto px-4 pt-4 pb-2">
+    <main className="bg-white min-h-screen pt-10 sm:pt-12 lg:pt-14">
+      <div className="container mx-auto px-4 pb-2">
         <Breadcrumbs items={breadcrumbs} />
       </div>
 
