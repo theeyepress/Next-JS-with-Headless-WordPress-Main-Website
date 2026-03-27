@@ -703,7 +703,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           </div>
 
           {/* Center - Logo - Responsive */}
-          <div className="flex-1 flex justify-center px-2">
+          <div className="flex-1 flex justify-center px-2 pt-3 md:pt-4 lg:pt-5">
             <div className="logo-star-orbit logo-container">
               <div className="logo-wrapper">
                 {siteOptions?.logo ? (
