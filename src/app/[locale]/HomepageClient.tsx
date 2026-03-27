@@ -532,7 +532,7 @@ const HomepageClient: React.FC<HomepageClientProps> = ({
             {locale === "bn" ? "সব দেখুন" : "View All"} →
           </Link>
         </div>
-        {latestPosts.length > 0 ? (
+        {displayLatestPosts.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 post-grid">
             {displayLatestPosts.slice(0, 16).map((post) => (
               <div key={post.id} className="post-card-animate">

@@ -54,13 +54,13 @@ async function getHomepageData(locale: string) {
     // Hero: Fetch more posts and ensure category diversity (fetch 20, show top 5 with different categories)
     fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=20`, { next: { revalidate: 300 } }),
     // Trending: All posts sorted by view count
-    fetch(`${API_URL}/wp-json/eyepress/v1/trending?locale=${locale}&per_page=8`, { next: { revalidate: 300 } }),
-    // Most Popular: Entertainment (29) - increased to 8
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=29&per_page=8`, { next: { revalidate: 300 } }),
-    // Editor's Choice: Business (35) - increased to 8
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=35&per_page=8`, { next: { revalidate: 300 } }),
-    // Latest News: All posts - increased to 60
-    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=60`, { next: { revalidate: 300 } }),
+    fetch(`${API_URL}/wp-json/eyepress/v1/trending?locale=${locale}&per_page=20`, { next: { revalidate: 300 } }),
+    // Most Popular: Entertainment (29) - increased to 20
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=29&per_page=20`, { next: { revalidate: 300 } }),
+    // Editor's Choice: Business (35) - increased to 20
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&category_id=35&per_page=20`, { next: { revalidate: 300 } }),
+    // Latest News: All posts - increased to 80
+    fetch(`${API_URL}/wp-json/eyepress/v1/posts?locale=${locale}&per_page=80`, { next: { revalidate: 300 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/videos?locale=${locale}`, { next: { revalidate: 60 } }),
     fetch(`${API_URL}/wp-json/eyepress/v1/ads`, { next: { revalidate: 600 } }),
   ]);
