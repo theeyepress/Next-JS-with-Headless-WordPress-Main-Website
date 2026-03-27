@@ -246,29 +246,29 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 pt-24 sm:pt-28 lg:pt-32">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 md:py-12 px-4 pt-20 sm:pt-24 lg:pt-28">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 md:mb-8">
           <Link href={`/${locale}`} className="inline-block">
-            <h1 className="text-3xl font-bold text-[#A41E22]">TheEyePress</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#A41E22]">TheEyePress</h1>
           </Link>
-          <h2 className="text-2xl font-bold text-gray-800 mt-4">{t.title}</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mt-2 md:mt-4">{t.title}</h2>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
           {/* Profile Picture Section */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="relative mb-4 group">
+          <div className="flex flex-col items-center mb-6 md:mb-8">
+            <div className="relative mb-3 md:mb-4 group">
               {user.avatar ? (
                 <Image
                   src={user.avatar}
                   alt={user.name}
-                  width={120}
-                  height={120}
-                  className="rounded-full object-cover border-4 border-white shadow-lg"
+                  width={100}
+                  height={100}
+                  className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full object-cover border-4 border-white shadow-lg"
                 />
               ) : (
-                <div className="w-30 h-30 bg-[#A41E22] rounded-full flex items-center justify-center text-white text-4xl font-bold border-4 border-white shadow-lg">
+                <div className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 bg-[#A41E22] rounded-full flex items-center justify-center text-white text-3xl md:text-4xl font-bold border-4 border-white shadow-lg">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -277,7 +277,7 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="absolute bottom-0 right-0 bg-[#A41E22] text-white p-2 rounded-full shadow-lg hover:bg-[#8a1a1d] transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
+                className="absolute bottom-0 right-0 bg-[#A41E22] text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-[#8a1a1d] transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
               >
                 {isUploading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -296,57 +296,57 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
             </div>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="text-sm text-[#A41E22] hover:underline font-medium"
+              className="text-xs md:text-sm text-[#A41E22] hover:underline font-medium"
             >
               {t.changePhoto}
             </button>
           </div>
 
-          <h3 className="text-xl font-bold text-gray-800 text-center mb-6">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 text-center mb-4 md:mb-6">
             {t.welcome} {user.name}
           </h3>
 
-          <div className="space-y-4">
-            <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-              <User className="w-5 h-5 text-[#A41E22] mr-3" />
-              <div>
-                <p className="text-sm text-gray-500">{t.username}</p>
-                <p className="font-medium text-gray-800">{user.username}</p>
+          <div className="space-y-3 md:space-y-4">
+            <div className="flex items-center p-3 md:p-4 bg-gray-50 rounded-lg">
+              <User className="w-4 h-4 md:w-5 md:h-5 text-[#A41E22] mr-2 md:mr-3 flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs md:text-sm text-gray-500">{t.username}</p>
+                <p className="font-medium text-gray-800 text-sm md:text-base truncate">{user.username}</p>
               </div>
             </div>
 
-            <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-              <Mail className="w-5 h-5 text-[#A41E22] mr-3" />
-              <div>
-                <p className="text-sm text-gray-500">{t.email}</p>
-                <p className="font-medium text-gray-800">{user.email}</p>
+            <div className="flex items-center p-3 md:p-4 bg-gray-50 rounded-lg">
+              <Mail className="w-4 h-4 md:w-5 md:h-5 text-[#A41E22] mr-2 md:mr-3 flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs md:text-sm text-gray-500">{t.email}</p>
+                <p className="font-medium text-gray-800 text-sm md:text-base truncate">{user.email}</p>
               </div>
             </div>
 
-            <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-              <Shield className="w-5 h-5 text-[#A41E22] mr-3" />
+            <div className="flex items-center p-3 md:p-4 bg-gray-50 rounded-lg">
+              <Shield className="w-4 h-4 md:w-5 md:h-5 text-[#A41E22] mr-2 md:mr-3 flex-shrink-0" />
               <div>
-                <p className="text-sm text-gray-500">{t.role}</p>
-                <p className="font-medium text-gray-800 capitalize">{user.role || (locale === 'bn' ? "ব্যবহারকারী" : "User")}</p>
+                <p className="text-xs md:text-sm text-gray-500">{t.role}</p>
+                <p className="font-medium text-gray-800 capitalize text-sm md:text-base">{user.role || (locale === 'bn' ? "ব্যবহারকারী" : "User")}</p>
               </div>
             </div>
           </div>
 
           {/* Subscription Status Section */}
-          <div className="mt-6 p-6 rounded-xl" style={{ background: 'linear-gradient(135deg, #A41E22 0%, #8a1a1d 100%)' }}>
-            <div className="flex items-center justify-between">
+          <div className="mt-6 p-4 md:p-6 rounded-xl" style={{ background: 'linear-gradient(135deg, #A41E22 0%, #8a1a1d 100%)' }}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <p className="text-white/80 text-sm">{t.subscriptionStatus}</p>
                 <div className="flex items-center gap-2 mt-1">
                   {subscription?.subscribed ? (
                     <>
-                      <Check className="w-5 h-5 text-green-400" />
-                      <span className="text-white font-bold">{t.subscribed}</span>
+                      <Check className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
+                      <span className="text-white font-bold text-sm md:text-base">{t.subscribed}</span>
                     </>
                   ) : (
                     <>
-                      <X className="w-5 h-5 text-yellow-400" />
-                      <span className="text-white font-bold">{t.notSubscribed}</span>
+                      <X className="w-4 h-4 md:w-5 md:h-5 text-yellow-400" />
+                      <span className="text-white font-bold text-sm md:text-base">{t.notSubscribed}</span>
                     </>
                   )}
                 </div>
@@ -360,14 +360,14 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
               <button
                 onClick={subscription?.subscribed ? handleUnsubscribe : handleResubscribe}
                 disabled={subLoading}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                className={`px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold text-xs md:text-sm transition-all ${
                   subscription?.subscribed
                     ? 'bg-white/20 hover:bg-white/30 text-white'
                     : 'bg-white text-[#A41E22] hover:bg-gray-100'
-                } disabled:opacity-50`}
+                } disabled:opacity-50 w-full sm:w-auto`}
               >
                 {subLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin mx-auto" />
                 ) : (
                   subscription?.subscribed ? t.unsubscribe : t.resubscribe
                 )}
@@ -375,15 +375,21 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ locale }) => {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4">
             <button
               onClick={handleLogout}
-              className="flex-1 flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-100 transition-all"
+              className="flex-1 flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-700 py-2.5 md:py-3 px-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-sm md:text-base"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="w-4 h-4 md:w-5 md:h-5" />
               {t.logout}
             </button>
           </div>
+
+        <div className="text-center mt-4 md:mt-6">
+          <Link href={`/${locale}`} className="text-gray-600 hover:text-[#A41E22] text-sm md:text-base">
+            ← {t.backHome}
+          </Link>
+        </div>
         </div>
 
         <div className="text-center mt-6">
