@@ -664,13 +664,13 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
       >
         <div className="mx-auto flex items-center justify-between px-2 md:px-4 py-2 md:py-2.5">
           
-          {/* Mobile Menu Button - Left */}
-          <div className="flex items-center gap-2">
+          {/* Mobile Menu Button + Notification Bell - Left */}
+          <div className="flex items-center gap-1 md:gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="xl:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="xl:hidden p-1.5 md:p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <svg className="w-6 h-6 text-[#A41E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-[#A41E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -678,6 +678,11 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
                 )}
               </svg>
             </button>
+            
+            {/* Notification Bell - Only on mobile (< 768px) */}
+            <div className="lg:hidden">
+              <NotificationBell locale={currentLang} />
+            </div>
             
             {/* Urgent Notice - Hidden on mobile, shown on md+ */}
             {siteOptions?.urgentNotice ? (
@@ -703,7 +708,7 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
           </div>
 
           {/* Center - Logo - Responsive */}
-          <div className="flex-1 flex justify-center px-2 pt-3 md:pt-4 lg:pt-5">
+          <div className="flex-1 flex justify-center px-1 md:px-2 pt-2 md:pt-4 lg:pt-5">
             <div className="logo-star-orbit logo-container">
               <div className="logo-wrapper">
                 {siteOptions?.logo ? (
@@ -749,8 +754,10 @@ const Header: React.FC<HeaderProps> = ({ siteOptions, menuItems, languages }) =>
 
           {/* Right - Search + Live + Language - Compact on mobile */}
           <div className="flex items-center gap-1 md:gap-2">
-            {/* Notification Bell - Only show when user is logged in */}
-            <NotificationBell locale={currentLang} />
+            {/* Notification Bell - Only show on lg+ screens */}
+            <div className="hidden lg:block">
+              <NotificationBell locale={currentLang} />
+            </div>
             
             {/* Search Button */}
             <button
