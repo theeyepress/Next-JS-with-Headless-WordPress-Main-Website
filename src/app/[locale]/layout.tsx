@@ -13,6 +13,7 @@ import { fetchMenusViaRest, fetchFooterMenuViaRest } from "@/lib/graphql";
 import { routing } from "@/i18n/routing";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -219,6 +220,7 @@ export default async function LocaleLayout({
             <CookieConsent locale={validLocale} />
           </Providers>
         </NextIntlClientProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
