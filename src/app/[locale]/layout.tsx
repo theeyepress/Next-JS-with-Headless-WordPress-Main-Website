@@ -219,7 +219,7 @@ export default async function LocaleLayout({
             
             <ScrollToTop />
             <CookieConsent locale={validLocale} />
-            <MikuWidget />
+            <MikuWidget position="bottom-left" />
           </Providers>
         </NextIntlClientProvider>
       </body>

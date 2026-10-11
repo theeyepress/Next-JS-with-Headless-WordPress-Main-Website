@@ -224,6 +224,7 @@
   margin-bottom: var(--miku-keyboard-h, 0px);
   border-radius: var(--miku-radius-lg);
   background: var(--miku-surface);
+  color: var(--miku-text);
   box-shadow: var(--miku-shadow-panel);
   transform-origin: bottom right;
   animation: miku-panel-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
@@ -304,6 +305,7 @@
   font-size: 15px;
   font-weight: 650;
   letter-spacing: -0.01em;
+  color: inherit;
 }
 
 .miku-header-tagline {
@@ -313,6 +315,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
 }
 
 .miku-header-actions {
@@ -399,6 +402,7 @@
   border-radius: var(--miku-radius-md);
   font-size: 14.5px;
   overflow-wrap: anywhere;
+  color: var(--miku-text);
 }
 
 .miku-msg[data-role="user"] .miku-bubble {
@@ -437,6 +441,15 @@
 
 .miku-bubble li {
   margin-bottom: 4px;
+}
+
+/* Some hosts set colors on bare elements (e.g. `p, span, div, li { color:
+   ... }` in their global CSS). Re-assert the bubble's own text color on
+   rich-text elements so answers stay readable in every theme. `:where()`
+   keeps this at zero specificity, so MIKU's own component rules still win
+   the cascade. */
+.miku-bubble :where(p, span, div, li, td, th, label) {
+  color: inherit;
 }
 
 .miku-bubble h1,
@@ -732,6 +745,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
 }
 
 /* â”€â”€ Empty state & suggestions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -767,6 +781,7 @@
   font-size: 16.5px;
   font-weight: 700;
   letter-spacing: -0.01em;
+  color: var(--miku-text);
 }
 
 .miku-empty-text {
