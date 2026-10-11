@@ -1,0 +1,65 @@
+{
+  "name": "@wpcodingpress/miku",
+  "version": "1.0.0",
+  "description": "MIKU — a self-hosted, site-aware AI assistant for Next.js and React applications. Grounds answers in your own site's content plus live data from your backend, and takes actions on a visitor's behalf.",
+  "license": "UNLICENSED",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "bin": {
+    "miku": "./bin/miku.mjs"
+  },
+  "engines": {
+    "node": ">=22.6"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./config": "./src/config/index.ts",
+    "./tools": "./src/tools/index.ts",
+    "./client": "./src/client/index.ts",
+    "./next": "./src/next.ts",
+    "./styles.css": "./src/client/styles.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "src",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "ai-assistant",
+    "chatbot",
+    "chat",
+    "rag",
+    "nextjs",
+    "react",
+    "gemini",
+    "self-hosted"
+  ],
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "react-markdown": "^9.0.1",
+    "rehype-highlight": "^7.0.1",
+    "remark-gfm": "^4.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5"
+  }
+}

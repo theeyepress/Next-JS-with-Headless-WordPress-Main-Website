@@ -1,0 +1,1218 @@
+﻿/*
+ * MIKU's entire stylesheet.
+ *
+ * It ships as one file with CSS custom properties rather than relying on the
+ * host's Tailwind config, Sass setup or CSS framework. That is deliberate: if
+ * installing MIKU required editing the host's build config, it would not be a
+ * drop-in package. A host re-themes it by overriding --miku-* variables.
+ */
+
+.miku-root {
+  /* Brand. Override these to re-theme MIKU without touching MIKU's code. */
+  --miku-accent: #6366f1;
+  --miku-accent-alt: #8b5cf6;
+  --miku-accent-soft: color-mix(in srgb, var(--miku-accent) 12%, transparent);
+  --miku-accent-ring: color-mix(in srgb, var(--miku-accent) 45%, transparent);
+
+  --miku-surface: #ffffff;
+  --miku-surface-raised: #f8fafc;
+  --miku-surface-sunken: #f1f5f9;
+  --miku-text: #0f172a;
+  --miku-text-soft: #475569;
+  --miku-text-muted: #64748b;
+  --miku-on-accent: #ffffff;
+  --miku-border: rgba(15, 23, 42, 0.1);
+  --miku-border-strong: rgba(15, 23, 42, 0.16);
+  --miku-danger: #dc2626;
+  --miku-success: #16a34a;
+  --miku-warning: #d97706;
+
+  --miku-radius-lg: 22px;
+  --miku-radius-md: 14px;
+  --miku-radius-sm: 9px;
+  --miku-panel-width: 384px;
+  /* `vh` counts the height before mobile browser chrome collapses, so on iOS
+     Safari the panel could overflow the visible area. Browsers that do not
+     understand `dvh` drop the second declaration and keep the first. */
+  --miku-panel-height: min(640px, calc(100vh - 140px));
+  --miku-panel-height: min(640px, calc(100dvh - 140px));
+  --miku-launcher-size: 60px;
+  --miku-gap: 18px;
+  --miku-inset: 12px;
+  /* iOS home-indicator inset. Without this the launcher and the composer sit
+     underneath the system bar on notch-era iPhones. */
+  --miku-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --miku-safe-inline-end: env(safe-area-inset-right, 0px);
+  --miku-safe-inline-start: env(safe-area-inset-left, 0px);
+
+  --miku-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --miku-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --miku-shadow-panel: 0 24px 70px -12px rgba(15, 23, 42, 0.28),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+  --miku-shadow-launcher: 0 10px 30px -6px var(--miku-accent-ring);
+
+  position: fixed;
+  /* Above every host overlay: the cookie-consent banner sits at 9999 and the
+     video slider at 9981, so MIKU is deliberately just past both. */
+  z-index: 10000;
+  /* Plain declaration first: `env()` is unsupported in older engines, and a
+     declaration that fails to parse leaves the element unanchored rather than
+     merely square-cornered. */
+  bottom: var(--miku-inset);
+  bottom: calc(var(--miku-inset) + var(--miku-safe-bottom));
+  inset-inline-end: var(--miku-inset);
+  inset-inline-end: calc(var(--miku-inset) + var(--miku-safe-inline-end));
+  font-family: var(--miku-font);
+  color: var(--miku-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.miku-root[data-position="bottom-left"] {
+  inset-inline-end: auto;
+  inset-inline-start: var(--miku-inset);
+  inset-inline-start: calc(var(--miku-inset) + var(--miku-safe-inline-start));
+}
+
+.miku-root[data-theme="dark"] {
+  --miku-surface: #0f172a;
+  --miku-surface-raised: #1e293b;
+  --miku-surface-sunken: #020617;
+  --miku-text: #f1f5f9;
+  --miku-text-soft: #cbd5e1;
+  --miku-text-muted: #94a3b8;
+  --miku-border: rgba(148, 163, 184, 0.18);
+  --miku-border-strong: rgba(148, 163, 184, 0.28);
+  --miku-shadow-panel: 0 24px 70px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(148, 163, 184, 0.12);
+}
+
+.miku-root *,
+.miku-root *::before,
+.miku-root *::after {
+  box-sizing: border-box;
+}
+
+/* `:where()` keeps this reset at zero specificity for the `button` part, so
+   component rules like `.miku-launcher` and `.miku-send` still win the
+   cascade. Without it, `.miku-root button` (0,1,1) beat `.miku-launcher`
+   (0,1,0) and stripped the launcher's gradient, making it invisible. */
+.miku-root :where(button) {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.miku-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* â”€â”€ Launcher â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-launcher {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--miku-launcher-size);
+  height: var(--miku-launcher-size);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+  color: var(--miku-on-accent);
+  box-shadow: var(--miku-shadow-launcher);
+  animation: miku-float 5s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.miku-launcher:hover {
+  transform: scale(1.07);
+}
+
+.miku-launcher:focus-visible {
+  outline: 3px solid var(--miku-accent);
+  outline-offset: 4px;
+}
+
+.miku-launcher[data-open="true"] {
+  animation: none;
+  transform: scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.miku-launcher svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* Soft halo that breathes while the assistant is idle and unopened. */
+.miku-launcher::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--miku-accent-soft),
+    transparent 68%
+  );
+  z-index: -1;
+  animation: miku-halo 3.4s ease-in-out infinite;
+}
+
+/* Attention ring. Runs a few times after a period of inactivity, then stops â€”
+   an assistant that pulses forever is noise, not a welcome. */
+.miku-launcher[data-attention="true"]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--miku-accent-ring);
+  animation: miku-attention 2.1s cubic-bezier(0.24, 0.8, 0.4, 1) infinite;
+}
+
+.miku-launcher-tip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  inset-inline-end: 0;
+  padding: 8px 13px;
+  border-radius: 12px;
+  background: var(--miku-surface);
+  color: var(--miku-text);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: var(--miku-shadow-panel);
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.miku-launcher:hover .miku-launcher-tip,
+.miku-launcher:focus-visible .miku-launcher-tip {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* â”€â”€ Panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-panel {
+  position: absolute;
+  bottom: 0;
+  inset-inline-end: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--miku-panel-width);
+  height: var(--miku-panel-height);
+  overflow: hidden;
+  /* Keyboard lift. Touch laptops and tablets show an on-screen keyboard without
+     going full-screen, so the floating panel needs to clear it too. */
+  margin-bottom: var(--miku-keyboard-h, 0px);
+  border-radius: var(--miku-radius-lg);
+  background: var(--miku-surface);
+  box-shadow: var(--miku-shadow-panel);
+  transform-origin: bottom right;
+  animation: miku-panel-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The launcher lives bottom-left, but the panel always opens from the
+   bottom-right so it never opens into the empty left gutter. Scoped to the
+   desktop floating layout; the mobile sheet is full-screen and unaffected. */
+.miku-root[data-position="bottom-left"] .miku-panel {
+  transform-origin: bottom right;
+}
+
+@media (min-width: 481px) {
+  .miku-root[data-position="bottom-left"] .miku-panel {
+    position: fixed;
+    inset-inline-start: auto;
+    inset-inline-end: var(--miku-inset);
+    inset-inline-end: calc(var(--miku-inset) + var(--miku-safe-inline-end));
+  }
+}
+
+.miku-panel[data-closing="true"] {
+  animation: miku-panel-out 0.18s ease forwards;
+}
+
+.miku-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+  color: var(--miku-on-accent);
+  flex-shrink: 0;
+}
+
+.miku-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.miku-avatar svg {
+  width: 21px;
+  height: 21px;
+}
+
+/* Live indicator. Pulses only while a response is in flight, so a static dot
+   means "idle" and a moving one means "working". */
+.miku-avatar::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--miku-success);
+  box-shadow: 0 0 0 2.5px var(--miku-accent);
+}
+
+.miku-avatar[data-busy="true"]::after {
+  background: #fbbf24;
+  animation: miku-blink 1.1s ease-in-out infinite;
+}
+
+.miku-header-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.miku-header-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.miku-header-tagline {
+  margin: 1px 0 0;
+  font-size: 12px;
+  opacity: 0.85;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.miku-header-actions {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.miku-icon-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  color: inherit;
+  opacity: 0.85;
+  transition: background 0.16s ease, opacity 0.16s ease;
+}
+
+.miku-icon-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  opacity: 1;
+}
+
+.miku-icon-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+.miku-icon-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* â”€â”€ Message list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.miku-messages {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--miku-border-strong) transparent;
+}
+
+.miku-messages::-webkit-scrollbar {
+  width: 7px;
+}
+
+.miku-messages::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: var(--miku-border-strong);
+}
+
+.miku-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 100%;
+  animation: miku-msg-in 0.24s ease;
+}
+
+.miku-msg[data-role="user"] {
+  align-items: flex-end;
+}
+
+.miku-msg[data-role="assistant"] {
+  align-items: flex-start;
+}
+
+.miku-bubble {
+  max-width: 88%;
+  padding: 11px 14px;
+  border-radius: var(--miku-radius-md);
+  font-size: 14.5px;
+  overflow-wrap: anywhere;
+}
+
+.miku-msg[data-role="user"] .miku-bubble {
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+  color: var(--miku-on-accent);
+  border-bottom-right-radius: 5px;
+}
+
+.miku-msg[data-role="assistant"] .miku-bubble {
+  background: var(--miku-surface-raised);
+  border: 1px solid var(--miku-border);
+  border-bottom-left-radius: 5px;
+}
+
+.miku-bubble > :first-child {
+  margin-top: 0;
+}
+
+.miku-bubble > :last-child {
+  margin-bottom: 0;
+}
+
+.miku-bubble p {
+  margin: 0 0 9px;
+}
+
+.miku-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.miku-bubble ul,
+.miku-bubble ol {
+  margin: 0 0 9px;
+  padding-inline-start: 20px;
+}
+
+.miku-bubble li {
+  margin-bottom: 4px;
+}
+
+.miku-bubble h1,
+.miku-bubble h2,
+.miku-bubble h3,
+.miku-bubble h4 {
+  margin: 14px 0 7px;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.miku-bubble a {
+  color: inherit;
+  font-weight: 550;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+}
+
+.miku-msg[data-role="user"] .miku-bubble a {
+  color: inherit;
+}
+
+.miku-msg[data-role="assistant"] .miku-bubble a {
+  color: var(--miku-accent);
+}
+
+.miku-root[data-theme="dark"] .miku-msg[data-role="assistant"] .miku-bubble a {
+  color: color-mix(in srgb, var(--miku-accent) 45%, #c7d2fe);
+}
+
+.miku-bubble code {
+  padding: 1.5px 5px;
+  border-radius: 5px;
+  background: var(--miku-surface-sunken);
+  font-family: var(--miku-mono);
+  font-size: 0.87em;
+}
+
+.miku-bubble pre {
+  margin: 9px 0;
+  padding: 12px 13px;
+  overflow-x: auto;
+  border-radius: var(--miku-radius-sm);
+  background: var(--miku-surface-sunken);
+  border: 1px solid var(--miku-border);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.miku-bubble pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.miku-bubble blockquote {
+  margin: 9px 0;
+  padding-inline-start: 11px;
+  border-inline-start: 3px solid var(--miku-accent-ring);
+  color: var(--miku-text-soft);
+}
+
+.miku-bubble table {
+  width: 100%;
+  margin: 9px 0;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.miku-bubble th,
+.miku-bubble td {
+  padding: 6px 8px;
+  border: 1px solid var(--miku-border);
+  text-align: start;
+}
+
+.miku-bubble th {
+  background: var(--miku-surface-sunken);
+  font-weight: 650;
+}
+
+.miku-bubble hr {
+  margin: 12px 0;
+  border: none;
+  border-top: 1px solid var(--miku-border);
+}
+
+/* Streaming caret. */
+.miku-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-inline-start: 2px;
+  vertical-align: text-bottom;
+  background: var(--miku-accent);
+  animation: miku-blink 1s steps(2, start) infinite;
+}
+
+.miku-msg-error .miku-bubble {
+  background: color-mix(in srgb, var(--miku-danger) 9%, var(--miku-surface-raised));
+  border-color: color-mix(in srgb, var(--miku-danger) 35%, transparent);
+}
+
+/* â”€â”€ Tool activity â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-self: flex-start;
+  max-width: 100%;
+}
+
+.miku-tool {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  max-width: 92%;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--miku-accent-soft);
+  border: 1px solid var(--miku-border);
+  color: var(--miku-text-soft);
+  font-size: 12.5px;
+  animation: miku-msg-in 0.2s ease;
+}
+
+.miku-tool-spinner {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--miku-accent-ring);
+  border-top-color: var(--miku-accent);
+  animation: miku-spin 0.7s linear infinite;
+}
+
+.miku-tool-mark {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--miku-success);
+}
+
+.miku-tool-mark[data-failed="true"] {
+  background: var(--miku-danger);
+}
+
+.miku-on-accent {
+  border-color: rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+}
+
+/* â”€â”€ Consent card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-confirm-wrap {
+  padding: 0 16px 12px;
+  flex-shrink: 0;
+}
+
+.miku-confirm {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: var(--miku-radius-md);
+  background: var(--miku-surface-raised);
+  border: 1px solid color-mix(in srgb, var(--miku-warning) 40%, var(--miku-border));
+  animation: miku-msg-in 0.24s ease;
+}
+
+.miku-confirm-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 5px;
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--miku-warning);
+}
+
+.miku-confirm-title svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.miku-confirm-body {
+  margin: 0 0 11px;
+  font-size: 13px;
+  color: var(--miku-text-soft);
+}
+
+.miku-confirm-summary {
+  margin: 0 0 11px;
+  padding: 8px 10px;
+  border-radius: var(--miku-radius-sm);
+  background: var(--miku-surface-sunken);
+  font-family: var(--miku-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--miku-text-soft);
+  overflow-wrap: anywhere;
+}
+
+.miku-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.miku-btn {
+  flex: 1;
+  padding: 9px 14px;
+  border-radius: var(--miku-radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: filter 0.16s ease, background 0.16s ease, transform 0.1s ease;
+}
+
+.miku-btn:active {
+  transform: scale(0.98);
+}
+
+.miku-btn:focus-visible {
+  outline: 2px solid var(--miku-accent);
+  outline-offset: 2px;
+}
+
+.miku-btn-primary {
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+  color: var(--miku-on-accent);
+}
+
+.miku-btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.miku-btn-ghost {
+  background: var(--miku-surface-sunken);
+  color: var(--miku-text-soft);
+  border: 1px solid var(--miku-border);
+}
+
+.miku-btn-ghost:hover {
+  background: var(--miku-surface-raised);
+}
+
+/* â”€â”€ Citations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-citations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-self: flex-start;
+  max-width: 100%;
+}
+
+.miku-citation {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 230px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--miku-surface-raised);
+  border: 1px solid var(--miku-border);
+  color: var(--miku-text-soft);
+  font-size: 11.5px;
+  text-decoration: none;
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+}
+
+.miku-citation:hover {
+  border-color: var(--miku-accent-ring);
+  color: var(--miku-accent);
+  background: var(--miku-accent-soft);
+}
+
+.miku-citation:focus-visible {
+  outline: 2px solid var(--miku-accent);
+  outline-offset: 1px;
+}
+
+.miku-citation svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.miku-citation span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* â”€â”€ Empty state & suggestions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 28px 14px 16px;
+  text-align: center;
+}
+
+.miku-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+  color: var(--miku-on-accent);
+  box-shadow: var(--miku-shadow-launcher);
+  animation: miku-float 4.5s ease-in-out infinite;
+}
+
+.miku-empty-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.miku-empty-title {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.miku-empty-text {
+  margin: 0;
+  max-width: 300px;
+  color: var(--miku-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.miku-suggestions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 2px 2px;
+}
+
+.miku-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--miku-surface-raised);
+  border: 1px solid var(--miku-border);
+  color: var(--miku-text-soft);
+  font-size: 12.5px;
+  font-weight: 550;
+  line-height: 1.35;
+  text-align: start;
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease,
+    transform 0.12s ease;
+}
+
+.miku-suggestion::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+}
+
+.miku-suggestion:hover {
+  border-color: var(--miku-accent-ring);
+  color: var(--miku-accent);
+  background: var(--miku-accent-soft);
+  transform: translateY(-1px);
+}
+
+.miku-suggestion:focus-visible {
+  outline: 2px solid var(--miku-accent);
+  outline-offset: 2px;
+}
+
+/* â”€â”€ Typing indicator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 13px 15px;
+  border-radius: var(--miku-radius-md);
+  background: var(--miku-surface-raised);
+  border: 1px solid var(--miku-border);
+  align-self: flex-start;
+}
+
+.miku-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--miku-accent);
+  animation: miku-dots 1.3s ease-in-out infinite;
+}
+
+.miku-typing span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.miku-typing span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+/* â”€â”€ Composer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 11px 12px;
+  border-top: 1px solid var(--miku-border);
+  background: var(--miku-surface);
+  flex-shrink: 0;
+}
+
+.miku-input {
+  flex: 1;
+  min-height: 40px;
+  max-height: 132px;
+  padding: 10px 13px;
+  border-radius: var(--miku-radius-md);
+  border: 1px solid var(--miku-border-strong);
+  background: var(--miku-surface-raised);
+  color: var(--miku-text);
+  font-family: inherit;
+  font-size: 14.5px;
+  line-height: 1.45;
+  resize: none;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.miku-input::placeholder {
+  color: var(--miku-text-muted);
+}
+
+/* iOS Safari auto-focuses a text input and zooms to it when its computed font
+   size is under 16px, which breaks the page layout. Touch devices therefore get
+   a 16px input; mouse-driven desktops keep the tighter 14.5px. */
+@media (pointer: coarse) {
+  .miku-input {
+    font-size: 16px;
+  }
+}
+
+.miku-input:focus {
+  outline: none;
+  border-color: var(--miku-accent);
+  box-shadow: 0 0 0 3px var(--miku-accent-soft);
+}
+
+.miku-send {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--miku-accent), var(--miku-accent-alt));
+  color: var(--miku-on-accent);
+  flex-shrink: 0;
+  transition: filter 0.16s ease, transform 0.12s ease, opacity 0.16s ease;
+}
+
+.miku-send:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.miku-send:active:not(:disabled) {
+  transform: scale(0.93);
+}
+
+.miku-send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.miku-send:focus-visible {
+  outline: 2px solid var(--miku-accent);
+  outline-offset: 2px;
+}
+
+.miku-send svg {
+  width: 18px;
+  height: 18px;
+}
+
+.miku-footer {
+  padding: 0 12px 9px;
+  background: var(--miku-surface);
+  font-size: 10.5px;
+  text-align: center;
+  color: var(--miku-text-muted);
+  flex-shrink: 0;
+}
+
+.miku-retry {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px dashed var(--miku-border-strong);
+  color: var(--miku-text-muted);
+  font-size: 12.5px;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.miku-retry:hover {
+  color: var(--miku-accent);
+  border-color: var(--miku-accent-ring);
+}
+
+.miku-retry:focus-visible {
+  outline: 2px solid var(--miku-accent);
+  outline-offset: 2px;
+}
+
+/* â”€â”€ Mobile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+@media (max-width: 480px) {
+  .miku-root {
+    --miku-inset: 0px;
+    --miku-launcher-size: 56px;
+  }
+
+  .miku-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Pinned by both edges rather than sized with `100dvh`. iOS and Android
+       overlay the software keyboard instead of shrinking the layout viewport,
+       so a fixed-height sheet would keep sitting behind the keyboard and the
+       composer would become untappable. With `height: auto` the two edges
+       define the height, and the bottom edge is lifted by `--miku-keyboard-h`
+       (set by useKeyboardInset). With no keyboard that resolves to 0px. */
+    bottom: var(--miku-keyboard-h, 0px);
+    height: auto;
+    width: 100%;
+    /* The base rule lifts with margin-bottom; here the bottom edge already
+       carries the lift, so applying both would shrink the sheet twice. */
+    margin-bottom: 0;
+    max-height: none;
+    border-radius: 0;
+    animation: miku-sheet-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .miku-panel[data-closing="true"] {
+    animation: miku-sheet-out 0.2s ease forwards;
+  }
+
+  /* The sheet covers the full viewport rather than sitting inside the fixed
+     root, so it owns the bottom safe area here â€” the root's own inset does not
+     reach it. The subtraction stops it being counted twice once the keyboard
+     lifts the sheet above the home indicator, where iOS still reports the full
+     inset. */
+  .miku-composer {
+    padding-bottom: calc(
+      11px + max(var(--miku-safe-bottom, 0px) - var(--miku-keyboard-h, 0px), 0px)
+    );
+  }
+
+  /* Root already carries the safe inset, so only the layout gap is added here. */
+  .miku-launcher {
+    margin: 16px;
+    margin-bottom: 20px;
+  }
+
+  .miku-launcher-tip {
+    display: none;
+  }
+}
+
+/* Landscape phones and short desktop windows: the floating panel must not run
+   past the top of the viewport. The full-screen sheet below 481px is already
+   sized by its two edges, so this only targets the floating layout. */
+@media (min-width: 481px) and (max-height: 520px) {
+  .miku-panel {
+    /* Its bottom edge sits at the root's, i.e. `--miku-inset` above the
+       viewport bottom, so anything taller than this clips at the top. */
+    height: calc(100dvh - var(--miku-inset) - var(--miku-safe-bottom) - 16px);
+  }
+}
+
+/* Tap targets below 44px are hard to hit one-handed, and the 300ms tap delay
+   plus the iOS grey flash both make a chat widget feel unpolished. */
+@media (pointer: coarse) {
+  .miku-launcher,
+  .miku-send,
+  .miku-btn,
+  .miku-icon-button,
+  .miku-retry,
+  .miku-citation,
+  .miku-suggestion {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .miku-launcher,
+  .miku-send,
+  .miku-icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (min-width: 481px) {
+  .miku-launcher {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease,
+      opacity 0.2s ease;
+  }
+}
+
+/* â”€â”€ Motion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+@keyframes miku-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes miku-halo {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.07); }
+}
+
+@keyframes miku-attention {
+  0% { opacity: 0.85; transform: scale(1); }
+  70% { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes miku-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes miku-dots {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+@keyframes miku-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes miku-msg-in {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes miku-panel-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes miku-panel-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(10px) scale(0.96); }
+}
+
+@keyframes miku-sheet-in {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes miku-sheet-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .miku-root *,
+  .miku-root *::before,
+  .miku-root *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .miku-launcher::before,
+  .miku-launcher[data-attention="true"]::after {
+    animation: none !important;
+  }
+
+  .miku-caret {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
+/* â”€â”€ Compact highlight.js theme, scoped to MIKU â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.miku-root .hljs-comment,
+.miku-root .hljs-quote {
+  color: var(--miku-text-muted);
+  font-style: italic;
+}
+
+.miku-root .hljs-keyword,
+.miku-root .hljs-selector-tag,
+.miku-root .hljs-literal,
+.miku-root .hljs-type {
+  color: #a855f7;
+}
+
+.miku-root .hljs-string,
+.miku-root .hljs-doctag,
+.miku-root .hljs-regexp {
+  color: #059669;
+}
+
+.miku-root .hljs-number,
+.miku-root .hljs-symbol,
+.miku-root .hljs-bullet {
+  color: #ea580c;
+}
+
+.miku-root .hljs-title,
+.miku-root .hljs-section,
+.miku-root .hljs-function .hljs-title {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.miku-root .hljs-attr,
+.miku-root .hljs-attribute,
+.miku-root .hljs-variable {
+  color: #0891b2;
+}
+
+.miku-root .hljs-built_in,
+.miku-root .hljs-name {
+  color: #db2777;
+}
+
+.miku-root .hljs-meta {
+  color: var(--miku-text-muted);
+}
+
+.miku-root .hljs-deletion {
+  color: var(--miku-danger);
+}
+
+.miku-root .hljs-addition {
+  color: var(--miku-success);
+}
+.miku-root[data-position="bottom-left"] .miku-launcher-tip {
+  inset-inline-end: auto;
+  inset-inline-start: 0;
+  transform-origin: bottom left;
+}
+
+.miku-root[data-position="bottom-left"] {
+  --miku-inset: 12px;
+}
+.miku-root[data-position="bottom-left"] .miku-launcher-tip {
+  inset-inline-end: auto;
+  inset-inline-start: 0;
+  transform-origin: bottom left;
+}
+@media (min-width: 481px) {
+.miku-root[data-position="bottom-left"] {
+  --miku-inset: 16px;
+}
+
+.miku-panel {
+  bottom: 0;
+  margin-bottom: calc(var(--miku-keyboard-h, 0px) + var(--miku-inset, 0px));
+}
+}

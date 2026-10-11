@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
 import "../globals.css";
+import "@wpcodingpress/miku/styles.css";
+import { MikuWidget } from "@wpcodingpress/miku/client";
 
 import Header from "@/components/Header";
 import TopHeader from "@/components/TopHeader";
@@ -217,6 +219,7 @@ export default async function LocaleLayout({
             
             <ScrollToTop />
             <CookieConsent locale={validLocale} />
+            <MikuWidget />
           </Providers>
         </NextIntlClientProvider>
       </body>
